@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        }
+        ul,li{
+            list-style: none;
+            display: flex;
+            margin-left: 15px;
+            padding: 30px;
+            padding-left: 10px;
+            padding-top: 0px;
+            margin-top: 15px;
+        }
+        #nav{
+            border: 1px solid blanchedalmond ;
+            height: 90px;
+            background-color: blanchedalmond;
+        }
+        a{
+            text-decoration: none;
+            font-size: 20px;
+        }
+        
+        #signlink {
+            display: flex;
+            margin-left: 540px;
+            
+        }
+        
+        input{
+            height: 30px;
+            width: 220px;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            outline: none;
+        }
+        input,type{
+            font-size: 20px;
+            padding-top: 5px;
+            padding-left: 30px;
+            margin-left: 10px;
+        }
+        span{
+            font-size: larger;
+        }
+        table,tr,td{
+            padding: 0px;
+            border-spacing: 0px;
+        }
+        #searchlocation{
+            padding: 40px;
+            border: 1px solid black;
+            border-radius: 15px;
+            height: 247px;
+            width: 1030px;
+            margin-left: 150px;
+            margin-top: 100px;
+        }.fromto{
+            border: 0.100px solid black;
+            width: 300px;
+            height: 105px;
+            font-size: 20px;
+            padding: 20px;
+            margin-top: 0px;
+        }
+        button{
+            height: 50px;
+            width: 200px;
+            margin-top: 80px;
+            margin-left: 360px;
+            color: white;
+            background-color: rgb(88, 88, 219);
+            border: none;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="nav">
+    <ul>
+        <li><span>Logo</span></li>
+        <li><a href="index.html">Bus_Tickets</a></li>
+        <li><a href="aboutus.html">About_us</a></li>
+        <li><a href="help">Help</a></li>
+    <div id="signlink">
+        <li><a href="login.html">SignIn</a></li>
+        <li><a href="register.html">SignUp</a></li>
+    </div>
+    </ul>
+    </div>
+
+    <div>
+        <div id="searchlocation">
+            <table>
+                <tr>
+                    <td><div class="fromto">
+                        <span>FROM</span><br>
+                        <input  id="fromlocation" placeholder="Search Locations" list = "from">
+                            <datalist id = "from">
+                            <option value="mdu">Madurai</option>
+                            <option value="chn">Chennai</option>
+                            <option value="sa">Salem</option>
+                            <option value="tr">Trichy</option>
+                            </datalist></div></td>
+                    <td><div class="fromto">
+                        <span>TO</span><br>
+                        <input  id="tolocation" placeholder="Search Locations" list = "to">
+                        <datalist id = "to">
+                        <option value="mdu">Madurai</option>
+                        <option value="chn">Chennai</option>
+                        <option value="sa">Salem</option>
+                        <option value="tr">Trichy</option>
+                        </datalist></div></td>
+                    <td><div class="fromto">
+                        <span>DATE</span><br>
+                        <input type="date"></div></td>
+                </tr>
+            </table>
+            <button id="searchbutton"><h3><a href="buslist.html">SEARCH</a></h3></button>
+
+            
+
+        </div>
+    </div>
+</body>
+</html>

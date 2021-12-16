@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buslist</title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+     }
+     legend{
+         border: 1px solid black;
+         height: 33px;
+         width: 170px;
+         padding: 5px;
+         border-radius: 10px;
+         background-color: rgb(224, 209, 209);
+     }
+     legend h3{
+         margin-left: 7px;
+     }
+     table,tr,th,td{
+         text-align: center; 
+         border: 1px solid black;
+         width: 1200px;
+         height: 60px;
+         border: none;
+         margin-left: 15px;
+     }
+     th{
+         background-color: rgb(184, 71, 71);
+         color: white;
+     }
+     #outerlinetable{
+         border: 1px solid rgb(32, 32, 32);
+         padding: 20px;
+     }
+     #fieldsettable{
+         padding: 40px;
+         margin-left: 2px;
+     }
+     #forcontent{
+        border: 1px solid rgb(32, 32, 32);
+         padding: 20px;
+         border-bottom: none;
+         border-radius: 10px 10px 0px 0px;
+         height: 20px;
+         background-color: rgb(138, 93, 93);
+         color: white;
+         margin-top: -15px;
+     }
+     #forcontentinlist{
+         padding: 0px;
+         list-style: none;
+         display: flex;
+         margin-top: -8px;
+     }
+     #backbutton{
+        height: 30px;
+        width: 150px;
+        margin-left: 550px;
+        margin-top: -30px ;
+     }
+    </style>
+</head>
+<body>
+    <div>
+        <fieldset id="fieldsettable">
+            <legend><h3>Available Buses</h3></legend>
+            <div id="forcontent">
+                  <ul id="forcontentinlist">
+                    <li><h4></h4></li>
+                    <li><p>to</p></li>
+                    <li><h4></h4>-</li>
+                    <li><h4>Journey Date :</h4></li>
+                    <li><h4></h4></li>
+                </ul>
+            </div>
+            <div id="outerlinetable">
+                <table>
+                    <tr>
+                        <th>Trip Code</th>
+                        <th>Type</th>
+                        <th>Departure Time</th>
+                        <th>Travel Time</th>
+                        <th>Start Point</th>
+                        <th>Destination</th>
+                        <th>Fare Amount</th>
+                        <th>Select Service</th>
+                    </tr>
+                    <tr>
+                        <td>0998</td>
+                        <td>classic</td>
+                        <td>12:00</td>
+                        <td>7:00</td>
+                        <td>Madurai</td>
+                        <td>Chennai</td>
+                        <td>500.00</td>
+                        <td><a href="seatbooking.html">Book</a></td>
+                    </tr>
+                </table>
+            </div>
+            
+        </fieldset>
+        <button id="backbutton" type="submit"><a href="index.html">GO BACK TO HOME</a></button>
+    </div>
+</body>
+</html>

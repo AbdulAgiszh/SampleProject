@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AddBus</title>
+    <style>
+        #bustitle{
+            padding: 25px;
+            font-size: 30px;
+        }
+        #headeraddbus{
+            border: 1px solid black;
+            width: 430px;
+            height: 35px;
+            background-color: rgb(200, 210, 238);
+        }
+        #addbus{
+            border: 1px solid black;
+            padding: 15px;
+            width: 400px;
+        }
+        input,textarea{
+            width: 200px;
+        }
+        table,tr,th{
+            padding: 7px;
+        }
+        button{
+            height: 35px;
+            width: 100px;
+            background-color: rgb(129, 168, 252);
+            outline: none;
+            border: none;
+        }
+        #btn{
+            margin-left: 80px;
+        }
+        button:hover{
+            background-color: rgb(247, 112, 112);
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="headeraddbus"> <label id="bustitle" for="bus">Bus</label> </div>
+    <div id="addbus">
+        <table >
+            <tr>
+                <th><label for="busno">BusNo</label></th>
+                <th><input type="text" required autofocus></th>
+            </tr>
+            <tr>
+                <th><label for="busname">BusName</label></th>
+                <th><input type="text"></th>
+            </tr>
+            <tr>
+                <th><label for="fromcity">From_City</label></th>
+                <th><input type="text"></th>
+            </tr>
+            <tr>
+                <th><label for="tocity">To_City</label></th>
+                <th><input type="text"></th>
+            </tr>
+            <tr>
+                <th><label for="date">Date</label></th>
+                <th><input type="date" ></th>
+            </tr>
+            <tr>
+                <th><label for="time">time</label></th>
+                <th><input type="time" ></th>
+            </tr>
+            <tr>
+                <th><label for="travelduration">Travel_Duration</label></th>
+                <th><input type="number" ></th>
+            </tr>
+            <tr>
+                <th><label for="totalseats">Total_Seats</label></th>
+                <th><input type="number" ></th>
+            </tr>
+            <tr>
+                <th><label for="ticketprice">Ticket_Price</label></th>
+                <th><input type="number" ></th>
+            </tr>
+            <tr>
+                <th><label for="description">Description</label></th>
+                <th><textarea name="description"></textarea></th>
+            </tr>
+           
+     </table>
+        <div id="btn">
+            <button type="submit">Submit</button>
+            <button id="reset" type="reset">Reset</button>
+        </div>
+    </div>
+</body>
+</html>

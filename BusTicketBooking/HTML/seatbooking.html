@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat_Layout</title>
+    <style>
+        *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        }
+        .seat{
+            border: 1px solid black;
+            width: 40px;
+            height: 60px;
+            text-align: center;
+            
+        }
+        #seattable{
+            border-spacing: 5px 10px;
+        }
+        #headseatlayout{
+            border: 2px solid black;
+            width: 200px;
+            height: 30px;
+            border-radius: 10px 10px 0px 0px;
+            padding: 6px;
+            padding-left: 47px;
+            border-bottom: none;
+        }
+        #seatlayouttable{
+            border: 2px solid black;
+            width: 200px;
+            padding: 20px;
+        }
+        .languageseat{
+            border: 1px solid black;
+            height: 130px;
+            width: 500px;
+            text-align: center;
+        }
+        #languageseattable{
+            margin-left: 110px;
+            margin-top: -430px;
+            border-spacing: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div>
+            <fieldset>
+                <legend>Seat Layout & Passenger Details</legend>
+                <div id="headseatlayout">Seat Layout</div>
+                <div id="seatlayouttable">
+                    <table id="seattable">
+                        <tr>
+                            <td class="seat"><input type="checkbox"><br><span>1</span></td>     
+                            <td class="seat"><input type="checkbox"><br><span>2</span></td>            
+                        </tr>
+                        <tr>
+                            <td class="seat"><input type="checkbox"><br><span>3</span></td>
+                            <td class="seat"><input type="checkbox"><br><span>4</span></td>
+                        </tr>
+                        <tr>
+                            <td class="seat"><input type="checkbox"><br><span>5</span></td>
+                            <td class="seat"><input type="checkbox"><br><span>6</span></td>
+                        </tr>
+                        <tr>
+                            <td class="seat"><input type="checkbox"><br><span>7</span></td>
+                            <td class="seat"><input type="checkbox"><br><span>8</span></td>
+                        </tr>
+                        <tr>
+                            <td class="seat"><input type="checkbox"><br><span>9</span></td>
+                            <td class="seat"><input type="checkbox"><br><span>10</span></td>
+                        </tr>
+                        <tr>
+                            <td class="seat"><input type="checkbox"><br><span>11</span></td>
+                            <td class="seat"><input type="checkbox"><br><span>12</span></td>
+                        </tr>
+                    </table>
+
+                    <table id="languageseattable">
+                        <tr>
+                            <td class="languageseat"><input type="checkbox"><br><span>13</span></td>
+                        </tr>
+                        <tr>
+                            <td class="languageseat"><input type="checkbox"><br><span>14</span></td>
+                        </tr>
+                        <tr>
+                            <td class="languageseat"><input type="checkbox"><br><span>15</span></td>
+                        </tr>
+                    </table>
+                    
+                </div>
+                
+            </fieldset>
+        </div>
+    </div>
+</body>
+</html>
