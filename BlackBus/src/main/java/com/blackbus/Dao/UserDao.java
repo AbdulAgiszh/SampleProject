@@ -13,7 +13,7 @@ public class UserDao {
 		
 		 public UserModule loginUser(long contact) throws ClassNotFoundException, SQLException {
 			 
-			String userlogin="select * from users where user_contact='"+contact+"'";
+			String userlogin="select * from user_details where user_contact='"+contact+"'";
 			Connection con=ConnectionUtill.connectdb();
 			PreparedStatement ps=con.prepareStatement(userlogin);
 			
@@ -29,7 +29,7 @@ public class UserDao {
 		 
 		 public boolean checkUser(long contact) throws ClassNotFoundException, SQLException {
 			 
-				String userlogin="select * from users where user_contact='"+contact+"'";
+				String userlogin="select * from user_details where user_contact='"+contact+"'";
 				Connection con=ConnectionUtill.connectdb();
 				PreparedStatement ps=con.prepareStatement(userlogin);
 				
@@ -48,7 +48,7 @@ public class UserDao {
 	
 	public void insert(UserModule UserModule) throws ClassNotFoundException, SQLException {
 		
-		String insertquery="insert into users (user_name,user_age,user_email,user_contact,user_gender,user_password) values (?,?,?,?,?,?)";
+		String insertquery="insert into user_details (user_name,user_age,user_email,user_contact,user_gender,user_password) values (?,?,?,?,?,?)";
 		Connection con=ConnectionUtill.connectdb();
 		PreparedStatement ps=con.prepareStatement(insertquery);
 	
@@ -74,7 +74,7 @@ public class UserDao {
 	
     public void update (UserModule UserModule) throws ClassNotFoundException, SQLException {
     	
-    	String userUpdate="update users set user_name=?, user_age=?, user_gender=?, user_password=? where user_contact='"+UserModule.getUserContact()+"'";
+    	String userUpdate="update user_details set user_name=?, user_age=?, user_gender=?, user_password=? where user_contact='"+UserModule.getUserContact()+"'";
     	
     	Connection con=ConnectionUtill.connectdb();
 		PreparedStatement ps=con.prepareStatement(userUpdate);

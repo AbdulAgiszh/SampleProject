@@ -14,7 +14,7 @@ public class AdminDao {
 
 	public AdminModule loginAdmin(String contact) throws ClassNotFoundException, SQLException {
 		AdminModule adminmodule;
-		String loginadmin="select * from admins where admin_email='"+contact+"'";
+		String loginadmin="select * from admin_details where admin_email='"+contact+"'";
 		Connection con=ConnectionUtill.connectdb();
 		PreparedStatement ps=con.prepareStatement(loginadmin);
 		
@@ -30,7 +30,7 @@ public class AdminDao {
 	
 	public boolean checkadmin(String contact) throws ClassNotFoundException, SQLException {
 		 
-		String loginadmin="select * from admins where admin_email='"+contact+"'";
+		String loginadmin="select * from admin_details where admin_email='"+contact+"'";
 		Connection con=ConnectionUtill.connectdb();
 		PreparedStatement ps=con.prepareStatement(loginadmin);
 		
@@ -51,7 +51,7 @@ public class AdminDao {
 	
 	 public void delete (UserModule UserModule) throws ClassNotFoundException, SQLException {
 			
-			String del="delete from users where user_id=?";
+			String del="delete from user_details where user_id=?";
 			
 			Connection con=ConnectionUtill.connectdb();
 			PreparedStatement ps=con.prepareStatement(del);
