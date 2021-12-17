@@ -16,7 +16,7 @@ CREATE TABLE BUS_DETAILS (
   CONSTRAINT fk_bus_operatorid FOREIGN KEY (Operator_Id) REFERENCES bus_operators (Operator_Id)
 ) ;
 
-
+desc bus_details;
 
 
 CREATE TABLE USER_DETAILS (
@@ -60,7 +60,6 @@ CREATE TABLE BOOKED_TICKETS (
   BOOKING_STATUS varchar(30),
   TOTAL_PRICE int,
 
-  
   CONSTRAINT pk_bookingid PRIMARY KEY (Booking_Id),
   CONSTRAINT fk_booking_userid FOREIGN KEY (user_Id) REFERENCES user_details (user_Id) ,
   CONSTRAINT fk_booking_operatorid FOREIGN KEY (operator_Id) REFERENCES bus_operators (operator_Id) ,

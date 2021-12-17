@@ -46,11 +46,11 @@ public class UserDao {
 		
 	
 	
-	public void insert(UserModule UserModule) throws ClassNotFoundException, SQLException {
+	public void registrationUser(UserModule UserModule) throws ClassNotFoundException, SQLException {
 		
-		String insertquery="insert into user_details (user_name,user_age,user_email,user_contact,user_gender,user_password) values (?,?,?,?,?,?)";
+		String insertUser="insert into user_details (user_name,user_age,user_email,user_contact,user_gender,user_password) values (?,?,?,?,?,?)";
 		Connection con=ConnectionUtill.connectdb();
-		PreparedStatement ps=con.prepareStatement(insertquery);
+		PreparedStatement ps=con.prepareStatement(insertUser);
 	
 		ps.setString(1,UserModule.getUserName());
 		ps.setInt(2,UserModule.getUserAge());
@@ -72,7 +72,7 @@ public class UserDao {
 	
 	
 	
-    public void update (UserModule UserModule) throws ClassNotFoundException, SQLException {
+    public void updateProfile (UserModule UserModule) throws ClassNotFoundException, SQLException {
     	
     	String userUpdate="update user_details set user_name=?, user_age=?, user_gender=?, user_password=? where user_contact='"+UserModule.getUserContact()+"'";
     	

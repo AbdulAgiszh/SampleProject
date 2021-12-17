@@ -12,7 +12,7 @@ import com.blackbus.module.UserModule;
 
 public class AdminDao {
 
-	public AdminModule loginAdmin(String contact) throws ClassNotFoundException, SQLException {
+	public AdminModule adminLogin(String contact) throws ClassNotFoundException, SQLException {
 		AdminModule adminmodule;
 		String loginadmin="select * from admin_details where admin_email='"+contact+"'";
 		Connection con=ConnectionUtill.connectdb();
@@ -49,7 +49,9 @@ public class AdminDao {
 	
 	
 	
-	 public void delete (UserModule UserModule) throws ClassNotFoundException, SQLException {
+	
+	
+	 public void deleteUser (UserModule UserModule) throws ClassNotFoundException, SQLException {
 			
 			String del="delete from user_details where user_id=?";
 			

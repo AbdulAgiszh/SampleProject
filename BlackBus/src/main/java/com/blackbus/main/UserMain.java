@@ -59,7 +59,7 @@ public class UserMain {
 						adminloginflag=ad.checkadmin(contact);
 						if(adminloginflag) {
 						
-						AdminModule adminmodule = ad.loginAdmin(contact);
+						AdminModule adminmodule = ad.adminLogin(contact);
 						do { // admin password validation
 							if (adminmodule.getAdminPassword().equals(pass)) {
 								System.out.println("welcome " + adminmodule.getAdminName());
@@ -79,7 +79,7 @@ public class UserMain {
 										System.out.println("Enter the user id to delete ");
 										int userId = scan.nextInt();
 										UserModule usermodule2 = new UserModule(userId);
-										ad.delete(usermodule2);
+										ad.deleteUser(usermodule2);
 										break;
 									case 3:
 										System.exit(adminchoice);
@@ -155,7 +155,7 @@ public class UserMain {
 
 										UserModule usermodule1 = new UserModule(userName1, userAge1, userEmail1,
 												userContact1, userGender1, userPassword1);
-										ud.update(usermodule1);
+										ud.updateProfile(usermodule1);
 										break;
 
 									case 3:
@@ -252,7 +252,7 @@ public class UserMain {
 
 					UserModule usermodule1 = new UserModule(userName, userAge, userEmail, userContact, userGender,
 							userPassword);
-					ud.insert(usermodule1);
+					ud.registrationUser(usermodule1);
 					break;
 				}
 

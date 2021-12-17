@@ -1,6 +1,7 @@
 package com.blackbus.module;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class BusModule {
@@ -9,40 +10,39 @@ public class BusModule {
 	private int operatorId;
 	private String busName;
 	private String busFeatures;
-	private String busCatagory;
-	private int busNumber;
-	private Date busDate;
+	private String busCategory;
+	private LocalDate departuredate;
 	private String fromCity;
 	private String toCity;
-	private String startTime;
-	private String endTime; 
+	private LocalTime departuretime;
+	private LocalTime arrivaltime; 
 	private int totalSeat;
-	private int availableSeat;
-	private int totalPrice;
+	private int Price;
 	
+	
+
+
 	public BusModule() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public BusModule(int busId, int operatorId, String busName, String busFeatures, String busCatagory, int busNumber,
-			Date busDate, String fromCity, String toCity, String startTime, String endTime, int totalSeat,
-			int availableSeat, int totalPrice) {
+	
+	public BusModule(int busId, int operatorId, String busName, String busFeatures, String busCategory,
+			LocalDate departuredate, String fromCity, String toCity, LocalTime departuretime, LocalTime arrivaltime,
+			int totalSeat, int price) {
 		super();
 		this.busId = busId;
 		this.operatorId = operatorId;
 		this.busName = busName;
 		this.busFeatures = busFeatures;
-		this.busCatagory = busCatagory;
-		this.busNumber = busNumber;
-		this.busDate = busDate;
+		this.busCategory = busCategory;
+		this.departuredate = departuredate;
 		this.fromCity = fromCity;
 		this.toCity = toCity;
-		this.startTime = startTime;
-		this.endTime = endTime;
+		this.departuretime = departuretime;
+		this.arrivaltime = arrivaltime;
 		this.totalSeat = totalSeat;
-		this.availableSeat = availableSeat;
-		this.totalPrice = totalPrice;
+		Price = price;
 	}
 
 	public int getBusId() {
@@ -61,16 +61,12 @@ public class BusModule {
 		return busFeatures;
 	}
 
-	public String getBusCatagory() {
-		return busCatagory;
+	public String getBusCategory() {
+		return busCategory;
 	}
 
-	public int getBusNumber() {
-		return busNumber;
-	}
-
-	public Date getBusDate() {
-		return busDate;
+	public LocalDate getDeparturedate() {
+		return departuredate;
 	}
 
 	public String getFromCity() {
@@ -81,24 +77,20 @@ public class BusModule {
 		return toCity;
 	}
 
-	public String getStartTime() {
-		return startTime;
+	public LocalTime getDeparturetime() {
+		return departuretime;
 	}
 
-	public String getEndTime() {
-		return endTime;
+	public LocalTime getArrivaltime() {
+		return arrivaltime;
 	}
 
 	public int getTotalSeat() {
 		return totalSeat;
 	}
 
-	public int getAvailableSeat() {
-		return availableSeat;
-	}
-
-	public int getTotalPrice() {
-		return totalPrice;
+	public int getPrice() {
+		return Price;
 	}
 
 	public void setBusId(int busId) {
@@ -117,16 +109,12 @@ public class BusModule {
 		this.busFeatures = busFeatures;
 	}
 
-	public void setBusCatagory(String busCatagory) {
-		this.busCatagory = busCatagory;
+	public void setBusCategory(String busCategory) {
+		this.busCategory = busCategory;
 	}
 
-	public void setBusNumber(int busNumber) {
-		this.busNumber = busNumber;
-	}
-
-	public void setBusDate(Date busDate) {
-		this.busDate = busDate;
+	public void setDeparturedate(LocalDate departuredate) {
+		this.departuredate = departuredate;
 	}
 
 	public void setFromCity(String fromCity) {
@@ -137,38 +125,34 @@ public class BusModule {
 		this.toCity = toCity;
 	}
 
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
+	public void setDeparturetime(LocalTime departuretime) {
+		this.departuretime = departuretime;
 	}
 
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
+	public void setArrivaltime(LocalTime arrivaltime) {
+		this.arrivaltime = arrivaltime;
 	}
 
 	public void setTotalSeat(int totalSeat) {
 		this.totalSeat = totalSeat;
 	}
 
-	public void setAvailableSeat(int availableSeat) {
-		this.availableSeat = availableSeat;
-	}
-
-	public void setTotalPrice(int totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setPrice(int price) {
+		Price = price;
 	}
 
 	@Override
 	public String toString() {
 		return "BusModule [busId=" + busId + ", operatorId=" + operatorId + ", busName=" + busName + ", busFeatures="
-				+ busFeatures + ", busCatagory=" + busCatagory + ", busNumber=" + busNumber + ", busDate=" + busDate
-				+ ", fromCity=" + fromCity + ", toCity=" + toCity + ", startTime=" + startTime + ", endTime=" + endTime
-				+ ", totalSeat=" + totalSeat + ", availableSeat=" + availableSeat + ", totalPrice=" + totalPrice + "]";
+				+ busFeatures + ", busCategory=" + busCategory + ", departuredate=" + departuredate + ", fromCity="
+				+ fromCity + ", toCity=" + toCity + ", departuretime=" + departuretime + ", arrivaltime=" + arrivaltime
+				+ ", totalSeat=" + totalSeat + ", Price=" + Price + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(availableSeat, busCatagory, busDate, busFeatures, busId, busName, busNumber, endTime,
-				fromCity, operatorId, startTime, toCity, totalPrice, totalSeat);
+		return Objects.hash(Price, arrivaltime, busCategory, busFeatures, busId, busName, departuredate, departuretime,
+				fromCity, operatorId, toCity, totalSeat);
 	}
 
 	@Override
@@ -180,12 +164,12 @@ public class BusModule {
 		if (getClass() != obj.getClass())
 			return false;
 		BusModule other = (BusModule) obj;
-		return availableSeat == other.availableSeat && Objects.equals(busCatagory, other.busCatagory)
-				&& Objects.equals(busDate, other.busDate) && Objects.equals(busFeatures, other.busFeatures)
-				&& busId == other.busId && Objects.equals(busName, other.busName) && busNumber == other.busNumber
-				&& Objects.equals(endTime, other.endTime) && Objects.equals(fromCity, other.fromCity)
-				&& operatorId == other.operatorId && Objects.equals(startTime, other.startTime)
-				&& Objects.equals(toCity, other.toCity) && totalPrice == other.totalPrice
+		return Price == other.Price && Objects.equals(arrivaltime, other.arrivaltime)
+				&& Objects.equals(busCategory, other.busCategory) && Objects.equals(busFeatures, other.busFeatures)
+				&& busId == other.busId && Objects.equals(busName, other.busName)
+				&& Objects.equals(departuredate, other.departuredate)
+				&& Objects.equals(departuretime, other.departuretime) && Objects.equals(fromCity, other.fromCity)
+				&& operatorId == other.operatorId && Objects.equals(toCity, other.toCity)
 				&& totalSeat == other.totalSeat;
 	}
 
