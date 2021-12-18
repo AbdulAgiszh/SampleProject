@@ -2,13 +2,9 @@ package com.blackbus.module;
 
 import java.util.Objects;
 
-public class UserModule {
+public class UserModel {
 
-	public UserModule() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	private int userId;
 	private String userName;
 	private int userAge;
@@ -17,9 +13,27 @@ public class UserModule {
 	private String userGender;
 	private String userPassword;
 	
-	
+	public UserModel() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-	public UserModule( String userName, int userAge, String userEmail, long userContact, String userGender,
+	public UserModel(int userId2, String userName2, int userAge2, String userEmail2, long userContact2, String userGender2, String userPassword2) {
+
+		super();
+		this.userId = userId2;
+		this.userName = userName2;
+		this.userAge = userAge2;
+		this.userEmail = userEmail2;
+		this.userContact = userContact2;
+		this.userGender = userGender2;
+		this.userPassword = userPassword2;
+		
+	}
+
+
+
+	public UserModel( String userName, int userAge, String userEmail, long userContact, String userGender,
 			String userPassword) {
 		super();
 		this.userName = userName;
@@ -30,7 +44,7 @@ public class UserModule {
 		this.userPassword = userPassword;
 	}
 
-	public UserModule(String userName1, int userAge1, long userContact1, String userGender1, String userPassword1) {
+	public UserModel(String userName1, int userAge1, long userContact1, String userGender1, String userPassword1) {
 		super();
 		this.userName = userName1;
 		this.userAge = userAge1;
@@ -39,16 +53,18 @@ public class UserModule {
 		this.userPassword = userPassword1;
 	}
 
-	public UserModule(int user_id) {
+	public UserModel(int user_id) {
 		super();
 		this.userId = user_id;
 	}
 
-	public UserModule(long contact, String password) {
+	public UserModel(long contact, String password) {
 		super();
 		this.userContact=contact;
 		this.userPassword=password;
 	}
+
+	
 
 	public int getUserId() {
 		return userId;
@@ -126,7 +142,7 @@ public class UserModule {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UserModule other = (UserModule) obj;
+		UserModel other = (UserModel) obj;
 		return userAge == other.userAge && Objects.equals(userContact, other.userContact)
 				&& Objects.equals(userEmail, other.userEmail) && Objects.equals(userGender, other.userGender)
 				&& userId == other.userId && Objects.equals(userName, other.userName)

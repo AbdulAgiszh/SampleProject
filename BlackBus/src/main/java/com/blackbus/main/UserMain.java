@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 import com.blackbus.Dao.AdminDao;
 import com.blackbus.Dao.UserDao;
-import com.blackbus.module.AdminModule;
-import com.blackbus.module.UserModule;
+import com.blackbus.module.AdminModel;
+import com.blackbus.module.UserModel;
 
 public class UserMain {
 
@@ -59,7 +59,7 @@ public class UserMain {
 						adminloginflag=ad.checkadmin(contact);
 						if(adminloginflag) {
 						
-						AdminModule adminmodule = ad.adminLogin(contact);
+						AdminModel adminmodule = ad.adminLogin(contact);
 						do { // admin password validation
 							if (adminmodule.getAdminPassword().equals(pass)) {
 								System.out.println("welcome " + adminmodule.getAdminName());
@@ -68,9 +68,20 @@ public class UserMain {
 								do {
 									System.out.println(
 											"--------------------click the Number to perform the action-------------------");
-									System.out.print("1. To delete a user \t");
-									System.out.print("2. To add a bus:  \t");
-									System.out.println("3. Exit");
+									
+									System.out.print("1. To add a bus:  \t");
+									System.out.print("2. To add a operator:  \t");
+									System.out.print("3. To update a admin \t");
+									System.out.print("4. To update a bus \t");
+									System.out.print("5. To update a operator \t");
+									System.out.print("6. To show userList \t");
+									System.out.print("7. To show operatorList \t");
+									System.out.print("8. To show busList \t");
+									System.out.print("9. To delete a bus \t");
+									System.out.print("10. To delete a user \t");
+									System.out.print("11. To delete a operator \t");
+									System.out.print("12. To delete a admin \t");
+									System.out.println("13. Exit");
 
 									int adminchoice = scan.nextInt();
 									switch (adminchoice) {
@@ -78,8 +89,8 @@ public class UserMain {
 										System.out.println("----------------To Delete query----------------------");
 										System.out.println("Enter the user id to delete ");
 										int userId = scan.nextInt();
-										UserModule usermodule2 = new UserModule(userId);
-										ad.deleteUser(usermodule2);
+										UserModel usermodule2 = new UserModel(userId);
+										ud.deleteUser(usermodule2);
 										break;
 									case 3:
 										System.exit(adminchoice);
@@ -119,7 +130,7 @@ public class UserMain {
 						
 						
 						
-						UserModule UserModule = ud.loginUser(Long.parseLong(contact));
+						UserModel UserModule = ud.loginUser(Long.parseLong(contact));
 						// user password verification
 						do {
 							if (UserModule.getUserPassword().equals(pass)) {
@@ -153,9 +164,9 @@ public class UserMain {
 										System.out.println("Enter the user_password");
 										String userPassword1 = scan.nextLine();
 
-										UserModule usermodule1 = new UserModule(userName1, userAge1, userEmail1,
+										UserModel usermodule1 = new UserModel(userName1, userAge1, userEmail1,
 												userContact1, userGender1, userPassword1);
-										ud.updateProfile(usermodule1);
+										ud.updateUser(usermodule1);
 										break;
 
 									case 3:
@@ -250,7 +261,7 @@ public class UserMain {
 						}
 					} while (userpass);
 
-					UserModule usermodule1 = new UserModule(userName, userAge, userEmail, userContact, userGender,
+					UserModel usermodule1 = new UserModel(userName, userAge, userEmail, userContact, userGender,
 							userPassword);
 					ud.registrationUser(usermodule1);
 					break;

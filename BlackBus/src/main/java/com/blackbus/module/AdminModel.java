@@ -2,23 +2,31 @@ package com.blackbus.module;
 
 import java.util.Objects;
 
-public class AdminModule {
+public class AdminModel {
 
 	private int adminId;
 	private String adminName;
 	private String adminPassword;
 	private String adminEmail;
 	
-	public AdminModule() {
+	public AdminModel() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public AdminModule(String adminName, String adminPassword, String adminEmail) {
+	public AdminModel(String adminName, String adminPassword, String adminEmail) {
 		super();
 		this.adminName = adminName;
 		this.adminPassword = adminPassword;
 		this.adminEmail = adminEmail;
+	}
+
+	public AdminModel(int adminId1, String adminName1, String adminPassword1, String adminEmail1) {
+		super();
+		this.adminId=adminId1;
+		this.adminName = adminName1;
+		this.adminPassword = adminPassword1;
+		this.adminEmail = adminEmail1;
 	}
 
 	public int getAdminId() {
@@ -72,7 +80,7 @@ public class AdminModule {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AdminModule other = (AdminModule) obj;
+		AdminModel other = (AdminModel) obj;
 		return Objects.equals(adminEmail, other.adminEmail) && adminId == other.adminId
 				&& Objects.equals(adminName, other.adminName) && Objects.equals(adminPassword, other.adminPassword);
 	}

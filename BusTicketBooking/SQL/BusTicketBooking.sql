@@ -1,16 +1,12 @@
 CREATE TABLE BUS_DETAILS (
-  BUS_ID int GENERATED ALWAYS AS IDENTITY START WITH 1,
+  BUS_ID int GENERATED ALWAYS AS IDENTITY START WITH 1000,
   OPERATOR_ID int NOT NULL,
-  BUS_NAME varchar(50) NOT NULL,
-  BUS_FEATURES varchar(50) NOT NULL,
   BUS_CATAGORY varchar(20),
-  DEPARTURE_DATE date NOT NULL,
   FROM_CITY varchar(100) NOT NULL,
   TO_CITY varchar(100) NOT NULL,
-  DEPARTURE_TIME timestamp NOT NULL,
-  ARRIVAL_TIME timestamp NOT NULL,
+  DEPARTURE timestamp NOT NULL,
+  ARRIVAL timestamp NOT NULL,
   TOTAL_SEAT int NOT NULL,
-  PRICE int NOT NULL,
 
   CONSTRAINT pk_busid PRIMARY KEY (Bus_Id),
   CONSTRAINT fk_bus_operatorid FOREIGN KEY (Operator_Id) REFERENCES bus_operators (Operator_Id)
@@ -24,12 +20,12 @@ CREATE TABLE USER_DETAILS (
   USER_NAME varchar(40) NOT NULL,
   USER_AGE int NOT NULL,
   USER_EMAIL varchar(30) NOT NULL ,
-  USER_CONTACT number(10) NOT NULL,
+  USER_CONTACT int NOT NULL,
   USER_GENDER varchar(30) NOT NULL,
   USER_PASSWORD varchar(50) NOT NULL ,
   
   CONSTRAINT pk_userid PRIMARY KEY (user_id),
-  CONSTRAINT unique_user UNIQUE (user_email, user_password)
+  CONSTRAINT unique_user UNIQUE (user_email)
 );
 
 
@@ -38,7 +34,7 @@ CREATE TABLE BUS_OPERATORS (
   OPERATOR_ID int GENERATED ALWAYS AS IDENTITY START WITH 1,
   OPERATOR_NAME varchar(40) NOT NULL,
   OPERATOR_EMAIL varchar(40) NULL,
-  OPERATOR_CONTACT number(10) NOT NULL,
+  OPERATOR_CONTACT int NOT NULL,
   OPERATOR_AGE int NOT NULL, 
   
   CONSTRAINT pk_operatorid PRIMARY KEY (Operator_Id)
@@ -50,13 +46,9 @@ CREATE TABLE BOOKED_TICKETS (
   USER_ID int NOT NULL,
   BUS_ID int NOT NULL,
   OPERATOR_ID int NOT NULL,
-  FROM_CITY varchar(100) NOT NULL,
-  TO_CITY varchar(100) NOT NULL,
   BOOKING_DATE date DEFAULT sysdate,
-  DEPARTURE_DATE date NOT NULL,
   TICKET_COUNT int NOT NULL,
   SEAT_NO int NOT NULL,
-  BUS_CATEGORY varchar(20), 
   BOOKING_STATUS varchar(30),
   TOTAL_PRICE int,
 
@@ -82,12 +74,13 @@ insert into admin_details (ADMIN_NAME,ADMIN_PASSWORD,ADMIN_EMAIL) values ('abdul
 commit;
 desc user_details;
 
+commit;
 drop table bus_operators;
 
 select * from user_details;
 select * from bus_operators;
 select  * from bus_details;
-select * from ticket_bookings;
+select * from booked_tickets;
 select * from admin_details;
 
 
