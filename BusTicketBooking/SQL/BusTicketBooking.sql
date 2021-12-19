@@ -1,12 +1,15 @@
 CREATE TABLE BUS_DETAILS (
   BUS_ID int GENERATED ALWAYS AS IDENTITY START WITH 1000,
-  OPERATOR_ID int NOT NULL,
-  BUS_CATAGORY varchar(20),
+  OPERATOR_ID int ,
+  BUS_CATEGORY varchar(20),
   FROM_CITY varchar(100) NOT NULL,
   TO_CITY varchar(100) NOT NULL,
   DEPARTURE timestamp NOT NULL,
   ARRIVAL timestamp NOT NULL,
+  SLEEPER_FARE int NULL,
+  SEATER_FARE int NULL,
   TOTAL_SEAT int NOT NULL,
+  STATUS varchar(50) DEFAULT 'Available',
 
   CONSTRAINT pk_busid PRIMARY KEY (Bus_Id),
   CONSTRAINT fk_bus_operatorid FOREIGN KEY (Operator_Id) REFERENCES bus_operators (Operator_Id)
@@ -58,11 +61,12 @@ CREATE TABLE BOOKED_TICKETS (
   CONSTRAINT fk_booking_busid FOREIGN KEY (bus_Id) REFERENCES bus_details (bus_Id) 
 );
 
-
+commit;
 
 CREATE TABLE ADMIN_DETAILS (
  ADMIN_ID int GENERATED ALWAYS AS IDENTITY START WITH 1,
  ADMIN_NAME varchar(50) NOT NULL,
+ ADMIN_CONTACT int NOT NULL,
  ADMIN_PASSWORD varchar(50) NOT NULL ,
  ADMIN_EMAIL varchar(50) NOT NULL,
  
@@ -70,12 +74,12 @@ CREATE TABLE ADMIN_DETAILS (
  CONSTRAINT unique_admin UNIQUE (Admin_Email)
  );
 
-insert into admin_details (ADMIN_NAME,ADMIN_PASSWORD,ADMIN_EMAIL) values ('abdul','abdul','abduladmin@gmail.com');
+insert into admin_details (ADMIN_NAME,ADMIN_CONTACT,ADMIN_PASSWORD,ADMIN_EMAIL) values ('abdul',6381151931,'abdul','abduladmin@gmail.com');
 commit;
 desc user_details;
 
 commit;
-drop table bus_operators;
+drop table bus_details;
 
 select * from user_details;
 select * from bus_operators;
@@ -83,8 +87,12 @@ select  * from bus_details;
 select * from booked_tickets;
 select * from admin_details;
 
+insert into bus_details (bus_catagory, from_city, to_city, departure, arrival,sleeper_fare, seater_fare, total_seat) values ('super','trichy','bangalore',to_timestamp ( '21-12-2020 12:12', 'DD-MM-YYYY HH24:MI' ),to_timestamp ( '21-12-2020 23:11', 'DD-MM-YYYY HH24:MI' ),234,555,10);
 
 
+commit;
+
+desc bus_details;
 
 
 
