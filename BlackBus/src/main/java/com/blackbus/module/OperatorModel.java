@@ -14,11 +14,23 @@ public class OperatorModel {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 
 	public OperatorModel(int operatorId, String operatorName, String operatorEmail, long operatorContact,
 			int operatorAge) {
 		super();
 		this.operatorId = operatorId;
+		this.operatorName = operatorName;
+		this.operatorEmail = operatorEmail;
+		this.operatorContact = operatorContact;
+		this.operatorAge = operatorAge;
+	}
+
+
+
+	public OperatorModel(String operatorName, String operatorEmail, long operatorContact,int operatorAge) {
+		super();
 		this.operatorName = operatorName;
 		this.operatorEmail = operatorEmail;
 		this.operatorContact = operatorContact;

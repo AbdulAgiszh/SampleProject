@@ -94,14 +94,14 @@ public class UserDao {
 	
    
 	
-    public void deleteUser (UserModel userModel) throws ClassNotFoundException, SQLException {
+    public void deleteUser (int userId) throws ClassNotFoundException, SQLException {
 		
 		String userDelete="delete from user_details where user_id=?";
 		
 		Connection con=ConnectionUtill.connectdb();
 		PreparedStatement ps=con.prepareStatement(userDelete);
 		
-		ps.setInt(1, userModel.getUserId());
+		ps.setInt(1, userId);
 		int result=ps.executeUpdate();
 		if(result==1) {
 		System.out.println(" Successfully deleted");

@@ -79,32 +79,34 @@ public class OperatorDao {
    
    
    
-   public void deleteOperator (OperatorModel OperatorModel) {
+   public boolean deleteOperator (int operatorId) {
 		
-		String del="delete from bus_operators where operator_id=?";
+		String operatorDelete="delete from bus_operators where operator_id=?";
 		
 		Connection con;
+		int result=0;
+		
 		try {
 			con = ConnectionUtill.connectdb();
-			PreparedStatement ps=con.prepareStatement(del);
+			PreparedStatement pstatement=con.prepareStatement(operatorDelete);
 			
-			ps.setInt(1, OperatorModel.getOperatorId());
-			int result=ps.executeUpdate();
-			if(result==1) {
-			System.out.println("Operator Details Successfully deleted");
-			ps.close();
-			con.close();		
-			}
-			else
-			{
-				System.out.println("please enter correct id");
-			}
+			pstatement.setInt(1, operatorId);
+			result=pstatement.executeUpdate();
+//			if(result==1) {
+//			System.out.println("Operator Details Successfully deleted");
+//			pstatement.close();
+//			con.close();		
+//			}
+//			else
+//			{
+//				System.out.println("please enter correct id");
+//			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+	return result>0;	
 	}
    
    
@@ -115,11 +117,9 @@ public class OperatorDao {
    	Connection con;
    	List<OperatorModel> operatorList=new ArrayList<OperatorModel>();
 		try {
-			con = ConnectionUtill.connectdb();
-			PreparedStatement ps=con.prepareStatement(operatorView);
-			
-			Statement statement=con.createStatement();
-			ResultSet rs=statement.executeQuery(operatorView);
+			con = ConnectionUtill.connectdb();	
+			Statement pstatement=con.createStatement();
+			ResultSet rs=pstatement.executeQuery(operatorView);
 			
 			while(rs.next()) {
 				OperatorModel operator=new OperatorModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
@@ -135,4 +135,34 @@ public class OperatorDao {
 		return operatorList;
 		
    }
+   
+   
+ 
+	public OperatorModel getOperatorById(int operatorId) throws ClassNotFoundException, SQLException {
+		
+		String getOperator ="select * from bus_operators where operator_id=?";
+		Connection con = null;
+		PreparedStatement pstatement = null;
+		OperatorModel operatormodel=null;
+		try {
+		 con = ConnectionUtill.connectdb();
+		 pstatement = con.prepareStatement(getOperator);
+		 pstatement.setInt(1, operatorId);
+		ResultSet rs = pstatement.executeQuery(getOperator);
+		
+		 if (rs.next()) {
+
+			 operatormodel=new OperatorModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
+				
+			}} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				System.out.println(e.getMessage());
+			} finally {
+				con.close();
+				pstatement.close();
+			}
+		 return operatormodel;
+
+	}
 }

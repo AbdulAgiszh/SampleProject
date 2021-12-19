@@ -1,8 +1,7 @@
 package com.blackbus.module;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class BusModel {
@@ -13,25 +12,24 @@ public class BusModel {
 	private String busCategory;
 	private String fromCity;
 	private String toCity;
-	private Date departure;
-	private Date arrival;
+	private LocalDateTime departure;
+	private LocalDateTime arrival;
+	private int sleeperFare;
+	private int seaterFare;
 	private int totalseat;
-	
-	public BusModel() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	private String status;
 
-	public BusModel(com.blackbus.module.OperatorModel operatorModel, int busId, String busCategory, String fromCity,
-			String toCity, Date departure, Date arrival, int totalseat) {
+
+	public BusModel(String busCategory, String fromCity, String toCity, LocalDateTime depDate,
+			LocalDateTime arrDate, int sleeperFare, int seaterFare, int totalseat) {
 		super();
-		OperatorModel = operatorModel;
-		this.busId = busId;
 		this.busCategory = busCategory;
 		this.fromCity = fromCity;
 		this.toCity = toCity;
-		this.departure = departure;
-		this.arrival = arrival;
+		this.departure = depDate;
+		this.arrival = arrDate;
+		this.sleeperFare = sleeperFare;
+		this.seaterFare = seaterFare;
 		this.totalseat = totalseat;
 	}
 
@@ -55,12 +53,20 @@ public class BusModel {
 		return toCity;
 	}
 
-	public Date getDeparture() {
+	public LocalDateTime getDeparture() {
 		return departure;
 	}
 
-	public Date getArrival() {
+	public LocalDateTime getArrival() {
 		return arrival;
+	}
+
+	public int getSleeperFare() {
+		return sleeperFare;
+	}
+
+	public int getSeaterFare() {
+		return seaterFare;
 	}
 
 	public int getTotalseat() {
@@ -87,12 +93,20 @@ public class BusModel {
 		this.toCity = toCity;
 	}
 
-	public void setDeparture(Date departure) {
+	public void setDeparture(LocalDateTime departure) {
 		this.departure = departure;
 	}
 
-	public void setArrival(Date arrival) {
+	public void setArrival(LocalDateTime arrival) {
 		this.arrival = arrival;
+	}
+
+	public void setSleeperFare(int sleeperFare) {
+		this.sleeperFare = sleeperFare;
+	}
+
+	public void setSeaterFare(int seaterFare) {
+		this.seaterFare = seaterFare;
 	}
 
 	public void setTotalseat(int totalseat) {
@@ -103,12 +117,13 @@ public class BusModel {
 	public String toString() {
 		return "BusModel [OperatorModel=" + OperatorModel + ", busId=" + busId + ", busCategory=" + busCategory
 				+ ", fromCity=" + fromCity + ", toCity=" + toCity + ", departure=" + departure + ", arrival=" + arrival
-				+ ", totalseat=" + totalseat + "]";
+				+ ", sleeperFare=" + sleeperFare + ", seaterFare=" + seaterFare + ", totalseat=" + totalseat + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(OperatorModel, arrival, busCategory, busId, departure, fromCity, toCity, totalseat);
+		return Objects.hash(OperatorModel, arrival, busCategory, busId, departure, fromCity, seaterFare, sleeperFare,
+				toCity, totalseat);
 	}
 
 	@Override
@@ -123,6 +138,7 @@ public class BusModel {
 		return Objects.equals(OperatorModel, other.OperatorModel) && Objects.equals(arrival, other.arrival)
 				&& Objects.equals(busCategory, other.busCategory) && busId == other.busId
 				&& Objects.equals(departure, other.departure) && Objects.equals(fromCity, other.fromCity)
+				&& seaterFare == other.seaterFare && sleeperFare == other.sleeperFare
 				&& Objects.equals(toCity, other.toCity) && totalseat == other.totalseat;
 	}
 

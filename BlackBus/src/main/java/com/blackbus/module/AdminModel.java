@@ -6,6 +6,7 @@ public class AdminModel {
 
 	private int adminId;
 	private String adminName;
+	private long admincontact;
 	private String adminPassword;
 	private String adminEmail;
 	
@@ -14,20 +15,14 @@ public class AdminModel {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AdminModel(String adminName, String adminPassword, String adminEmail) {
+	public AdminModel(String adminName, long admincontact, String adminPassword, String adminEmail) {
 		super();
 		this.adminName = adminName;
+		this.admincontact = admincontact;
 		this.adminPassword = adminPassword;
 		this.adminEmail = adminEmail;
 	}
 
-	public AdminModel(int adminId1, String adminName1, String adminPassword1, String adminEmail1) {
-		super();
-		this.adminId=adminId1;
-		this.adminName = adminName1;
-		this.adminPassword = adminPassword1;
-		this.adminEmail = adminEmail1;
-	}
 
 	public int getAdminId() {
 		return adminId;
@@ -35,6 +30,10 @@ public class AdminModel {
 
 	public String getAdminName() {
 		return adminName;
+	}
+
+	public long getAdmincontact() {
+		return admincontact;
 	}
 
 	public String getAdminPassword() {
@@ -53,6 +52,10 @@ public class AdminModel {
 		this.adminName = adminName;
 	}
 
+	public void setAdmincontact(long admincontact) {
+		this.admincontact = admincontact;
+	}
+
 	public void setAdminPassword(String adminPassword) {
 		this.adminPassword = adminPassword;
 	}
@@ -63,13 +66,13 @@ public class AdminModel {
 
 	@Override
 	public String toString() {
-		return "AdminModule [adminId=" + adminId + ", adminName=" + adminName + ", adminPassword=" + adminPassword
-				+ ", adminEmail=" + adminEmail + "]";
+		return "AdminModel [adminId=" + adminId + ", adminName=" + adminName + ", admincontact=" + admincontact
+				+ ", adminPassword=" + adminPassword + ", adminEmail=" + adminEmail + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(adminEmail, adminId, adminName, adminPassword);
+		return Objects.hash(adminEmail, adminId, adminName, adminPassword, admincontact);
 	}
 
 	@Override
@@ -82,8 +85,10 @@ public class AdminModel {
 			return false;
 		AdminModel other = (AdminModel) obj;
 		return Objects.equals(adminEmail, other.adminEmail) && adminId == other.adminId
-				&& Objects.equals(adminName, other.adminName) && Objects.equals(adminPassword, other.adminPassword);
+				&& Objects.equals(adminName, other.adminName) && Objects.equals(adminPassword, other.adminPassword)
+				&& admincontact == other.admincontact;
 	}
+
 	
 	
 	

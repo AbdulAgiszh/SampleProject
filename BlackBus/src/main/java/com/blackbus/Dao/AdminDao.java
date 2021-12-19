@@ -19,13 +19,13 @@ public class AdminDao {
 		AdminModel adminmodule;
 		String loginadmin="select * from admin_details where admin_email='"+contact+"'";
 		Connection con=ConnectionUtill.connectdb();
-		PreparedStatement ps=con.prepareStatement(loginadmin);
+		PreparedStatement pstatement=con.prepareStatement(loginadmin);
 		
-		Statement st=con.createStatement();
-		ResultSet rs=st.executeQuery(loginadmin);
+		Statement statement=con.createStatement();
+		ResultSet rs=statement.executeQuery(loginadmin);
 		
 		rs.next() ;
-			adminmodule=new AdminModel(rs.getString(2),rs.getString(3),rs.getString(4));
+			adminmodule=new AdminModel(rs.getString(2),rs.getLong(3),rs.getString(4),rs.getString(5));
 		
 		
 		return adminmodule;
@@ -49,6 +49,32 @@ public class AdminDao {
 		}
 	}
 	
+	
+public void updateAdmin (AdminModel AdminModel) {
+    	
+    	String adminUpdate="update admin_details set admin_name=?,admin_contact=?, admin_password=? where admin_email='"+AdminModel.getAdminEmail()+"'";
+    	
+    	Connection con;
+		try {
+			con = ConnectionUtill.connectdb();
+			PreparedStatement pstatement=con.prepareStatement(adminUpdate);
+			
+			pstatement.setString(1, AdminModel.getAdminName());
+			pstatement.setLong(2, AdminModel.getAdmincontact());
+			pstatement.setString(3, AdminModel.getAdminPassword());
+			
+			pstatement.executeUpdate();
+			System.out.println("for "+AdminModel.getAdminEmail()+ "profile is updated !!");
+			pstatement.close();
+			con.close();
+		} catch (ClassNotFoundException e) {
+			e.getMessage();
+		} catch (SQLException e) {
+			e.getMessage();
+		}
+		
+    }
+	
 
 public List<AdminModel> viewAdmin(){
     	
@@ -64,7 +90,7 @@ public List<AdminModel> viewAdmin(){
 			ResultSet rs=statement.executeQuery(adminView);
 			
 			while(rs.next()) {
-				AdminModel adminModel=new AdminModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
+				AdminModel adminModel=new AdminModel(rs.getString(2),rs.getLong(3),rs.getString(4),rs.getString(5));
 				adminList.add(adminModel);
 			}
 			

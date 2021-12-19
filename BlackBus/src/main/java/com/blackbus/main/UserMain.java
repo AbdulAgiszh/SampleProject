@@ -1,11 +1,21 @@
 package com.blackbus.main;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 import com.blackbus.Dao.AdminDao;
+import com.blackbus.Dao.BusDao;
+import com.blackbus.Dao.OperatorDao;
 import com.blackbus.Dao.UserDao;
 import com.blackbus.module.AdminModel;
+import com.blackbus.module.BusModel;
+import com.blackbus.module.OperatorModel;
 import com.blackbus.module.UserModel;
 
 public class UserMain {
@@ -14,8 +24,11 @@ public class UserMain {
 
 		UserDao ud = new UserDao();
 		AdminDao ad = new AdminDao();
+		OperatorDao operatorDao=new OperatorDao();
+		BusDao busDao=new BusDao();
+		DateTimeFormatter format=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		Scanner scan = new Scanner(System.in);
-
+		
 		boolean flag = true;
 		int value;
 		do {
@@ -59,10 +72,10 @@ public class UserMain {
 						adminloginflag=ad.checkadmin(contact);
 						if(adminloginflag) {
 						
-						AdminModel adminmodule = ad.adminLogin(contact);
+						AdminModel adminmodel = ad.adminLogin(contact);
 						do { // admin password validation
-							if (adminmodule.getAdminPassword().equals(pass)) {
-								System.out.println("welcome " + adminmodule.getAdminName());
+							if (adminmodel.getAdminPassword().equals(pass)) {
+								System.out.println("welcome " + adminmodel.getAdminName());
 
 								// switch case for the admin to perform
 								do {
@@ -71,29 +84,139 @@ public class UserMain {
 									
 									System.out.print("1. To add a bus:  \t");
 									System.out.print("2. To add a operator:  \t");
-									System.out.print("3. To update a admin \t");
+									System.out.print("3. To update a admin \n");
 									System.out.print("4. To update a bus \t");
 									System.out.print("5. To update a operator \t");
-									System.out.print("6. To show userList \t");
+									System.out.print("6. To show buslist \n");
 									System.out.print("7. To show operatorList \t");
-									System.out.print("8. To show busList \t");
-									System.out.print("9. To delete a bus \t");
-									System.out.print("10. To delete a user \t");
-									System.out.print("11. To delete a operator \t");
+									System.out.print("8. To show userlist \t");
+									System.out.print("9. To delete a bus \n");
+									System.out.print("10. To delete a operator \t");
+									System.out.print("11. To delete a user \t");
 									System.out.print("12. To delete a admin \t");
 									System.out.println("13. Exit");
 
 									int adminchoice = scan.nextInt();
+									scan.nextLine();
 									switch (adminchoice) {
 									case 1:
-										System.out.println("----------------To Delete query----------------------");
-										System.out.println("Enter the user id to delete ");
-										int userId = scan.nextInt();
-										UserModel usermodule2 = new UserModel(userId);
-										ud.deleteUser(usermodule2);
+										//System.out.println("----------------To add bus----------------------");
+										
+										System.out.println("Enter the Bus category");
+										String busCategory=scan.nextLine();
+										System.out.println("Enter the from city");
+										String fromCity=scan.nextLine();
+										System.out.println("Enter the to city");
+										String toCity=scan.nextLine();
+										System.out.println("Enter the Departure date and time");
+										String depDate=scan.nextLine();
+										LocalDateTime depTimeDate =LocalDateTime.parse(depDate, format);
+										System.out.println("Enter the Arrival date and time");
+										String arrDate=scan.nextLine();
+										LocalDateTime arrTimeDate =LocalDateTime.parse(arrDate, format);
+										System.out.println("Enter the sleeper Fare for bus");
+										int sleeperFare=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter the seater Fare for bus");
+										int seaterFare=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter the total seat for bus");
+										int totalSeat=Integer.parseInt(scan.nextLine());
+										BusModel busmodel=new BusModel(busCategory,fromCity,toCity,depTimeDate,arrTimeDate,sleeperFare,seaterFare,totalSeat);
+										busDao.insertBus(busmodel);
+										break;
+									case 2:
+										//System.out.println("----------------To add operator----------------------");
+										System.out.println("Enter the operator name");
+										String operatorId=scan.nextLine();
+										System.out.println("Enter the operator Email");
+										String operatorEmail=scan.nextLine();
+										System.out.println("Enter the operator contact");
+										long operatorContact=Long.parseLong(scan.nextLine());
+										System.out.println("Enter the operator age");
+										int operatorAge=Integer.parseInt(scan.nextLine());
+										OperatorModel operatorModel1=new OperatorModel(operatorId,operatorEmail,operatorContact,operatorAge);
+										operatorDao.insertOperator(operatorModel1);
+										
 										break;
 									case 3:
-										System.exit(adminchoice);
+										//System.out.println("----------------To update admin----------------------");
+										System.out.println("AdminID: "+adminmodel.getAdminEmail());
+										System.out.println("update the admin name");
+										String adminName=scan.nextLine();
+										System.out.println("update the admin contact");
+										long adminContact=Long.parseLong(scan.nextLine());
+										System.out.println("update the admin password");
+										String adminPassword=scan.nextLine();
+										AdminModel adminModel=new AdminModel(adminName,adminContact,adminPassword,adminmodel.getAdminEmail());
+										ad.updateAdmin(adminModel);
+										break;
+									case 4:
+										//System.out.println("----------------To update bus----------------------");
+
+										break;
+									case 5:
+										//System.out.println("----------------To update operator----------------------");
+										System.out.println("Enter the operator Id");
+										int operatorId1=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter the operator name");
+										String operatorName1=scan.nextLine();
+										System.out.println("Enter the operator Email");
+										String operatorEmail1=scan.nextLine();
+										System.out.println("Enter the operator contact");
+										long operatorContact1=Long.parseLong(scan.nextLine());
+										System.out.println("Enter the operator age");
+										int operatorAge1=Integer.parseInt(scan.nextLine());
+										OperatorModel operatorModel2=new OperatorModel(operatorId1,operatorName1,operatorEmail1,operatorContact1,operatorAge1);
+										operatorDao.updateOperator(operatorModel2);
+										break;
+									case 6:
+										//System.out.println("----------------To show buslist----------------------");
+										
+										break;
+									case 7:
+										//System.out.println("----------------To show operatorlist----------------------");
+										List<OperatorModel> listoperator=operatorDao.viewOperator();
+										for (int i=0;i<listoperator.size();i++) {
+											System.out.println(listoperator.get(i));
+										}
+										break;
+									case 8:
+										//System.out.println("----------------To show userlist----------------------");
+										List<UserModel> listUser=ud.viewUser();
+										for(int i=0;i<listUser.size();i++) {
+											System.out.println(listUser.get(i));
+										}
+										break;
+									case 9:
+										//System.out.println("----------------To Delete bus----------------------");
+										
+										break;
+									case 10:
+										//System.out.println("----------------To Delete operator----------------------");
+										System.out.println("Enter the operator id");
+										int operatorId2=scan.nextInt();
+//										OperatorModel operatorModel=operatorDao.getOperatorById(operatorId2);
+										boolean deleteop=operatorDao.deleteOperator(operatorId2);
+										if(deleteop==true) {
+											System.out.println("Operator Details Successfully deleted");
+										}
+										else {
+											System.out.println("please enter correct ID");
+										}
+										break;
+									case 11:
+										//System.out.println("----------------To Delete user----------------------");
+										System.out.println("Enter the user id to delete ");
+										int userId = scan.nextInt();							
+										ud.deleteUser(userId);
+										break;
+									case 12:
+										//System.out.println("----------------To Delete admin----------------------");
+
+										break;
+									case 13:
+										//System.out.println("----------------To exit----------------------");
+
+										System.exit(0);
 									default:
 										System.out.println("please enter correct choice number: ");
 										break;
@@ -108,7 +231,7 @@ public class UserMain {
 								System.out.println("please enter correct password");
 							}
 							pass = scan.nextLine();
-						} while (adminmodule.getAdminPassword() != (pass) && num != 3);
+						} while (adminmodel.getAdminPassword() != (pass) && num != 3);
 						System.out.println("Oops!! You have exceeded more than 3 times please do login after 5 min");
 						System.exit(num);
 						}

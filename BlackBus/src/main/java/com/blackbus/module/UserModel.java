@@ -53,11 +53,6 @@ public class UserModel {
 		this.userPassword = userPassword1;
 	}
 
-	public UserModel(int user_id) {
-		super();
-		this.userId = user_id;
-	}
-
 	public UserModel(long contact, String password) {
 		super();
 		this.userContact=contact;
