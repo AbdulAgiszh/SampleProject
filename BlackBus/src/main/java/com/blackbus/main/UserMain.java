@@ -101,7 +101,8 @@ public class UserMain {
 									switch (adminchoice) {
 									case 1:
 										//System.out.println("----------------To add bus----------------------");
-										
+										System.out.println("Enter operator Id");
+										int operatorId=Integer.parseInt(scan.nextLine());
 										System.out.println("Enter the Bus category");
 										String busCategory=scan.nextLine();
 										System.out.println("Enter the from city");
@@ -120,20 +121,20 @@ public class UserMain {
 										int seaterFare=Integer.parseInt(scan.nextLine());
 										System.out.println("Enter the total seat for bus");
 										int totalSeat=Integer.parseInt(scan.nextLine());
-										BusModel busmodel=new BusModel(busCategory,fromCity,toCity,depTimeDate,arrTimeDate,sleeperFare,seaterFare,totalSeat);
+										BusModel busmodel=new BusModel(operatorId,busCategory,fromCity,toCity,depTimeDate,arrTimeDate,sleeperFare,seaterFare,totalSeat);
 										busDao.insertBus(busmodel);
 										break;
 									case 2:
 										//System.out.println("----------------To add operator----------------------");
 										System.out.println("Enter the operator name");
-										String operatorId=scan.nextLine();
+										String operatorId11=scan.nextLine();
 										System.out.println("Enter the operator Email");
 										String operatorEmail=scan.nextLine();
 										System.out.println("Enter the operator contact");
 										long operatorContact=Long.parseLong(scan.nextLine());
 										System.out.println("Enter the operator age");
 										int operatorAge=Integer.parseInt(scan.nextLine());
-										OperatorModel operatorModel1=new OperatorModel(operatorId,operatorEmail,operatorContact,operatorAge);
+										OperatorModel operatorModel1=new OperatorModel(operatorId11,operatorEmail,operatorContact,operatorAge);
 										operatorDao.insertOperator(operatorModel1);
 										
 										break;
@@ -151,7 +152,32 @@ public class UserMain {
 										break;
 									case 4:
 										//System.out.println("----------------To update bus----------------------");
-
+										System.out.println("Enter the bus id to update the particular bus");
+										int updateBusId=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter operator Id");
+										int updateOperatorId=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter the Bus category");
+										String updateBusCategory=scan.nextLine();
+										System.out.println("Enter the from city");
+										String updateFromCity=scan.nextLine();
+										System.out.println("Enter the to city");
+										String updateToCity=scan.nextLine();
+										System.out.println("Enter the Departure date and time");
+										String updateDepDate=scan.nextLine();
+										LocalDateTime departureTimeDate =LocalDateTime.parse(updateDepDate, format);
+										System.out.println("Enter the Arrival date and time");
+										String updateArrDate=scan.nextLine();
+										LocalDateTime arrivalTimeDate =LocalDateTime.parse(updateArrDate, format);
+										System.out.println("Enter the sleeper Fare for bus");
+										int updateSleeperFare=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter the seater Fare for bus");
+										int updateSeaterFare=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter the total seat for bus");
+										int updateTotalSeat=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter the bus status");
+										String updateStatus=scan.nextLine();
+										BusModel busModel=new BusModel(updateBusId,updateOperatorId,updateBusCategory,updateFromCity,updateToCity,departureTimeDate,arrivalTimeDate,updateSleeperFare,updateSeaterFare,updateTotalSeat,updateStatus);
+										busDao.updateBus(busModel);
 										break;
 									case 5:
 										//System.out.println("----------------To update operator----------------------");

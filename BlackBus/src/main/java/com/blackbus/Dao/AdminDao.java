@@ -15,18 +15,26 @@ import com.blackbus.module.UserModel;
 
 public class AdminDao {
 
-	public AdminModel adminLogin(String contact) throws ClassNotFoundException, SQLException {
-		AdminModel adminmodule;
+	public AdminModel adminLogin(String contact)  {
+		
 		String loginadmin="select * from admin_details where admin_email='"+contact+"'";
-		Connection con=ConnectionUtill.connectdb();
-		PreparedStatement pstatement=con.prepareStatement(loginadmin);
-		
-		Statement statement=con.createStatement();
-		ResultSet rs=statement.executeQuery(loginadmin);
-		
-		rs.next() ;
-			adminmodule=new AdminModel(rs.getString(2),rs.getLong(3),rs.getString(4),rs.getString(5));
-		
+		Connection con;
+		AdminModel adminmodule=null;
+		try {
+			con = ConnectionUtill.connectdb();
+			PreparedStatement pstatement=con.prepareStatement(loginadmin);
+			Statement statement=con.createStatement();
+			ResultSet rs=statement.executeQuery(loginadmin);
+			
+			rs.next() ;
+				adminmodule=new AdminModel(rs.getString(2),rs.getLong(3),rs.getString(4),rs.getString(5));
+			
+			
+		} catch (ClassNotFoundException e) {
+			e.getMessage();
+		} catch (SQLException e) {
+			e.getMessage();
+		}
 		
 		return adminmodule;
 	}
