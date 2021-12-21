@@ -1,19 +1,23 @@
 package com.blackbus.main;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
 import com.blackbus.Dao.AdminDao;
+import com.blackbus.Dao.BookedTicketsDao;
 import com.blackbus.Dao.BusDao;
 import com.blackbus.Dao.OperatorDao;
 import com.blackbus.Dao.UserDao;
 import com.blackbus.module.AdminModel;
+import com.blackbus.module.BookedTicketsModel;
 import com.blackbus.module.BusModel;
 import com.blackbus.module.OperatorModel;
 import com.blackbus.module.UserModel;
@@ -26,7 +30,9 @@ public class UserMain {
 		AdminDao ad = new AdminDao();
 		OperatorDao operatorDao=new OperatorDao();
 		BusDao busDao=new BusDao();
+		BookedTicketsDao bookDao=new BookedTicketsDao();
 		DateTimeFormatter format=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+		DateTimeFormatter formatDate=DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		Scanner scan = new Scanner(System.in);
 		
 		boolean flag = true;
@@ -196,7 +202,10 @@ public class UserMain {
 										break;
 									case 6:
 										//System.out.println("----------------To show buslist----------------------");
-										
+										List<BusModel> listbus=busDao.viewAllBus();
+										for(int i=0;i<listbus.size();i++) {
+											System.out.println(listbus.get(i));
+										}
 										break;
 									case 7:
 										//System.out.println("----------------To show operatorlist----------------------");
@@ -279,18 +288,19 @@ public class UserMain {
 						
 						
 						
-						UserModel UserModule = ud.loginUser(Long.parseLong(contact));
+						UserModel userModel = ud.loginUser(Long.parseLong(contact));
 						// user password verification
 						do {
-							if (UserModule.getUserPassword().equals(pass)) {
-								System.out.println("welcome " + UserModule.getUserName());
+							if (userModel.getUserPassword().equals(pass)) {
+								System.out.println("welcome " + userModel.getUserName());
 
 								// switch case for user to perform
 								do {
 									System.out.println(
 											"--------------------click the Number to perform the action-------------------");
 									System.out.print("1. To update profile \t");
-									System.out.print("2. To add a booking:  \t");
+									System.out.print("2. To search a bus:  \t");
+									
 									System.out.println("3. Exit");
 									int userchoice = scan.nextInt();
 									scan.nextLine();
@@ -298,7 +308,7 @@ public class UserMain {
 
 									case 1:
 										System.out.println("------------------To Update Profile-------------------");
-										System.out.println("LoginID: "+UserModule.getUserContact());
+										System.out.println("LoginID: "+userModel.getUserContact());
 										System.out.println("Enter the user_name ");
 										String userName1 = scan.nextLine();
 										System.out.println("Enter the user_age ");
@@ -306,7 +316,7 @@ public class UserMain {
 										System.out.println("Enter the user_email ");
 										String userEmail1 = scan.nextLine();
 
-										long userContact1 = UserModule.getUserContact();
+										long userContact1 = userModel.getUserContact();
 										
 										System.out.println("Enter the user_gender");
 										String userGender1 = scan.nextLine();
@@ -317,7 +327,50 @@ public class UserMain {
 												userContact1, userGender1, userPassword1);
 										ud.updateUser(usermodule1);
 										break;
-
+									case 2:
+										//System.out.println("------------------To search bus-------------------");
+										System.out.println("Enter the date to departure a bus");
+										String givenDate=scan.nextLine();
+										LocalDate givenDepartureDate =LocalDate.parse(givenDate,formatDate);
+										System.out.println("Enter from location");
+										String fromLocation=scan.nextLine();
+										System.out.println("Enter to location");
+										String toLocation=scan.nextLine();
+										
+										List<BusModel> listFilterBus=bookDao.searchhBus(givenDepartureDate,fromLocation,toLocation);
+										for(int i=0;i<listFilterBus.size();i++) {
+											System.out.println(listFilterBus.get(i));
+										}
+										
+										System.out.println("Enter the bus Id to have a ride to your loved place");
+										int bookBusId=Integer.parseInt(scan.nextLine());
+										BusModel bookBusModel=busDao.getBusById(bookBusId);
+										//to find operator
+										OperatorModel bookOperatorModel=operatorDao.getOperatorById(bookBusModel.getoperatorId());
+										System.out.println("Enter the No for class : sleeper or seater");
+										System.out.println("click -> 1.sleeper \t 2.seater");
+										int bookClassChoice=Integer.parseInt(scan.nextLine());
+										String bookClass;
+										int ticketPrice;
+										if(bookClassChoice==1) {
+											 bookClass="Sleeper";
+											 ticketPrice=bookBusModel.getSleeperFare();
+										}
+										else {
+											 bookClass="Seater";
+											 ticketPrice=bookBusModel.getSeaterFare();
+										}
+										
+										System.out.println("Enter the ticket count you want:");
+										int bookTicketCount=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter the seat No (1-10)for seater \t (11-13)for sleeper");
+										int bookSeatNo=Integer.parseInt(scan.nextLine());
+										//to find total price
+										int bookTotalPrice=bookTicketCount*ticketPrice;
+										
+										BookedTicketsModel bookTicketmodel=new BookedTicketsModel(userModel,bookBusModel,bookTicketCount,bookSeatNo,bookTotalPrice);
+										
+						
 									case 3:
 										System.exit(userchoice);
 									default:
@@ -332,7 +385,7 @@ public class UserMain {
 								System.out.println("please enter correct password");
 							}
 							pass = scan.nextLine();
-						} while (UserModule.getUserPassword() != (pass) && num != 3);
+						} while (userModel.getUserPassword() != (pass) && num != 3);
 						System.out.println("Oops!! You have exceeded more than 3 times please do login after 5 min");
 						System.exit(num);
 						}

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.blackbus.connection.ConnectionUtill;
 import com.blackbus.module.AdminModel;
+import com.blackbus.module.OperatorModel;
 import com.blackbus.module.UserModel;
 
 
@@ -17,14 +18,15 @@ public class UserDao {
 			 
 			String userLogin="select * from user_details where user_contact='"+contact+"'";
 			Connection con=ConnectionUtill.connectdb();
-			PreparedStatement ps=con.prepareStatement(userLogin);
+			PreparedStatement pstatement=con.prepareStatement(userLogin);
 			
 			Statement st=con.createStatement();
 			ResultSet rs=st.executeQuery(userLogin);
 			
 			rs.next() ;
 			UserModel userModel=new UserModel(rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7));
-			
+			con.close();
+			pstatement.close();
 				return userModel;
 		}
 		 
@@ -33,10 +35,10 @@ public class UserDao {
 			 
 				String userLogin="select * from user_details where user_contact='"+contact+"'";
 				Connection con=ConnectionUtill.connectdb();
-				PreparedStatement ps=con.prepareStatement(userLogin);
+				PreparedStatement pstatement=con.prepareStatement(userLogin);
 				
-				Statement st=con.createStatement();
-				int i=st.executeUpdate(userLogin);
+				Statement statement=con.createStatement();
+				int i=pstatement.executeUpdate(userLogin);
 				if(i>0) {
 					return true;
 				}
@@ -52,19 +54,19 @@ public class UserDao {
 		
 		String insertUser="insert into user_details (user_name,user_age,user_email,user_contact,user_gender,user_password) values (?,?,?,?,?,?)";
 		Connection con=ConnectionUtill.connectdb();
-		PreparedStatement ps=con.prepareStatement(insertUser);
+		PreparedStatement pstatement=con.prepareStatement(insertUser);
 	
-		ps.setString(1,userModel.getUserName());
-		ps.setInt(2,userModel.getUserAge());
-		ps.setString(3, userModel.getUserEmail());
-		ps.setLong(4,userModel.getUserContact());
-		ps.setString(5,userModel.getUserGender());
-		ps.setString(6, userModel.getUserPassword());
+		pstatement.setString(1,userModel.getUserName());
+		pstatement.setInt(2,userModel.getUserAge());
+		pstatement.setString(3, userModel.getUserEmail());
+		pstatement.setLong(4,userModel.getUserContact());
+		pstatement.setString(5,userModel.getUserGender());
+		pstatement.setString(6, userModel.getUserPassword());
 	
-		int result=ps.executeUpdate();
+		int result=pstatement.executeUpdate();
 		if(result==1) {
 		System.out.println( "Your Have Registered Successfully!!");
-		ps.close();
+		pstatement.close();
 		con.close();
 		}
 		else {
@@ -79,16 +81,16 @@ public class UserDao {
     	String userUpdate="update user_details set user_name=?, user_age=?, user_gender=?, user_password=? where user_contact='"+userModel.getUserContact()+"'";
     	
     	Connection con=ConnectionUtill.connectdb();
-		PreparedStatement ps=con.prepareStatement(userUpdate);
+		PreparedStatement pstatement=con.prepareStatement(userUpdate);
 		
-		ps.setString(1,userModel.getUserName());
-		ps.setInt(2,userModel.getUserAge());
-		ps.setString(3,userModel.getUserGender());
-		ps.setString(4, userModel.getUserPassword());
+		pstatement.setString(1,userModel.getUserName());
+		pstatement.setInt(2,userModel.getUserAge());
+		pstatement.setString(3,userModel.getUserGender());
+		pstatement.setString(4, userModel.getUserPassword());
 		
-		ps.executeUpdate();
+		pstatement.executeUpdate();
 		System.out.println("for "+userModel.getUserContact()+ "profile is updated !!");
-		ps.close();
+		pstatement.close();
 		con.close();
     }
 	
@@ -99,13 +101,13 @@ public class UserDao {
 		String userDelete="delete from user_details where user_id=?";
 		
 		Connection con=ConnectionUtill.connectdb();
-		PreparedStatement ps=con.prepareStatement(userDelete);
+		PreparedStatement pstatement=con.prepareStatement(userDelete);
 		
-		ps.setInt(1, userId);
-		int result=ps.executeUpdate();
+		pstatement.setInt(1, userId);
+		int result=pstatement.executeUpdate();
 		if(result==1) {
 		System.out.println(" Successfully deleted");
-		ps.close();
+		pstatement.close();
 		con.close();		
 		}
 		else
@@ -126,14 +128,15 @@ public class UserDao {
 			con = ConnectionUtill.connectdb();
 			PreparedStatement ps=con.prepareStatement(userView);
 			
-			Statement statement=con.createStatement();
-			ResultSet rs=statement.executeQuery(userView);
+			Statement pstatement=con.createStatement();
+			ResultSet rs=pstatement.executeQuery(userView);
 			
 			while(rs.next()) {
 				UserModel userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7));
 				userList.add(userModel);
 			}
-			
+			con.close();
+			pstatement.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -146,34 +149,36 @@ public class UserDao {
     
     
     
+public UserModel getUserById(int userId) throws SQLException  {
+		
+		String getUser ="select * from user_details where user_id=?";
+		Connection con = null;
+		PreparedStatement pstatement = null;
+		UserModel userModel=null;
+		
+		 try {
+			con = ConnectionUtill.connectdb();
+			pstatement = con.prepareStatement(getUser);
+			 pstatement.setInt(1, userId);
+			ResultSet rs = pstatement.executeQuery(getUser);
+			
+			 if (rs.next()) {
+				 userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(4),rs.getString(5),rs.getString(6));
+				}
+			con.close();
+			pstatement.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		 return userModel;
+
+	}
     
     
     
-//public class ProductDao {
-//		
-//		public List<ProductModule> viewProduts()
-//		{
-//			String viewQuery="select * from products";
-//			Connection con=GetConnection.getDBconnect();
-//			List<ProductModule> productList=new ArrayList<ProductModule>();
-//			try {
-//				Statement smt = con.createStatement();
-//				ResultSet rs= smt.executeQuery(viewQuery);
-//				
-//				while(rs.next()) {
-//					ProductModule product=new ProductModule(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),
-//							rs.getInt(6),rs.getString(7));
-//					productList.add(product);				
-//				}
-//				
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				System.out.println(e.getMessage());
-//			}
-//		
-//			return productList;
-//		
-//		}
+
  
     
 }

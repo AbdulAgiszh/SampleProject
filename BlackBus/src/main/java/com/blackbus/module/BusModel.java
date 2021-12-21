@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class BusModel {
@@ -20,6 +21,7 @@ public class BusModel {
 	private int sleeperFare;
 	private int seaterFare;
 	private int totalseat;
+//	private int availableSeat;
 	private String status;
 
 
@@ -35,6 +37,7 @@ public class BusModel {
 		this.sleeperFare = sleeperFare;
 		this.seaterFare = seaterFare;
 		this.totalseat = totalseat;
+		
 	}
 
 	public BusModel(int busId, int operatorId1, String busCategory1, String fromCity1, String toCity1, LocalDateTime depDate1, LocalDateTime arrDate1,
@@ -53,6 +56,20 @@ public class BusModel {
 		this.status=status1;
 	}
 
+	public BusModel(int operatorId1, String busCategory1, String fromCity1, String toCity1, LocalDateTime depDate1,
+			LocalDateTime arrDate1, int sleeperFare1, int seaterFare1, int totalseat1, String status1) {
+		super();
+		this.operatorId=operatorId1;
+		this.busCategory = busCategory1;
+		this.fromCity = fromCity1;
+		this.toCity = toCity1;
+		this.departure = depDate1;
+		this.arrival = arrDate1;
+		this.sleeperFare = sleeperFare1;
+		this.seaterFare = seaterFare1;
+		this.totalseat = totalseat1;
+		this.status=status1;
+	}
 
 	public  int getoperatorId() {
 		return operatorId;
@@ -142,10 +159,11 @@ public class BusModel {
 		this.status=status;
 	}
 
+	DateTimeFormatter format=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 	@Override
 	public String toString() {
 		return "BusModel [operatorId=" + operatorId + ", busId=" + busId + ", busCategory=" + busCategory
-				+ ", fromCity=" + fromCity + ", toCity=" + toCity + ", departure=" + departure + ", arrival=" + arrival
+				+ ", fromCity=" + fromCity + ", toCity=" + toCity + ", departure=" + departure.format(format) + ", arrival=" + arrival.format(format)
 				+ ", sleeperFare=" + sleeperFare + ", seaterFare=" + seaterFare + ", totalseat=" + totalseat + "]";
 	}
 

@@ -30,12 +30,13 @@ public class OperatorDao {
 			int result = pstatement.executeUpdate();
 			if (result == 1) {
 				System.out.println("Bus Operators added successfully");
-				pstatement.close();
-				con.close();
+//				pstatement.close();
+//				con.close();
 			} else {
 				System.out.println("Failed to add the Bus Operators");
 			}
-
+			con.close();
+			pstatement.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -125,7 +126,8 @@ public class OperatorDao {
 				OperatorModel operator=new OperatorModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
 				operatorList.add(operator);
 			}
-			
+			con.close();
+			pstatement.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -154,14 +156,13 @@ public class OperatorDao {
 
 			 operatormodel=new OperatorModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
 				
+			con.close();
+			pstatement.close();
 			}} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				//e.printStackTrace();
 				System.out.println(e.getMessage());
-			} finally {
-				con.close();
-				pstatement.close();
-			}
+			} 
 		 return operatormodel;
 
 	}

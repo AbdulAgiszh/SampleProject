@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.blackbus.connection.ConnectionUtill;
 import com.blackbus.module.BusModel;
+import com.blackbus.module.OperatorModel;
 import com.blackbus.module.UserModel;
 
 public class BusDao {
@@ -31,7 +33,7 @@ public class BusDao {
 			pstatement.setString(4, BusModel.getToCity());
 			Timestamp depDateTime = Timestamp.valueOf(BusModel.getDeparture());
 			pstatement.setTimestamp(5,  depDateTime);
-			Timestamp arrDateTime = Timestamp.valueOf(BusModel.getDeparture());
+			Timestamp arrDateTime = Timestamp.valueOf(BusModel.getArrival());
 			pstatement.setTimestamp(6,  arrDateTime);
 			pstatement.setInt(7, BusModel.getSleeperFare());
 			pstatement.setInt(8, BusModel.getSeaterFare());
@@ -53,32 +55,34 @@ public class BusDao {
 		}
 	}
 
-//	public void deleteBus(BusModel BusModule) {
-//
-//		String busDelete = "delete from bus_details where bus_id=?";
-//
-//		Connection con;
-//		try {
-//			con = ConnectionUtill.connectdb();
-//			PreparedStatement pstatement = con.prepareStatement(busDelete);
-//
-//			pstatement.setInt(1, BusModule.getBusId());
-//			int result = pstatement.executeUpdate();
-//			if (result == 1) {
-//				System.out.println("Successfully deleted the bus");
-//				pstatement.close();
-//				con.close();
-//			} else {
-//				System.out.println("please enter correct id");
-//			}
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
-//	
+	public void deleteBus(BusModel BusModel) {
+
+		String busDelete = "delete from bus_details where bus_id=?";
+
+		Connection con;
+		try {
+			con = ConnectionUtill.connectdb();
+			PreparedStatement pstatement = con.prepareStatement(busDelete);
+
+			pstatement.setInt(1, BusModel.getBusId());
+			int result = pstatement.executeUpdate();
+			if (result == 1) {
+				System.out.println("Successfully deleted the bus");
+				pstatement.close();
+				con.close();
+			} else {
+				System.out.println("please enter correct id");
+			}
+			con.close();
+			pstatement.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	
 	public void updateBus(BusModel BusModel) {
 		
@@ -96,7 +100,7 @@ public class BusDao {
 			pstatement.setString(4, BusModel.getToCity());
 			Timestamp depDateTime = Timestamp.valueOf(BusModel.getDeparture());
 			pstatement.setTimestamp(5,  depDateTime);
-			Timestamp arrDateTime = Timestamp.valueOf(BusModel.getDeparture());
+			Timestamp arrDateTime = Timestamp.valueOf(BusModel.getArrival());
 			pstatement.setTimestamp(6,  arrDateTime);
 			pstatement.setInt(7, BusModel.getSleeperFare());
 			pstatement.setInt(8, BusModel.getSeaterFare());
@@ -112,6 +116,8 @@ public class BusDao {
 			else {
 				System.out.println("Bus updation failed");
 			}
+			con.close();
+			pstatement.close();
 			}
     	    catch (ClassNotFoundException e) {
     			e.printStackTrace();
@@ -143,10 +149,11 @@ public class BusDao {
 				
 				while(rs.next()) {
 					
-					BusModel busModel=new BusModel(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6),rs.getTimestamp(7),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
+					BusModel busModel=new BusModel(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
 					busList.add(busModel);
 				}
-				
+				con.close();
+				pstatement.close();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
@@ -156,9 +163,44 @@ public class BusDao {
 			return busList;
 			
 	    }
+	 
+	 
+	 
+	 
+	 
+	 
+	 public BusModel getBusById(int busId)  {
+			
+			String getBus ="select * from bus_details where bus_id=?";
+			Connection con = null;
+			PreparedStatement pstatement = null;
+			BusModel busModel=null;
+			
+			 try {
+				con = ConnectionUtill.connectdb();
+				pstatement = con.prepareStatement(getBus);
+				 pstatement.setInt(1, busId);
+				ResultSet rs = pstatement.executeQuery(getBus);
+				
+				 if (rs.next()) {
+					 busModel=new BusModel(rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));	
+					}
+				con.close();
+				pstatement.close();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			 return busModel;
+
+		}
+
+	
+	 
+	   
 	    
 	    
-	    
-	    
+//	 select BUS_ID,OPERATOR_ID,BUS_CATEGORY,FROM_CITY,TO_CITY,to_char(DEPARTURE,'dd-mm-yy'),to_char(DEPARTURE,'HH:MI'),to_char(ARRIVAL,'dd-mm-yy'),to_char(ARRIVAL,'HH:MI'),SLEEPER_FARE,SEATER_FARE,TOTAL_SEAT,STATUS 
 	
 }
