@@ -24,7 +24,7 @@ public class UserDao {
 			ResultSet rs=st.executeQuery(userLogin);
 			
 			rs.next() ;
-			UserModel userModel=new UserModel(rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7));
+			UserModel userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7));
 			con.close();
 			pstatement.close();
 				return userModel;
@@ -160,10 +160,10 @@ public UserModel getUserById(int userId) throws SQLException  {
 			con = ConnectionUtill.connectdb();
 			pstatement = con.prepareStatement(getUser);
 			 pstatement.setInt(1, userId);
-			ResultSet rs = pstatement.executeQuery(getUser);
+			ResultSet rs = pstatement.executeQuery();
 			
 			 if (rs.next()) {
-				 userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(4),rs.getString(5),rs.getString(6));
+				 userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7));
 				}
 			con.close();
 			pstatement.close();
@@ -176,8 +176,11 @@ public UserModel getUserById(int userId) throws SQLException  {
 
 	}
     
-    
-    
+//    public UserModel getUserIdByContact (long contact) {
+//    	
+//    	String userIdGetting=""
+//    }
+//    
 
  
     

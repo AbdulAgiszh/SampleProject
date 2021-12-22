@@ -150,16 +150,13 @@ public class OperatorDao {
 		 con = ConnectionUtill.connectdb();
 		 pstatement = con.prepareStatement(getOperator);
 		 pstatement.setInt(1, operatorId);
-		ResultSet rs = pstatement.executeQuery(getOperator);
+		ResultSet rs = pstatement.executeQuery();
 		
 		 if (rs.next()) {
-
 			 operatormodel=new OperatorModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
-				
 			con.close();
 			pstatement.close();
 			}} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				//e.printStackTrace();
 				System.out.println(e.getMessage());
 			} 

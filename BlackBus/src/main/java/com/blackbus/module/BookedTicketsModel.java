@@ -1,18 +1,18 @@
 package com.blackbus.module;
 
-//LocalDate date_returned=LocalDate.now();
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class BookedTicketsModel {
 
-	private int bookingId;
+	
 	private UserModel userModel;
 	private BusModel busModel;
-	private Date bookingDate;
+	private LocalDate bookingDate;
 	private int ticketCount;
-	private int seatNo;
+	private String seatNo;
 	private String bookingStatus;
 	private int totalPrice;
 	
@@ -20,10 +20,9 @@ public class BookedTicketsModel {
 		super();
 	}
 
-	public BookedTicketsModel(int bookingId, UserModel userModel, BusModel busModel, Date bookingDate, int ticketCount,
-			int seatNo, String bookingStatus, int totalPrice) {
+	public BookedTicketsModel(UserModel userModel, BusModel busModel, LocalDate bookingDate, int ticketCount,
+			String seatNo, String bookingStatus, int totalPrice) {
 		super();
-		this.bookingId = bookingId;
 		this.userModel = userModel;
 		this.busModel = busModel;
 		this.bookingDate = bookingDate;
@@ -33,17 +32,21 @@ public class BookedTicketsModel {
 		this.totalPrice = totalPrice;
 	}
 
-
-	public BookedTicketsModel(UserModel userModel1, BusModel bookBusModel1, int bookTicketCount1, int bookSeatNo1,int bookTotalPrice1) {
+	
+	
+	public BookedTicketsModel(UserModel userModel1, BusModel busModel1, int bookTicketCount1, String bookSeatNo1,
+			int bookTotalPrice1) {
 		this.userModel=userModel1;
-		this.busModel=bookBusModel1;
+		this.busModel=busModel1;
 		this.ticketCount=bookTicketCount1;
 		this.seatNo=bookSeatNo1;
 		this.totalPrice=bookTotalPrice1;
+				
 	}
 
-	public int getBookingId() {
-		return bookingId;
+	public BookedTicketsModel(int int1, int int2, LocalDate localDate, int int3, String string, String string2,
+			int int4) {
+		
 	}
 
 	public UserModel getUserModel() {
@@ -54,7 +57,7 @@ public class BookedTicketsModel {
 		return busModel;
 	}
 
-	public Date getBookingDate() {
+	public LocalDate getBookingDate() {
 		return bookingDate;
 	}
 
@@ -62,7 +65,7 @@ public class BookedTicketsModel {
 		return ticketCount;
 	}
 
-	public int getSeatNo() {
+	public String getSeatNo() {
 		return seatNo;
 	}
 
@@ -74,10 +77,6 @@ public class BookedTicketsModel {
 		return totalPrice;
 	}
 
-	public void setBookingId(int bookingId) {
-		this.bookingId = bookingId;
-	}
-
 	public void setUserModel(UserModel userModel) {
 		this.userModel = userModel;
 	}
@@ -86,7 +85,7 @@ public class BookedTicketsModel {
 		this.busModel = busModel;
 	}
 
-	public void setBookingDate(Date bookingDate) {
+	public void setBookingDate(LocalDate bookingDate) {
 		this.bookingDate = bookingDate;
 	}
 
@@ -94,7 +93,7 @@ public class BookedTicketsModel {
 		this.ticketCount = ticketCount;
 	}
 
-	public void setSeatNo(int seatNo) {
+	public void setSeatNo(String seatNo) {
 		this.seatNo = seatNo;
 	}
 
@@ -108,15 +107,14 @@ public class BookedTicketsModel {
 
 	@Override
 	public String toString() {
-		return "BookedTicketsModel [bookingId=" + bookingId + ", userModel=" + userModel + ", busModel=" + busModel
-				+ ", bookingDate=" + bookingDate + ", ticketCount=" + ticketCount + ", seatNo=" + seatNo
-				+ ", bookingStatus=" + bookingStatus + ", totalPrice=" + totalPrice + "]";
+		return "BookedTicketsModel [userModel=" + userModel + ", busModel=" + busModel + ", bookingDate=" + bookingDate
+				+ ", ticketCount=" + ticketCount + ", seatNo=" + seatNo + ", bookingStatus=" + bookingStatus
+				+ ", totalPrice=" + totalPrice + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bookingDate, bookingId, bookingStatus, busModel, seatNo, ticketCount, totalPrice,
-				userModel);
+		return Objects.hash(bookingDate, bookingStatus, busModel, seatNo, ticketCount, totalPrice, userModel);
 	}
 
 	@Override
@@ -128,13 +126,20 @@ public class BookedTicketsModel {
 		if (getClass() != obj.getClass())
 			return false;
 		BookedTicketsModel other = (BookedTicketsModel) obj;
-		return Objects.equals(bookingDate, other.bookingDate) && bookingId == other.bookingId
-				&& Objects.equals(bookingStatus, other.bookingStatus) && Objects.equals(busModel, other.busModel)
-				&& seatNo == other.seatNo && ticketCount == other.ticketCount && totalPrice == other.totalPrice
+		return Objects.equals(bookingDate, other.bookingDate) && Objects.equals(bookingStatus, other.bookingStatus)
+				&& Objects.equals(busModel, other.busModel) && Objects.equals(seatNo, other.seatNo)
+				&& ticketCount == other.ticketCount && totalPrice == other.totalPrice
 				&& Objects.equals(userModel, other.userModel);
+	}
+
+	
+	
+	
+
+	
+
 	}
 	
 	
 	
 	
-}

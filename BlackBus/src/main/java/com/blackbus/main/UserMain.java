@@ -30,7 +30,9 @@ public class UserMain {
 		AdminDao ad = new AdminDao();
 		OperatorDao operatorDao=new OperatorDao();
 		BusDao busDao=new BusDao();
-		BookedTicketsDao bookDao=new BookedTicketsDao();
+		BookedTicketsDao bookTicketsDao=new BookedTicketsDao();
+		
+		BookedTicketsModel bookTicketmodel=new BookedTicketsModel();
 		DateTimeFormatter format=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		DateTimeFormatter formatDate=DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		Scanner scan = new Scanner(System.in);
@@ -293,15 +295,17 @@ public class UserMain {
 						do {
 							if (userModel.getUserPassword().equals(pass)) {
 								System.out.println("welcome " + userModel.getUserName());
+								
 
 								// switch case for user to perform
 								do {
-									System.out.println(
-											"--------------------click the Number to perform the action-------------------");
+									System.out.println("--------------------click the Number to perform the action-------------------");
 									System.out.print("1. To update profile \t");
 									System.out.print("2. To search a bus:  \t");
+									System.out.println("3. TO find Invoice :  \t");
+									System.out.println("4. Users booked List : \t");
 									
-									System.out.println("3. Exit");
+									System.out.println("5. Exit");
 									int userchoice = scan.nextInt();
 									scan.nextLine();
 									switch (userchoice) {
@@ -337,42 +341,87 @@ public class UserMain {
 										System.out.println("Enter to location");
 										String toLocation=scan.nextLine();
 										
-										List<BusModel> listFilterBus=bookDao.searchhBus(givenDepartureDate,fromLocation,toLocation);
+										List<BusModel> listFilterBus=bookTicketsDao.searchhBus(givenDepartureDate,fromLocation,toLocation);
 										for(int i=0;i<listFilterBus.size();i++) {
 											System.out.println(listFilterBus.get(i));
 										}
 										
+										//booking ticket
+										
 										System.out.println("Enter the bus Id to have a ride to your loved place");
 										int bookBusId=Integer.parseInt(scan.nextLine());
-										BusModel bookBusModel=busDao.getBusById(bookBusId);
+										BusModel busModel=busDao.getBusById(bookBusId);
 										//to find operator
-										OperatorModel bookOperatorModel=operatorDao.getOperatorById(bookBusModel.getoperatorId());
+										OperatorModel bookOperatorModel=operatorDao.getOperatorById(busModel.getoperatorId());
 										System.out.println("Enter the No for class : sleeper or seater");
-										System.out.println("click -> 1.sleeper \t 2.seater");
+										System.out.println("----------------------------------------");
+										System.out.println("click-->    1.sleeper \t 2.seater");
 										int bookClassChoice=Integer.parseInt(scan.nextLine());
 										String bookClass;
 										int ticketPrice;
 										if(bookClassChoice==1) {
 											 bookClass="Sleeper";
-											 ticketPrice=bookBusModel.getSleeperFare();
+											 ticketPrice=busModel.getSleeperFare();
 										}
 										else {
 											 bookClass="Seater";
-											 ticketPrice=bookBusModel.getSeaterFare();
+											 ticketPrice=busModel.getSeaterFare();
 										}
 										
 										System.out.println("Enter the ticket count you want:");
 										int bookTicketCount=Integer.parseInt(scan.nextLine());
-										System.out.println("Enter the seat No (1-10)for seater \t (11-13)for sleeper");
-										int bookSeatNo=Integer.parseInt(scan.nextLine());
+										System.out.println("Enter the seat No (1-10)for SEATER \t (11-13)for SLEEPER");
+										int[] array=new int[bookTicketCount];
+										
+										for(int i=0;i<array.length;i++) {
+											array[i]=Integer.parseInt(scan.nextLine());
+										}
+										String bookSeatNo = "";
+										for(int i=0;i<array.length;i++) {
+											bookSeatNo+=array[i]+",";
+										}
+										
 										//to find total price
 										int bookTotalPrice=bookTicketCount*ticketPrice;
+										System.out.println("Your total price for travel is : " +bookTotalPrice);
 										
-										BookedTicketsModel bookTicketmodel=new BookedTicketsModel(userModel,bookBusModel,bookTicketCount,bookSeatNo,bookTotalPrice);
+										 bookTicketmodel=new BookedTicketsModel(userModel,busModel,bookTicketCount,bookSeatNo,bookTotalPrice);
 										
-						
+										boolean result=bookTicketsDao.insertBookedTickets(userModel, busModel, bookTicketmodel);
+										int currentBookingNumber;
+										if(result==true) {
+											System.out.println("Booked successfully register");
+											currentBookingNumber=bookTicketsDao.findBookingId(userModel);
+											System.out.println("Your booking number is : "+currentBookingNumber);
+										}
+										else {
+											System.out.println("please give correct value (not booked)");
+										}
+										break;
+										
 									case 3:
-										System.exit(userchoice);
+										System.out.println("-------------------Invoice---------------------");	
+										BookedTicketsModel bookedTicketsModel=null;
+//										BusModel busModel=null;
+										int bookingTicketNumber=bookTicketsDao.findBookingId(userModel);
+										bookedTicketsModel=bookTicketsDao.findBookedTicketsDetails(userModel);
+										busModel=busDao.getBusById(bookedTicketsModel.getBusModel().getBusId());
+										System.out.println("TicketNumber    : " +bookingTicketNumber );
+										System.out.println("Name            : " +userModel.getUserName());
+										System.out.println("Date of Journey : " +busModel.getDeparture());
+										System.out.println("Source          : " +busModel.getFromCity());
+										System.out.println("Destination     : " +busModel.getToCity());
+										System.out.println("Seat NO         : " +bookedTicketsModel.getSeatNo());
+										System.out.println("Total Price     : " +bookedTicketsModel.getTotalPrice());
+										break;
+										
+									case 4:
+										System.out.println("--------users booked List--------------------");
+										List<BookedTicketsModel> bookedList=bookTicketsDao.getBookingModel(userModel);
+										for(int i=0;i<bookedList.size();i++) {
+											System.out.println(bookedList.get(i));
+										}
+										break;
 									default:
 										System.out.println("please enter correct choice number: ");
 										break;

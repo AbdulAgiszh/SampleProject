@@ -170,35 +170,38 @@ public class BusDao {
 	 
 	 
 	 public BusModel getBusById(int busId)  {
-			
-			String getBus ="select * from bus_details where bus_id=?";
+		 String getBus ="select * from bus_details where bus_id=?";
 			Connection con = null;
-			PreparedStatement pstatement = null;
-			BusModel busModel=null;
+			PreparedStatement pstatement=null;
+			BusModel busModel = null;
 			
 			 try {
+				 
 				con = ConnectionUtill.connectdb();
-				pstatement = con.prepareStatement(getBus);
-				 pstatement.setInt(1, busId);
-				ResultSet rs = pstatement.executeQuery(getBus);
+				pstatement=con.prepareStatement(getBus);
+				pstatement.setInt(1, busId);
+				ResultSet rs = pstatement.executeQuery();
 				
-				 if (rs.next()) {
-					 busModel=new BusModel(rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));	
-					}
+				 if(rs.next()) {
+					 busModel=new BusModel(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
+				 
+				 }
 				con.close();
 				pstatement.close();
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				e.getMessage();
+				System.out.println("classnot found");
 			} catch (SQLException e) {
-				e.printStackTrace();
+				e.getMessage();
+				System.out.println("sql exception");
 			}
+			
 			 return busModel;
-
 		}
 
 	
 	 
-	   
+//	 rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),
 	    
 	    
 //	 select BUS_ID,OPERATOR_ID,BUS_CATEGORY,FROM_CITY,TO_CITY,to_char(DEPARTURE,'dd-mm-yy'),to_char(DEPARTURE,'HH:MI'),to_char(ARRIVAL,'dd-mm-yy'),to_char(ARRIVAL,'HH:MI'),SLEEPER_FARE,SEATER_FARE,TOTAL_SEAT,STATUS 
