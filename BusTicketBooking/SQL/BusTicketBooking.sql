@@ -14,6 +14,7 @@ CREATE TABLE BUS_DETAILS (
   CONSTRAINT pk_busid PRIMARY KEY (Bus_Id),
   CONSTRAINT fk_bus_operatorid FOREIGN KEY (Operator_Id) REFERENCES bus_operators (Operator_Id)
 ) ;
+commit;
 
 desc bus_details;
 
@@ -26,6 +27,7 @@ CREATE TABLE USER_DETAILS (
   USER_CONTACT int NOT NULL,
   USER_GENDER varchar(30) NOT NULL,
   USER_PASSWORD varchar(50) NOT NULL ,
+  USER_WALLET int DEFAULT 0,
   
   CONSTRAINT pk_userid PRIMARY KEY (user_id),
   CONSTRAINT unique_user UNIQUE (user_email)
@@ -48,18 +50,22 @@ CREATE TABLE BOOKED_TICKETS (
   BOOKING_ID int GENERATED ALWAYS AS IDENTITY START WITH 10000,
   USER_ID int NOT NULL,
   BUS_ID int NOT NULL,
-  OPERATOR_ID int NOT NULL,
   BOOKING_DATE date DEFAULT sysdate,
+  DEPARTURE_DATE date ,
   TICKET_COUNT int NOT NULL,
-  SEAT_NO int NOT NULL,
-  BOOKING_STATUS varchar(30),
+  SEAT_CATEGORY varchar(50),
+  SEAT_NO varchar(50) NOT NULL,
+  BOOKING_STATUS varchar(30) DEFAULT 'confirmed',
   TOTAL_PRICE int,
+  PAYMENT_STATUS varchar(50),
 
   CONSTRAINT pk_bookingid PRIMARY KEY (Booking_Id),
   CONSTRAINT fk_booking_userid FOREIGN KEY (user_Id) REFERENCES user_details (user_Id) ,
-  CONSTRAINT fk_booking_operatorid FOREIGN KEY (operator_Id) REFERENCES bus_operators (operator_Id) ,
   CONSTRAINT fk_booking_busid FOREIGN KEY (bus_Id) REFERENCES bus_details (bus_Id) 
 );
+
+
+ 
 
 commit;
 
@@ -73,28 +79,41 @@ CREATE TABLE ADMIN_DETAILS (
  CONSTRAINT pk_adminid primary key (Admin_Id),
  CONSTRAINT unique_admin UNIQUE (Admin_Email)
  );
+ 
 
-insert into admin_details (ADMIN_NAME,ADMIN_CONTACT,ADMIN_PASSWORD,ADMIN_EMAIL) values ('abdul',6381151931,'abdul','abduladmin@gmail.com');
+
+
+
+
+
+
+--insert into admin_details (ADMIN_NAME,ADMIN_CONTACT,ADMIN_PASSWORD,ADMIN_EMAIL) values ('abdul',6381151931,'abdul','abduladmin@gmail.com');
+--insert into bus_details (bus_catagory, from_city, to_city, departure, arrival,sleeper_fare, seater_fare, total_seat) values ('super','trichy','bangalore',to_timestamp ( '21-12-2020 12:12', 'DD-MM-YYYY HH24:MI' ),to_timestamp ( '21-12-2020 23:11', 'DD-MM-YYYY HH24:MI' ),234,555,10);
+
 commit;
-desc user_details;
 
+select * from bus_details where to_char(departure,'dd-mm-yyyy')='24-12-2021' and from_city='Madurai' and to_city='Chennai';
+select booking_id from booked_tickets where user_id=21 and booking_date='23-12-21';
 commit;
-drop table bus_details;
-
+drop table booked_tickets cascade constraints;
+drop table user_details;
 select * from user_details;
 select * from bus_operators;
 select  * from bus_details;
 select * from booked_tickets;
+
+update booked_tickets set booking_status='Canceled' where user_id=21 and departure_date= and seat_no=
+
+select bo.booking_id,bo.user_id,bo.booking_date,bo.ticket_count,bo.seat_category,bo.seat_no,bo.booking_status,bo.total_price,
+b.bus_category,b.operator_id,b.bus_id,b.from_city,b.to_city,b.departure,b.arrival from booked_tickets bo,bus_details b;
+
 select * from admin_details;
-
-insert into bus_details (bus_catagory, from_city, to_city, departure, arrival,sleeper_fare, seater_fare, total_seat) values ('super','trichy','bangalore',to_timestamp ( '21-12-2020 12:12', 'DD-MM-YYYY HH24:MI' ),to_timestamp ( '21-12-2020 23:11', 'DD-MM-YYYY HH24:MI' ),234,555,10);
-
-
-commit;
+insert into booked_tickets (user_id,bus_id,ticket_count,seat_no,total_price) values (21,1000,2,1,1000);
+delete from booked_tickets where booking_id=10001;
 
 desc bus_details;
 
-
+select booking_id from booked_tickets where user_id=21 and departure_date='25-12-2021';
 
 
 drop table bus;
@@ -102,10 +121,10 @@ drop table users;
 drop table busoperators;
 drop table ticketBookings;
 
+select * from bus_details where to_char(departure,'dd-mm-yyyy')='24-12-2021' and from_city='Madurai' and to_city='Chennai';
 
 
-
-  
+  select booking_id from booked_tickets where user_id=21 and departure_date='24-12-2021';
 
 
 --
