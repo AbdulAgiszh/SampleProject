@@ -167,9 +167,36 @@ public class BusDao {
 	 
 	 
 	 
+
+		public List<BusModel> searchhBus(LocalDate givenDepartureDate,String fromLocation,String toLocation) 
+		 {
+				String findBus="select * from bus_details where to_char(departure,'yyyy-mm-dd')='"+givenDepartureDate+"' and from_city='"+fromLocation+"' and to_city='"+toLocation+"'";
+				Connection con=null;
+				Statement statement=null;
+				BusModel busModel;
+				List<BusModel> busFilterList=new ArrayList<BusModel>();
+				
+				try {
+					con=ConnectionUtill.connectdb();
+					statement =con.createStatement();
+					ResultSet rs=statement.executeQuery(findBus);
+					while(rs.next()) {					
+						busModel=new BusModel(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
+						busFilterList.add(busModel);
+//						busModel.toString();
+					}
+				} catch (ClassNotFoundException e) {
+					e.getMessage();
+				} catch (SQLException e) {
+					e.getMessage();
+				}	
+				return busFilterList;
+		    }
+		
+		
 	 
 	 
-	 public BusModel getBusById(int busId)  {
+	 public BusModel findBusDetailsUsingID(int busId)  {
 		 String getBus ="select * from bus_details where bus_id=?";
 			Connection con = null;
 			PreparedStatement pstatement=null;

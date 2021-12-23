@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.text.DateFormatter;
+
 import com.blackbus.Dao.AdminDao;
 import com.blackbus.Dao.BookedTicketsDao;
 import com.blackbus.Dao.BusDao;
@@ -32,9 +34,10 @@ public class UserMain {
 		BusDao busDao=new BusDao();
 		BookedTicketsDao bookTicketsDao=new BookedTicketsDao();
 		
-		BookedTicketsModel bookTicketmodel=new BookedTicketsModel();
+		BookedTicketsModel bookTicketModel=new BookedTicketsModel();
 		DateTimeFormatter format=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 		DateTimeFormatter formatDate=DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		
 		Scanner scan = new Scanner(System.in);
 		
 		boolean flag = true;
@@ -95,13 +98,13 @@ public class UserMain {
 									System.out.print("3. To update a admin \n");
 									System.out.print("4. To update a bus \t");
 									System.out.print("5. To update a operator \t");
-									System.out.print("6. To show buslist \n");
-									System.out.print("7. To show operatorList \t");
-									System.out.print("8. To show userlist \t");
-									System.out.print("9. To delete a bus \n");
-									System.out.print("10. To delete a operator \t");
-									System.out.print("11. To delete a user \t");
-									System.out.print("12. To delete a admin \t");
+									System.out.print("6. To show booking list  \n");
+									System.out.print("7. To show buslist \t");
+									System.out.print("8. To show operatorList \t");
+									System.out.print("9. To show userlist \n");
+									System.out.print("10. To delete a bus \t");
+									System.out.print("11. To delete a operator \t");
+									System.out.print("12. To delete a user \t");
 									System.out.println("13. Exit");
 
 									int adminchoice = scan.nextInt();
@@ -203,31 +206,38 @@ public class UserMain {
 										operatorDao.updateOperator(operatorModel2);
 										break;
 									case 6:
+										//System.out.println("--------------Booking list----------------");
+										List<BookedTicketsModel> bookingList=bookTicketsDao.showlistAdmin();
+										for(int i=0;i<bookingList.size();i++) {
+											System.out.println(bookingList.get(i).toStringUser());
+										}
+										break;
+									case 7:
 										//System.out.println("----------------To show buslist----------------------");
 										List<BusModel> listbus=busDao.viewAllBus();
 										for(int i=0;i<listbus.size();i++) {
 											System.out.println(listbus.get(i));
 										}
 										break;
-									case 7:
+									case 8:
 										//System.out.println("----------------To show operatorlist----------------------");
 										List<OperatorModel> listoperator=operatorDao.viewOperator();
 										for (int i=0;i<listoperator.size();i++) {
 											System.out.println(listoperator.get(i));
 										}
 										break;
-									case 8:
+									case 9:
 										//System.out.println("----------------To show userlist----------------------");
 										List<UserModel> listUser=ud.viewUser();
 										for(int i=0;i<listUser.size();i++) {
 											System.out.println(listUser.get(i));
 										}
 										break;
-									case 9:
+									case 10:
 										//System.out.println("----------------To Delete bus----------------------");
 										
 										break;
-									case 10:
+									case 11:
 										//System.out.println("----------------To Delete operator----------------------");
 										System.out.println("Enter the operator id");
 										int operatorId2=scan.nextInt();
@@ -240,16 +250,13 @@ public class UserMain {
 											System.out.println("please enter correct ID");
 										}
 										break;
-									case 11:
+									case 12:
 										//System.out.println("----------------To Delete user----------------------");
 										System.out.println("Enter the user id to delete ");
 										int userId = scan.nextInt();							
 										ud.deleteUser(userId);
 										break;
-									case 12:
-										//System.out.println("----------------To Delete admin----------------------");
 
-										break;
 									case 13:
 										//System.out.println("----------------To exit----------------------");
 
@@ -303,9 +310,9 @@ public class UserMain {
 									System.out.print("1. To update profile \t");
 									System.out.print("2. To search a bus:  \t");
 									System.out.println("3. TO find Invoice :  \t");
-									System.out.println("4. Users booked List : \t");
-									
-									System.out.println("5. Exit");
+									System.out.println("4. To Cancel My Ticket : \t");
+									System.out.println("5. Users booked List : \t");
+									System.out.println("6. Exit");
 									int userchoice = scan.nextInt();
 									scan.nextLine();
 									switch (userchoice) {
@@ -341,7 +348,7 @@ public class UserMain {
 										System.out.println("Enter to location");
 										String toLocation=scan.nextLine();
 										
-										List<BusModel> listFilterBus=bookTicketsDao.searchhBus(givenDepartureDate,fromLocation,toLocation);
+										List<BusModel> listFilterBus=busDao.searchhBus(givenDepartureDate,fromLocation,toLocation);
 										for(int i=0;i<listFilterBus.size();i++) {
 											System.out.println(listFilterBus.get(i));
 										}
@@ -350,7 +357,11 @@ public class UserMain {
 										
 										System.out.println("Enter the bus Id to have a ride to your loved place");
 										int bookBusId=Integer.parseInt(scan.nextLine());
-										BusModel busModel=busDao.getBusById(bookBusId);
+										
+										BusModel busModel=busDao.findBusDetailsUsingID(bookBusId);
+										LocalDateTime date = busModel.getDeparture();
+										LocalDate departureDate=date.toLocalDate();
+										
 										//to find operator
 										OperatorModel bookOperatorModel=operatorDao.getOperatorById(busModel.getoperatorId());
 										System.out.println("Enter the No for class : sleeper or seater");
@@ -378,49 +389,86 @@ public class UserMain {
 										}
 										String bookSeatNo = "";
 										for(int i=0;i<array.length;i++) {
-											bookSeatNo+=array[i]+",";
+											bookSeatNo+=array[i]+" ";
 										}
 										
 										//to find total price
 										int bookTotalPrice=bookTicketCount*ticketPrice;
 										System.out.println("Your total price for travel is : " +bookTotalPrice);
 										
-										 bookTicketmodel=new BookedTicketsModel(userModel,busModel,bookTicketCount,bookSeatNo,bookTotalPrice);
+										System.out.println("-----------Type yes for booking confirmation---------");
+										String confirmation=scan.nextLine().toLowerCase();
+										try {
+										if(confirmation.equals("yes")) {
+										bookTicketModel=new BookedTicketsModel(userModel,busModel,departureDate,bookTicketCount,bookClass,bookSeatNo,bookTotalPrice);
 										
-										boolean result=bookTicketsDao.insertBookedTickets(userModel, busModel, bookTicketmodel);
+										boolean result=bookTicketsDao.insertBookedTickets(userModel, busModel, bookTicketModel);
 										int currentBookingNumber;
 										if(result==true) {
-											System.out.println("Booked successfully register");
-											currentBookingNumber=bookTicketsDao.findBookingId(userModel);
-											System.out.println("Your booking number is : "+currentBookingNumber);
+											System.out.println("---------------Booked successfully-----------------");
 										}
 										else {
 											System.out.println("please give correct value (not booked)");
 										}
+										currentBookingNumber=bookTicketsDao.findBookingId(userModel,bookTicketModel);
+										System.out.println("Your booking Ticket number is : "+currentBookingNumber);
+										System.out.println("please remember your Ticket number for further purpose");
+										}
+										else {
+											System.out.println("Booking was not confirmed...Hurry up!! Only few seats are left");
+										}
+										}catch(Exception e) {
+											System.out.println("The entered value is incorrect");
+										}
+//										\u000d
+										System.out.println(" ");
 										break;
 										
 									case 3:
 										System.out.println("-------------------Invoice---------------------");	
 										BookedTicketsModel bookedTicketsModel=null;
-//										BusModel busModel=null;
-										int bookingTicketNumber=bookTicketsDao.findBookingId(userModel);
-										bookedTicketsModel=bookTicketsDao.findBookedTicketsDetails(userModel);
-										busModel=busDao.getBusById(bookedTicketsModel.getBusModel().getBusId());
+										System.out.println("Enter the Ticket Number");
+										int bookingTicketNumber=(scan.nextInt());
+										bookedTicketsModel=bookTicketsDao.findBookedTicketsDetails(bookingTicketNumber);
+										busModel=busDao.findBusDetailsUsingID(bookedTicketsModel.getBusModel().getBusId());
 										System.out.println("TicketNumber    : " +bookingTicketNumber );
 										System.out.println("Name            : " +userModel.getUserName());
 										System.out.println("Date of Journey : " +busModel.getDeparture());
 										System.out.println("Source          : " +busModel.getFromCity());
 										System.out.println("Destination     : " +busModel.getToCity());
+										System.out.println("Seat Category    : " +bookedTicketsModel.getSeatCategory());
 										System.out.println("Seat NO         : " +bookedTicketsModel.getSeatNo());
 										System.out.println("Total Price     : " +bookedTicketsModel.getTotalPrice());
 										break;
 										
 									case 4:
-										System.out.println("--------users booked List--------------------");
-										List<BookedTicketsModel> bookedList=bookTicketsDao.getBookingModel(userModel);
-										for(int i=0;i<bookedList.size();i++) {
-											System.out.println(bookedList.get(i));
+										System.out.println("--------------Cancel Ticket---------------");
+										System.out.println("Enter your TicketNumber");
+										int cancelTicketNumber;
+										try {
+										cancelTicketNumber=scan.nextInt();
+										bookedTicketsModel=bookTicketsDao.findBookedTicketsDetails(cancelTicketNumber);
+										boolean cancelResult=bookTicketsDao.cancelTicket(userModel,bookedTicketsModel);
+										if(cancelResult==true) {
+											System.out.println("Ticket successfully Cancelled");
 										}
+										else {
+											System.out.println("Ticket cancel process failed");
+										}
+										}catch (Exception e) {
+											System.out.println("Please Enter correct Ticket Number");
+										}
+										break;
+									case 5:
+										System.out.println("--------users booked List--------------------");
+										List<BookedTicketsModel> bookedList=bookTicketsDao.getBookingDetailsForCurrentUser(userModel);
+										for(int i=0;i<bookedList.size();i++) {
+											
+											System.out.println(bookedList.get(i).toStringUser());
+										}
+										break;
+									case 6:
+										System.exit(0);
 										break;
 									default:
 										System.out.println("please enter correct choice number: ");
@@ -534,34 +582,26 @@ public class UserMain {
 	}
 }
 
-//				
-//			
-//				
-//			case 5:
-//				System.out.println("To list users table ");
-//				
-//				
-//			case 6:
-//				System.exit(0);
-//		}
-//		
-//		}
 
-//case 1: 
-//System.out.println("Enter your mobile number or email");
-//String contact=scan.next();
-//if(contact.endsWith("admin@gmail.com")) {
-//	
-//	AdminModule adminmodule= ad.admin(contact);
-//	System.out.println("welcome "+ adminmodule.getAdminName());
-//	
-//}
-//else {
-//	
-//	UserModule usermodule=ud.login(Long.parseLong(contact));
-//	System.out.println("welcome "+ usermodule.getUserName());
-//}
-//
-//
+//invoice sample
+//show all travel booked details for user
+
+//System.out.println("-------------------Invoice---------------------");	
+//BookedTicketsModel bookedTicketsModel=null;
+////BusModel busModel=null;
+//int bookingTicketNumber=bookTicketsDao.findBookingId(userModel);
+//bookedTicketsModel=bookTicketsDao.findBookedTicketsDetails(userModel);
+//busModel=busDao.getBusById(bookedTicketsModel.getBusModel().getBusId());
+//System.out.println("TicketNumber    : " +bookingTicketNumber );
+//System.out.println("Name            : " +userModel.getUserName());
+//System.out.println("Date of Journey : " +busModel.getDeparture());
+//System.out.println("Source          : " +busModel.getFromCity());
+//System.out.println("Destination     : " +busModel.getToCity());
+//System.out.println("Seat NO         : " +bookedTicketsModel.getSeatNo());
+//System.out.println("Total Price     : " +bookedTicketsModel.getTotalPrice());
+//break;
+
+//case 13:
+////System.out.println("----------------To Delete admin----------------------");
 //
 //break;

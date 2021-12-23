@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +21,11 @@ public class BookedTicketsDao {
 	
 	BusDao busDao=new BusDao();
 	UserDao userDao=new UserDao();
+	DateTimeFormatter formatDate=DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	
 	public boolean insertBookedTickets(UserModel userModel,BusModel busModel,BookedTicketsModel bookedTicketsModel)
 	{
-		String ticketsInsert = "insert into Booked_tickets (user_id,bus_id,ticket_count,seat_no,total_price) values (?,?,?,?,?)"; 
+		String ticketsInsert = "insert into Booked_tickets (user_id,bus_id,departure_date,ticket_count,seat_category,seat_no,total_price) values (?,?,?,?,?,?,?)"; 
 		
 		Connection con;
 		int result=0;
@@ -33,9 +36,11 @@ public class BookedTicketsDao {
 			
 			pstatement.setInt(1, userModel.getUserId());
 			pstatement.setInt(2, busModel.getBusId());
-			pstatement.setInt(3, bookedTicketsModel.getTicketCount());
-			pstatement.setString(4, bookedTicketsModel.getSeatNo());
-			pstatement.setInt(5, bookedTicketsModel.getTotalPrice());
+			pstatement.setDate(3,  java.sql.Date.valueOf(bookedTicketsModel.getDepartureDate()));
+			pstatement.setInt(4, bookedTicketsModel.getTicketCount());
+			pstatement.setString(5, bookedTicketsModel.getSeatCategory());
+			pstatement.setString(6, bookedTicketsModel.getSeatNo());
+			pstatement.setInt(7, bookedTicketsModel.getTotalPrice());
 			
 			result=pstatement.executeUpdate();
 		} catch (ClassNotFoundException e) {
@@ -47,70 +52,18 @@ public class BookedTicketsDao {
 	}
 		
 		
-	
+//
+//	public List<BookedTicketsModel> listBookingTickets(){
+//		String bookingList="select "
+//	}
 //	
-//	public void userInvoice(UserModel userModel,BusModel busModel,BookedTicketsModel bookedTicketModel) {
-//		System.out.println("Name : "+ userModel.getUserName());
-//		System.out.println("");
-//	}
-//		
-
+	
+	
+	public int findBookingId(UserModel userModel, BookedTicketsModel bookedTicketsModel) {
 		
-	
-	
-	
-	public List<BusModel> searchhBus(LocalDate givenDepartureDate,String fromLocation,String toLocation) 
-	 {
-			String findBus="select * from bus_details where to_char(departure,'yyyy-mm-dd')='"+givenDepartureDate+"' and from_city='"+fromLocation+"' and to_city='"+toLocation+"'";
-			Connection con=null;
-			Statement statement=null;
-			BusModel busModel;
-			List<BusModel> busFilterList=new ArrayList<BusModel>();
-			
-			try {
-				con=ConnectionUtill.connectdb();
-				statement =con.createStatement();
-				ResultSet rs=statement.executeQuery(findBus);
-				while(rs.next()) {					
-					busModel=new BusModel(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
-					busFilterList.add(busModel);
-//					busModel.toString();
-				}
-			} catch (ClassNotFoundException e) {
-				e.getMessage();
-			} catch (SQLException e) {
-				e.getMessage();
-			}	
-			return busFilterList;
-	    }
-	
-//	public BookedTicketsModel findBookedTicketsDetails(int bookingId) {
-//		String detailsBooked="select * from booked_tickets where booking_id='"+bookingId+"'";
-//		
-//		Connection con;
-//		PreparedStatement pstatement;
-//		BookedTicketsModel bookedTicketsModel1=null;
-//		BookedTicketsModel bookedTicketsModel = 0;
-//		try {
-//			con=ConnectionUtill.connectdb();
-//			pstatement=con.prepareStatement(detailsBooked);
-//			ResultSet rs=pstatement.executeQuery();
-//			if(rs.next()) {
-//				bookedTicketsModel= new BookedTicketsModel
-//			}
-//		} catch (ClassNotFoundException e) {
-//			e.getMessage();
-//		} catch (SQLException e) {
-//			e.getMessage();
-//		}
-//		return bookedTicketsModel;
-//	}
-	
-	public int findBookingId(UserModel userModel) {
-		String bookingIdFinder="select booking_id from booked_tickets where user_id='"+userModel.getUserId()+"'";
+		String bookingIdFinder="select booking_id from booked_tickets where user_id='"+userModel.getUserId()+"' and to_char(departure_date,'yyyy-mm-dd')='"+bookedTicketsModel.getDepartureDate()+"' and seat_no='"+bookedTicketsModel.getSeatNo()+"' ";
 		Connection con;
 		PreparedStatement pstatement;
-		BookedTicketsModel bookedTicketsModel1=null;
 		int bookingId = 0;
 		try {
 			con=ConnectionUtill.connectdb();
@@ -119,6 +72,7 @@ public class BookedTicketsDao {
 			if(rs.next()) {
 				bookingId=rs.getInt(1);
 			}
+			
 		} catch (ClassNotFoundException e) {
 			e.getMessage();
 		} catch (SQLException e) {
@@ -129,7 +83,8 @@ public class BookedTicketsDao {
 	}
 
 	
-	public List<BookedTicketsModel> getBookingModel(UserModel userModel) {
+	//to show all booking for particular user
+	public List<BookedTicketsModel> getBookingDetailsForCurrentUser(UserModel userModel) {
 		String query="select * from booked_tickets where user_id='"+userModel.getUserId()+"'";
 		
 		Connection con;
@@ -145,9 +100,9 @@ public class BookedTicketsDao {
 			rs=pstatement.executeQuery();
 			
 			while(rs.next()) {
-				busModel=busDao.getBusById(rs.getInt(3));
+				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
 				userModel1=userDao.getUserById(userModel.getUserId());
-				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getInt(5),rs.getString(6),rs.getString(7),rs.getInt(8));
+				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10));
 				bookingList.add(bookedTicketsModel);
 				
 			}	
@@ -162,25 +117,25 @@ public class BookedTicketsDao {
 	}
 	
 	
-	
-	public BookedTicketsModel findBookedTicketsDetails(UserModel userModel) {
-		String query="select * from booked_tickets where user_id='"+userModel.getUserId()+"'";
+	//user for invoice to collect booked tickets full details by using booking id or booking number
+	public BookedTicketsModel findBookedTicketsDetails(int bookingId) {
+		String findTicketDetails="select * from booked_tickets where booking_id='"+bookingId+"'";
 		
 		Connection con;
 		PreparedStatement pstatement;
 		ResultSet rs;
 		BusModel busModel=null;
-		UserModel userModel1=null;
+		UserModel userModel=null;
 		BookedTicketsModel bookedTicketsModel=null;
 		try {
 			con=ConnectionUtill.connectdb();
-			pstatement=con.prepareStatement(query);
+			pstatement=con.prepareStatement(findTicketDetails);
 			rs=pstatement.executeQuery();
 			
 			if(rs.next()) {
-				busModel=busDao.getBusById(rs.getInt(3));
-				userModel1=userDao.getUserById(userModel.getUserId());
-				bookedTicketsModel=new BookedTicketsModel(userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getInt(5),rs.getString(6),rs.getString(7),rs.getInt(8));
+				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
+				userModel=userDao.getUserById(rs.getInt(2));
+				bookedTicketsModel=new BookedTicketsModel(userModel,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10));
 				
 			}	
 			
@@ -193,6 +148,69 @@ public class BookedTicketsDao {
 		return bookedTicketsModel;
 	}
 	
+	
+	
+	public boolean cancelTicket(UserModel userModel,BookedTicketsModel bookedTicketsModel) {
+		String ticketCancel="update booked_tickets set booking_status='Cancelled' where user_id='"+userModel.getUserId()+"' and to_char(departure_date,'yyyy-mm-dd')='"+bookedTicketsModel.getDepartureDate()+"' and seat_no='"+bookedTicketsModel.getSeatNo()+"' ";
+		int result = 0;
+		try {
+			Connection con=ConnectionUtill.connectdb();
+			PreparedStatement pstatement=con.prepareStatement(ticketCancel);
+			result=pstatement.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.getMessage();
+		} catch (SQLException e) {
+			e.getMessage();
+			System.out.println("invalid Ticket number");
+		}
+		return result>0;
+		
+	}
+	
+	
+	public List<BookedTicketsModel> showlistAdmin() {
+		
+        String showQuery="select * from booked_tickets";
+		
+		Connection con;
+		PreparedStatement pstatement;
+		ResultSet rs;
+		BusModel busModel=null;
+		UserModel userModel1=null;
+		List<BookedTicketsModel> bookingListAdmin=new ArrayList<BookedTicketsModel>();
+		
+		try {
+			con=ConnectionUtill.connectdb();
+			pstatement=con.prepareStatement(showQuery);
+			rs=pstatement.executeQuery();
+			
+			while(rs.next()) { 
+				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
+				userModel1=userDao.getUserById(rs.getInt(2));
+				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10));
+				bookingListAdmin.add(bookedTicketsModel);
+			
+			}	
+			
+		} catch (ClassNotFoundException e) {
+			e.getMessage();
+		} catch (SQLException e) {
+			e.getMessage();
+		}
+		
+		return bookingListAdmin;
+	}
+	}
+	
+	
+	
+	
+
+
+
+
+
+
 	//public class ProductDao {
 //	
 //	public List<ProductModule> viewProduts()
@@ -218,4 +236,27 @@ public class BookedTicketsDao {
 //		return productList;
 //	
 //	}
-}
+
+
+
+//public BookedTicketsModel findBookedTicketsDetails(int bookingId) {
+//String detailsBooked="select * from booked_tickets where booking_id='"+bookingId+"'";
+//
+//Connection con;
+//PreparedStatement pstatement;
+//BookedTicketsModel bookedTicketsModel1=null;
+//BookedTicketsModel bookedTicketsModel = 0;
+//try {
+//	con=ConnectionUtill.connectdb();
+//	pstatement=con.prepareStatement(detailsBooked);
+//	ResultSet rs=pstatement.executeQuery();
+//	if(rs.next()) {
+//		bookedTicketsModel= new BookedTicketsModel
+//	}
+//} catch (ClassNotFoundException e) {
+//	e.getMessage();
+//} catch (SQLException e) {
+//	e.getMessage();
+//}
+//return bookedTicketsModel;
+//}

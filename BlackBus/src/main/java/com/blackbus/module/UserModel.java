@@ -66,6 +66,7 @@ public class UserModel {
 	}
 
 	public String getUserName() {
+		System.out.println(userName);
 		return userName;
 	}
 
