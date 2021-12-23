@@ -23,6 +23,7 @@ public class BookedTicketsDao {
 	UserDao userDao=new UserDao();
 	DateTimeFormatter formatDate=DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	
+	
 	public boolean insertBookedTickets(UserModel userModel,BusModel busModel,BookedTicketsModel bookedTicketsModel)
 	{
 		String ticketsInsert = "insert into Booked_tickets (user_id,bus_id,departure_date,ticket_count,seat_category,seat_no,total_price) values (?,?,?,?,?,?,?)"; 
@@ -41,7 +42,6 @@ public class BookedTicketsDao {
 			pstatement.setString(5, bookedTicketsModel.getSeatCategory());
 			pstatement.setString(6, bookedTicketsModel.getSeatNo());
 			pstatement.setInt(7, bookedTicketsModel.getTotalPrice());
-			
 			result=pstatement.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			e.getMessage();
@@ -101,8 +101,8 @@ public class BookedTicketsDao {
 			
 			while(rs.next()) {
 				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
-				userModel1=userDao.getUserById(userModel.getUserId());
-				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10));
+				userModel1=userDao.getUserDetailsById(userModel.getUserId());
+				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(rs.getInt(1),userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11));
 				bookingList.add(bookedTicketsModel);
 				
 			}	
@@ -134,8 +134,8 @@ public class BookedTicketsDao {
 			
 			if(rs.next()) {
 				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
-				userModel=userDao.getUserById(rs.getInt(2));
-				bookedTicketsModel=new BookedTicketsModel(userModel,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10));
+				userModel=userDao.getUserDetailsById(rs.getInt(2));
+				bookedTicketsModel=new BookedTicketsModel(rs.getInt(1),userModel,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11));
 				
 			}	
 			
@@ -151,7 +151,7 @@ public class BookedTicketsDao {
 	
 	
 	public boolean cancelTicket(UserModel userModel,BookedTicketsModel bookedTicketsModel) {
-		String ticketCancel="update booked_tickets set booking_status='Cancelled' where user_id='"+userModel.getUserId()+"' and to_char(departure_date,'yyyy-mm-dd')='"+bookedTicketsModel.getDepartureDate()+"' and seat_no='"+bookedTicketsModel.getSeatNo()+"' ";
+		String ticketCancel="update booked_tickets set booking_status='Cancelled',payment_status='refund' where user_id='"+userModel.getUserId()+"' and to_char(departure_date,'yyyy-mm-dd')='"+bookedTicketsModel.getDepartureDate()+"' and seat_no='"+bookedTicketsModel.getSeatNo()+"' ";
 		int result = 0;
 		try {
 			Connection con=ConnectionUtill.connectdb();
@@ -186,8 +186,8 @@ public class BookedTicketsDao {
 			
 			while(rs.next()) { 
 				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
-				userModel1=userDao.getUserById(rs.getInt(2));
-				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10));
+				userModel1=userDao.getUserDetailsById(rs.getInt(2));
+				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(rs.getInt(1),userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11));
 				bookingListAdmin.add(bookedTicketsModel);
 			
 			}	
@@ -200,63 +200,10 @@ public class BookedTicketsDao {
 		
 		return bookingListAdmin;
 	}
+	
+	
 	}
 	
 	
 	
-	
 
-
-
-
-
-
-	//public class ProductDao {
-//	
-//	public List<ProductModule> viewProduts()
-//	{
-//		String viewQuery="select * from products";
-//		Connection con=GetConnection.getDBconnect();
-//		List<ProductModule> productList=new ArrayList<ProductModule>();
-//		try {
-//			Statement smt = con.createStatement();
-//			ResultSet rs= smt.executeQuery(viewQuery);
-//			
-//			while(rs.next()) {
-//				ProductModule product=new ProductModule(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getInt(5),
-//						rs.getInt(6),rs.getString(7));
-//				productList.add(product);				
-//			}
-//			
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			System.out.println(e.getMessage());
-//		}
-//	
-//		return productList;
-//	
-//	}
-
-
-
-//public BookedTicketsModel findBookedTicketsDetails(int bookingId) {
-//String detailsBooked="select * from booked_tickets where booking_id='"+bookingId+"'";
-//
-//Connection con;
-//PreparedStatement pstatement;
-//BookedTicketsModel bookedTicketsModel1=null;
-//BookedTicketsModel bookedTicketsModel = 0;
-//try {
-//	con=ConnectionUtill.connectdb();
-//	pstatement=con.prepareStatement(detailsBooked);
-//	ResultSet rs=pstatement.executeQuery();
-//	if(rs.next()) {
-//		bookedTicketsModel= new BookedTicketsModel
-//	}
-//} catch (ClassNotFoundException e) {
-//	e.getMessage();
-//} catch (SQLException e) {
-//	e.getMessage();
-//}
-//return bookedTicketsModel;
-//}

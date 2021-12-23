@@ -24,7 +24,7 @@ public class UserDao {
 			ResultSet rs=st.executeQuery(userLogin);
 			
 			rs.next() ;
-			UserModel userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7));
+			UserModel userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8));
 			con.close();
 			pstatement.close();
 				return userModel;
@@ -76,7 +76,7 @@ public class UserDao {
 	
 	
 	
-    public void updateUser (UserModel userModel) throws ClassNotFoundException, SQLException {
+    public void updateUser(UserModel userModel) throws ClassNotFoundException, SQLException {
     	
     	String userUpdate="update user_details set user_name=?, user_age=?, user_gender=?, user_password=? where user_contact='"+userModel.getUserContact()+"'";
     	
@@ -96,14 +96,14 @@ public class UserDao {
 	
    
 	
-    public void deleteUser (int userId) throws ClassNotFoundException, SQLException {
+    public void deleteUser (UserModel userModel) throws ClassNotFoundException, SQLException {
 		
 		String userDelete="delete from user_details where user_id=?";
 		
 		Connection con=ConnectionUtill.connectdb();
 		PreparedStatement pstatement=con.prepareStatement(userDelete);
 		
-		pstatement.setInt(1, userId);
+		pstatement.setInt(1, userModel.getUserId());
 		int result=pstatement.executeUpdate();
 		if(result==1) {
 		System.out.println(" Successfully deleted");
@@ -118,7 +118,7 @@ public class UserDao {
     
     
     
-    public List<UserModel> viewUser(){
+    public List<UserModel> viewUserDetails(){
     	
     	String userView="select * from user_details";
     	
@@ -126,13 +126,12 @@ public class UserDao {
     	List<UserModel> userList=new ArrayList<UserModel>();
 		try {
 			con = ConnectionUtill.connectdb();
-			PreparedStatement ps=con.prepareStatement(userView);
+			PreparedStatement pstatement=con.prepareStatement(userView);
 			
-			Statement pstatement=con.createStatement();
 			ResultSet rs=pstatement.executeQuery(userView);
 			
 			while(rs.next()) {
-				UserModel userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7));
+				UserModel userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8));
 				userList.add(userModel);
 			}
 			con.close();
@@ -148,8 +147,30 @@ public class UserDao {
     }
     
     
+    public boolean updateWallet(int updatedWallet,long userContact) {
+    	String wallet="update user_details set user_wallet=? where user_contact=?";
+    	
+    	Connection con;
+    	PreparedStatement pstatement;
+    	int result = 0;
+    	try {
+			con=ConnectionUtill.connectdb();
+			pstatement=con.prepareStatement(wallet);
+			
+			pstatement.setInt(1, updatedWallet);
+			pstatement.setLong(2, userContact);
+			result=pstatement.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			e.getMessage();
+		} catch (SQLException e) {
+			e.getMessage();
+		}
+    	return result>0;
+    	
+    }
     
-public UserModel getUserById(int userId) throws SQLException  {
+    
+    public UserModel getUserDetailsById(int userId) throws SQLException  {
 		
 		String getUser ="select * from user_details where user_id=?";
 		Connection con = null;
@@ -163,7 +184,7 @@ public UserModel getUserById(int userId) throws SQLException  {
 			ResultSet rs = pstatement.executeQuery();
 			
 			 if (rs.next()) {
-				 userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7));
+				 userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8));
 				}
 			con.close();
 			pstatement.close();
@@ -176,12 +197,6 @@ public UserModel getUserById(int userId) throws SQLException  {
 
 	}
     
-//    public UserModel getUserIdByContact (long contact) {
-//    	
-//    	String userIdGetting=""
-//    }
-//    
 
- 
     
 }

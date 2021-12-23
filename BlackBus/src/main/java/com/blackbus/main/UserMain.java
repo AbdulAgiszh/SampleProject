@@ -28,8 +28,8 @@ public class UserMain {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 
-		UserDao ud = new UserDao();
-		AdminDao ad = new AdminDao();
+		UserDao userDao = new UserDao();
+		AdminDao adminDao = new AdminDao();
 		OperatorDao operatorDao=new OperatorDao();
 		BusDao busDao=new BusDao();
 		BookedTicketsDao bookTicketsDao=new BookedTicketsDao();
@@ -80,10 +80,10 @@ public class UserMain {
 					
 						//to check admin is entering valid id or not according to db values
 						boolean adminloginflag;
-						adminloginflag=ad.checkadmin(contact);
+						adminloginflag=adminDao.checkadmin(contact);
 						if(adminloginflag) {
 						
-						AdminModel adminmodel = ad.adminLogin(contact);
+						AdminModel adminmodel = adminDao.adminLogin(contact);
 						do { // admin password validation
 							if (adminmodel.getAdminPassword().equals(pass)) {
 								System.out.println("welcome " + adminmodel.getAdminName());
@@ -159,7 +159,7 @@ public class UserMain {
 										System.out.println("update the admin password");
 										String adminPassword=scan.nextLine();
 										AdminModel adminModel=new AdminModel(adminName,adminContact,adminPassword,adminmodel.getAdminEmail());
-										ad.updateAdmin(adminModel);
+										adminDao.updateAdmin(adminModel);
 										break;
 									case 4:
 										//System.out.println("----------------To update bus----------------------");
@@ -228,7 +228,7 @@ public class UserMain {
 										break;
 									case 9:
 										//System.out.println("----------------To show userlist----------------------");
-										List<UserModel> listUser=ud.viewUser();
+										List<UserModel> listUser=userDao.viewUserDetails();
 										for(int i=0;i<listUser.size();i++) {
 											System.out.println(listUser.get(i));
 										}
@@ -251,11 +251,7 @@ public class UserMain {
 										}
 										break;
 									case 12:
-										//System.out.println("----------------To Delete user----------------------");
-										System.out.println("Enter the user id to delete ");
-										int userId = scan.nextInt();							
-										ud.deleteUser(userId);
-										break;
+										
 
 									case 13:
 										//System.out.println("----------------To exit----------------------");
@@ -292,12 +288,12 @@ public class UserMain {
 				    //contact
 						boolean userloginflag;
 						long num21=Long.parseLong(contact);
-						userloginflag=ud.checkUser(num21);
+						userloginflag=userDao.checkUser(num21);
 						if(userloginflag) {
 						
 						
 						
-						UserModel userModel = ud.loginUser(Long.parseLong(contact));
+						UserModel userModel = userDao.loginUser(Long.parseLong(contact));
 						// user password verification
 						do {
 							if (userModel.getUserPassword().equals(pass)) {
@@ -307,12 +303,15 @@ public class UserMain {
 								// switch case for user to perform
 								do {
 									System.out.println("--------------------click the Number to perform the action-------------------");
-									System.out.print("1. To update profile \t");
-									System.out.print("2. To search a bus:  \t");
-									System.out.println("3. TO find Invoice :  \t");
-									System.out.println("4. To Cancel My Ticket : \t");
-									System.out.println("5. Users booked List : \t");
-									System.out.println("6. Exit");
+									System.out.println("1. To update profile ");
+									System.out.println("2. To search a bus:  ");
+									System.out.println("3. TO find Invoice :  ");
+									System.out.println("4. To Cancel My Ticket : ");
+									System.out.println("5. To update wallet (credit) : ");
+									System.out.println("6. View Balance in Wallet");
+									System.out.println("7. Users booked List : ");
+									System.out.println("8. To Delete my profile");
+									System.out.println("9. Exit");
 									int userchoice = scan.nextInt();
 									scan.nextLine();
 									switch (userchoice) {
@@ -335,8 +334,8 @@ public class UserMain {
 										String userPassword1 = scan.nextLine();
 
 										UserModel usermodule1 = new UserModel(userName1, userAge1, userEmail1,
-												userContact1, userGender1, userPassword1);
-										ud.updateUser(usermodule1);
+										userContact1, userGender1, userPassword1);
+										userDao.updateUser(usermodule1);
 										break;
 									case 2:
 										//System.out.println("------------------To search bus-------------------");
@@ -398,13 +397,19 @@ public class UserMain {
 										
 										System.out.println("-----------Type yes for booking confirmation---------");
 										String confirmation=scan.nextLine().toLowerCase();
+										System.out.println("Current balance in your wallet is : "+userModel.getUserWallet());
 										try {
 										if(confirmation.equals("yes")) {
+											if(userModel.getUserWallet()>=bookTotalPrice){
 										bookTicketModel=new BookedTicketsModel(userModel,busModel,departureDate,bookTicketCount,bookClass,bookSeatNo,bookTotalPrice);
 										
 										boolean result=bookTicketsDao.insertBookedTickets(userModel, busModel, bookTicketModel);
 										int currentBookingNumber;
+										
 										if(result==true) {
+											//to reduce wallet amount according to ticket amount
+											int updatedBalanceAfterBooking=userModel.getUserWallet()-bookTotalPrice;
+											userDao.updateWallet(updatedBalanceAfterBooking, userModel.getUserContact());
 											System.out.println("---------------Booked successfully-----------------");
 										}
 										else {
@@ -414,14 +419,36 @@ public class UserMain {
 										System.out.println("Your booking Ticket number is : "+currentBookingNumber);
 										System.out.println("please remember your Ticket number for further purpose");
 										}
+										
+										else {
+											System.out.println("Insufficient balance....please recharge your wallet");
+										
+										System.out.println("Press 9 to recharge your wallet now");
+										int rechargeWalletChoiceAfterInsufficient=scan.nextInt();
+										if(rechargeWalletChoiceAfterInsufficient==9) {
+											//System.out.println("Your current Balance is : " +userModel.getUserWallet());
+											System.out.println("Enter the amount to be add to your wallet");
+											int addedAmountInBooking=scan.nextInt();
+											int totalAmountInBooking=addedAmountInBooking+userModel.getUserWallet();											
+											boolean resultWallet=userDao.updateWallet(totalAmountInBooking, userModel.getUserContact());
+											if(resultWallet==true) {
+												System.out.println("update successfully");
+												//System.out.println("Your current balance is : " +userModel.getUserWallet());
+											}
+											else {
+												System.out.println("Money is Not updated...something went wrong");
+											}
+										}
+										}
+										}
 										else {
 											System.out.println("Booking was not confirmed...Hurry up!! Only few seats are left");
 										}
-										}catch(Exception e) {
+										}
+										catch(Exception e) {
 											System.out.println("The entered value is incorrect");
 										}
 //										\u000d
-										System.out.println(" ");
 										break;
 										
 									case 3:
@@ -460,14 +487,55 @@ public class UserMain {
 										}
 										break;
 									case 5:
+										System.out.println("-----------To update wallet---------------");
+										System.out.println("Your current Available Balance in " +userModel.getUserContact()+ "is : "+ userModel.getUserWallet());
+										System.out.println("press 1 to add amount in your wallet");
+										int walletChoice=scan.nextInt();
+										if(walletChoice==1) {
+										System.out.println("Enter the amount to be credit in your wallet: ");
+										int toAddBalance=scan.nextInt();
+										int updatedWallet=userModel.getUserWallet()+toAddBalance;
+										boolean resultWallet=userDao.updateWallet(updatedWallet,userModel.getUserContact());
+										if(resultWallet==true) {
+											System.out.println("update successfully");
+											System.out.println("Your current balance is : " +updatedWallet);
+										}
+										else {
+											System.out.println("Money is Not updated...something went wrong");
+										}
+										}
+										break;
+									case 6:
+										//System.out.println("-------------To view Balance------------------");
+										userModel=userDao.getUserDetailsById(userModel.getUserId());
+										System.out.println("Available Balance : "+userModel.getUserWallet());
+										break;
+									case 7:
 										System.out.println("--------users booked List--------------------");
 										List<BookedTicketsModel> bookedList=bookTicketsDao.getBookingDetailsForCurrentUser(userModel);
 										for(int i=0;i<bookedList.size();i++) {
 											
 											System.out.println(bookedList.get(i).toStringUser());
 										}
+										System.out.println(" ");
 										break;
-									case 6:
+										
+									case 8:
+										//System.out.println("----------------To Delete user----------------------");
+										System.out.println("Do you want to delete your account....to confirm type <yes> or type <no>");	
+										try {
+										String confirmDelete=scan.nextLine().toLowerCase();
+										if(confirmDelete.equals("yes")) {
+											userDao.deleteUser(userModel);
+										}
+										else if(confirmDelete.equals("no")) {
+											System.out.println("Your account is not deleted");
+										}
+										}catch(Exception e) {
+											System.out.println("please type correct one to delete");
+										}
+										break;
+									case 9:
 										System.exit(0);
 										break;
 									default:
@@ -560,9 +628,11 @@ public class UserMain {
 						}
 					} while (userpass);
 
-					UserModel usermodule1 = new UserModel(userName, userAge, userEmail, userContact, userGender,
+					UserModel userModel = new UserModel(userName, userAge, userEmail, userContact, userGender,
 							userPassword);
-					ud.registrationUser(usermodule1);
+					userDao.registrationUser(userModel);
+					System.out.println("Your login Id is : " + userModel.getUserContact());
+					System.out.println(" ");
 					break;
 				}
 
