@@ -13,11 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blackbus.connection.ConnectionUtill;
+import com.blackbus.daoInterface.BusDaoInterface;
 import com.blackbus.module.BusModel;
 import com.blackbus.module.OperatorModel;
 import com.blackbus.module.UserModel;
 
-public class BusDao {
+public class BusDao implements BusDaoInterface {
 
 	SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy hh:mm");
 	

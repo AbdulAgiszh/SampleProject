@@ -13,19 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blackbus.connection.ConnectionUtill;
+import com.blackbus.daoInterface.BookedTicketsDaoInterface;
 import com.blackbus.module.BookedTicketsModel;
 import com.blackbus.module.BusModel;
 import com.blackbus.module.UserModel;
 
-public class BookedTicketsDao {
+public class BookedTicketsDao implements BookedTicketsDaoInterface {
 	
 	BusDao busDao=new BusDao();
 	UserDao userDao=new UserDao();
 	DateTimeFormatter formatDate=DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	
 	
-	public boolean insertBookedTickets(UserModel userModel,BusModel busModel,BookedTicketsModel bookedTicketsModel)
-	{
+	public boolean insertBookedTickets(UserModel userModel,BusModel busModel,BookedTicketsModel bookedTicketsModel) {
 		String ticketsInsert = "insert into Booked_tickets (user_id,bus_id,departure_date,ticket_count,seat_category,seat_no,total_price) values (?,?,?,?,?,?,?)"; 
 		
 		Connection con;
@@ -151,7 +151,7 @@ public class BookedTicketsDao {
 	
 	
 	public boolean cancelTicket(UserModel userModel,BookedTicketsModel bookedTicketsModel) {
-		String ticketCancel="update booked_tickets set booking_status='Cancelled',payment_status='refund' where user_id='"+userModel.getUserId()+"' and to_char(departure_date,'yyyy-mm-dd')='"+bookedTicketsModel.getDepartureDate()+"' and seat_no='"+bookedTicketsModel.getSeatNo()+"' ";
+		String ticketCancel="update booked_tickets set booking_status='Cancelled',payment_status='refunded' where user_id='"+userModel.getUserId()+"' and to_char(departure_date,'yyyy-mm-dd')='"+bookedTicketsModel.getDepartureDate()+"' and seat_no='"+bookedTicketsModel.getSeatNo()+"' ";
 		int result = 0;
 		try {
 			Connection con=ConnectionUtill.connectdb();
@@ -176,7 +176,7 @@ public class BookedTicketsDao {
 		PreparedStatement pstatement;
 		ResultSet rs;
 		BusModel busModel=null;
-		UserModel userModel1=null;
+		UserModel userModel=null;
 		List<BookedTicketsModel> bookingListAdmin=new ArrayList<BookedTicketsModel>();
 		
 		try {
@@ -186,8 +186,8 @@ public class BookedTicketsDao {
 			
 			while(rs.next()) { 
 				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
-				userModel1=userDao.getUserDetailsById(rs.getInt(2));
-				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(rs.getInt(1),userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11));
+				userModel=userDao.getUserDetailsById(rs.getInt(2));
+				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(rs.getInt(1),userModel,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11));
 				bookingListAdmin.add(bookedTicketsModel);
 			
 			}	

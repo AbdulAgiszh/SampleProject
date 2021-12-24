@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blackbus.connection.ConnectionUtill;
+import com.blackbus.daoInterface.AdminDaoInterface;
 import com.blackbus.module.AdminModel;
 
 import com.blackbus.module.UserModel;
 
-public class AdminDao {
+public class AdminDao implements AdminDaoInterface {
 
 	public AdminModel adminLogin(String contact)  {
 		
@@ -23,38 +24,43 @@ public class AdminDao {
 		try {
 			con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement=con.prepareStatement(loginadmin);
-			Statement statement=con.createStatement();
-			ResultSet rs=statement.executeQuery(loginadmin);
+			ResultSet rs=pstatement.executeQuery();
 			
 			rs.next() ;
 				adminmodule=new AdminModel(rs.getString(2),rs.getLong(3),rs.getString(4),rs.getString(5));
 			
 			
 		} catch (ClassNotFoundException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
 		
 		return adminmodule;
 	}
 	
-	public boolean checkadmin(String contact) throws ClassNotFoundException, SQLException {
+	public boolean checkadmin(String contact)  {
 		 
 		String loginadmin="select * from admin_details where admin_email='"+contact+"'";
-		Connection con=ConnectionUtill.connectdb();
-		PreparedStatement ps=con.prepareStatement(loginadmin);
-		
-		Statement st=con.createStatement();
-		
-		int i=st.executeUpdate(loginadmin);
-		
-		if(i>0) {
-			return true;
+		Connection con;
+		boolean checkAdminFlag=true;
+		try {
+			con = ConnectionUtill.connectdb();
+			PreparedStatement ps=con.prepareStatement(loginadmin);
+			int i=ps.executeUpdate();
+			
+			if(i>0) {
+				checkAdminFlag= true;
+			}
+			else {
+				checkAdminFlag= false;	
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 		}
-		else {
-			return false;	
-		}
+		return checkAdminFlag;
 	}
 	
 	
@@ -76,9 +82,9 @@ public void updateAdmin (AdminModel AdminModel) {
 			pstatement.close();
 			con.close();
 		} catch (ClassNotFoundException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
 		
     }
@@ -92,10 +98,9 @@ public List<AdminModel> viewAdmin(){
     	List<AdminModel> adminList=new ArrayList<AdminModel>();
 		try {
 			con = ConnectionUtill.connectdb();
-			PreparedStatement ps=con.prepareStatement(adminView);
+			PreparedStatement pstatement=con.prepareStatement(adminView);
 			
-			Statement statement=con.createStatement();
-			ResultSet rs=statement.executeQuery(adminView);
+			ResultSet rs=pstatement.executeQuery();
 			
 			while(rs.next()) {
 				AdminModel adminModel=new AdminModel(rs.getString(2),rs.getLong(3),rs.getString(4),rs.getString(5));
@@ -103,7 +108,7 @@ public List<AdminModel> viewAdmin(){
 			}
 			
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

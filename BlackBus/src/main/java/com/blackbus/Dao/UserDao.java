@@ -5,115 +5,157 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blackbus.connection.ConnectionUtill;
+import com.blackbus.daoInterface.UserDaoInterface;
 import com.blackbus.module.AdminModel;
 import com.blackbus.module.OperatorModel;
 import com.blackbus.module.UserModel;
 
 
 
-public class UserDao {
+public class UserDao implements UserDaoInterface {
 	
 		
-		 public UserModel loginUser(long contact) throws ClassNotFoundException, SQLException {
+		 public UserModel loginUser(long contact) {
 			 
 			String userLogin="select * from user_details where user_contact='"+contact+"'";
-			Connection con=ConnectionUtill.connectdb();
-			PreparedStatement pstatement=con.prepareStatement(userLogin);
+			Connection con;
+			UserModel userModel = null;
+			try {
+				con = ConnectionUtill.connectdb();
+				PreparedStatement pstatement=con.prepareStatement(userLogin);
+				
+				Statement st=con.createStatement();
+				ResultSet rs=st.executeQuery(userLogin);
+				
+				rs.next() ;
+				userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8));
+				con.close();
+				pstatement.close();
+			} catch (ClassNotFoundException e) {
+				e.getMessage();
+			} catch (SQLException e) {
+				e.getMessage();
+			}
 			
-			Statement st=con.createStatement();
-			ResultSet rs=st.executeQuery(userLogin);
-			
-			rs.next() ;
-			UserModel userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8));
-			con.close();
-			pstatement.close();
 				return userModel;
 		}
 		 
 		 
-		 public boolean checkUser(long contact) throws ClassNotFoundException, SQLException {
+		 public boolean checkUser(long contact)  {
 			 
 				String userLogin="select * from user_details where user_contact='"+contact+"'";
-				Connection con=ConnectionUtill.connectdb();
-				PreparedStatement pstatement=con.prepareStatement(userLogin);
-				
-				Statement statement=con.createStatement();
-				int i=pstatement.executeUpdate(userLogin);
-				if(i>0) {
-					return true;
+				Connection con;
+				boolean checkUserFlag=true;
+				try {
+					con = ConnectionUtill.connectdb();
+					PreparedStatement pstatement=con.prepareStatement(userLogin);
+					
+					int i=pstatement.executeUpdate(userLogin);
+					if(i>0) {
+						checkUserFlag=true;
+					}
+					else {
+						checkUserFlag=false;	
+					}
+				} catch (ClassNotFoundException e) {
+					e.getMessage();
+				} catch (SQLException e) {
+					e.getMessage();
 				}
-				else {
-					return false;	
-				}
 				
+				return checkUserFlag;
 			}
 		
 	
 	
-	public void registrationUser(UserModel userModel) throws ClassNotFoundException, SQLException {
+	public void registrationUser(UserModel userModel) {
 		
 		String insertUser="insert into user_details (user_name,user_age,user_email,user_contact,user_gender,user_password) values (?,?,?,?,?,?)";
-		Connection con=ConnectionUtill.connectdb();
-		PreparedStatement pstatement=con.prepareStatement(insertUser);
-	
-		pstatement.setString(1,userModel.getUserName());
-		pstatement.setInt(2,userModel.getUserAge());
-		pstatement.setString(3, userModel.getUserEmail());
-		pstatement.setLong(4,userModel.getUserContact());
-		pstatement.setString(5,userModel.getUserGender());
-		pstatement.setString(6, userModel.getUserPassword());
-	
-		int result=pstatement.executeUpdate();
-		if(result==1) {
-		System.out.println( "Your Have Registered Successfully!!");
-		pstatement.close();
-		con.close();
+		Connection con;
+		try {
+			con = ConnectionUtill.connectdb();
+			PreparedStatement pstatement=con.prepareStatement(insertUser);
+			
+			pstatement.setString(1,userModel.getUserName());
+			pstatement.setInt(2,userModel.getUserAge());
+			pstatement.setString(3, userModel.getUserEmail());
+			pstatement.setLong(4,userModel.getUserContact());
+			pstatement.setString(5,userModel.getUserGender());
+			pstatement.setString(6, userModel.getUserPassword());
+		
+			int result=pstatement.executeUpdate();
+			if(result==1) {
+			System.out.println( "Your Have Registered Successfully!!");
+			pstatement.close();
+			con.close();
+			}
+			else {
+				System.out.println("your record has not registered");
+			}
+		} catch (ClassNotFoundException e) {
+			e.getMessage();
+		} catch (SQLException e) {
+			e.getMessage();
 		}
-		else {
-			System.out.println("your record has not registered");
-		}
+		
 	}
 	
 	
 	
-    public void updateUser(UserModel userModel) throws ClassNotFoundException, SQLException {
+    public void updateUser(UserModel userModel) {
     	
     	String userUpdate="update user_details set user_name=?, user_age=?, user_gender=?, user_password=? where user_contact='"+userModel.getUserContact()+"'";
     	
-    	Connection con=ConnectionUtill.connectdb();
-		PreparedStatement pstatement=con.prepareStatement(userUpdate);
+    	Connection con;
+		try {
+			con = ConnectionUtill.connectdb();
+			PreparedStatement pstatement=con.prepareStatement(userUpdate);
+			
+			pstatement.setString(1,userModel.getUserName());
+			pstatement.setInt(2,userModel.getUserAge());
+			pstatement.setString(3,userModel.getUserGender());
+			pstatement.setString(4, userModel.getUserPassword());
+			
+			pstatement.executeUpdate();
+			System.out.println("for "+userModel.getUserContact()+ "profile is updated !!");
+			pstatement.close();
+			con.close();
+		} catch (ClassNotFoundException e) {
+			e.getMessage();
+		} catch (SQLException e) {
+			e.getMessage();
+		}
 		
-		pstatement.setString(1,userModel.getUserName());
-		pstatement.setInt(2,userModel.getUserAge());
-		pstatement.setString(3,userModel.getUserGender());
-		pstatement.setString(4, userModel.getUserPassword());
-		
-		pstatement.executeUpdate();
-		System.out.println("for "+userModel.getUserContact()+ "profile is updated !!");
-		pstatement.close();
-		con.close();
     }
 	
    
 	
-    public void deleteUser (UserModel userModel) throws ClassNotFoundException, SQLException {
+    public void deleteUser (UserModel userModel)  {
 		
 		String userDelete="delete from user_details where user_id=?";
 		
-		Connection con=ConnectionUtill.connectdb();
-		PreparedStatement pstatement=con.prepareStatement(userDelete);
+		Connection con;
+		try {
+			con = ConnectionUtill.connectdb();
+			PreparedStatement pstatement=con.prepareStatement(userDelete);
+			
+			pstatement.setInt(1, userModel.getUserId());
+			int result=pstatement.executeUpdate();
+			if(result==1) {
+			System.out.println(" Successfully deleted");
+			pstatement.close();
+			con.close();		
+			}
+			else
+			{
+				System.out.println("please enter correct id");
+			}
+		} catch (ClassNotFoundException e) {
+			e.getMessage();
+		} catch (SQLException e) {
+			e.getMessage();
+		}
 		
-		pstatement.setInt(1, userModel.getUserId());
-		int result=pstatement.executeUpdate();
-		if(result==1) {
-		System.out.println(" Successfully deleted");
-		pstatement.close();
-		con.close();		
-		}
-		else
-		{
-			System.out.println("please enter correct id");
-		}
 	}
     
     
@@ -170,7 +212,7 @@ public class UserDao {
     }
     
     
-    public UserModel getUserDetailsById(int userId) throws SQLException  {
+    public UserModel getUserDetailsById(int userId)   {
 		
 		String getUser ="select * from user_details where user_id=?";
 		Connection con = null;

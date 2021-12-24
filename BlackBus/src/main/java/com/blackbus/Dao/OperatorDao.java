@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.blackbus.connection.ConnectionUtill;
+import com.blackbus.daoInterface.OperatorDaoInterface;
 import com.blackbus.module.OperatorModel;
 import com.blackbus.module.UserModel;
 
 
-public class OperatorDao {
+public class OperatorDao implements OperatorDaoInterface{
 
 	public void insertOperator(OperatorModel OperatorModel) {
 		String insertbus = "insert into bus_operators (OPERATOR_NAME,OPERATOR_EMAIL,OPERATOR_CONTACT, OPERATOR_AGE) values (?,?,?,?)";
@@ -38,9 +39,9 @@ public class OperatorDao {
 			con.close();
 			pstatement.close();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	} 
 	
@@ -71,9 +72,9 @@ public class OperatorDao {
 			}
 			
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		
     }
@@ -103,9 +104,9 @@ public class OperatorDao {
 //				System.out.println("please enter correct id");
 //			}
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	return result>0;	
 	}
@@ -129,7 +130,7 @@ public class OperatorDao {
 			con.close();
 			pstatement.close();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -140,26 +141,30 @@ public class OperatorDao {
    
    
  
-	public OperatorModel getOperatorById(int operatorId) throws ClassNotFoundException, SQLException {
+	public OperatorModel getOperatorById(int operatorId) {
 		
 		String getOperator ="select * from bus_operators where operator_id=?";
 		Connection con = null;
 		PreparedStatement pstatement = null;
 		OperatorModel operatormodel=null;
-		try {
-		 con = ConnectionUtill.connectdb();
-		 pstatement = con.prepareStatement(getOperator);
-		 pstatement.setInt(1, operatorId);
-		ResultSet rs = pstatement.executeQuery();
 		
-		 if (rs.next()) {
-			 operatormodel=new OperatorModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
-			con.close();
-			pstatement.close();
-			}} catch (SQLException e) {
-				//e.printStackTrace();
-				System.out.println(e.getMessage());
-			} 
+		 try {
+			con = ConnectionUtill.connectdb();
+			 pstatement = con.prepareStatement(getOperator);
+			 pstatement.setInt(1, operatorId);
+			ResultSet rs = pstatement.executeQuery();
+			
+			 if (rs.next()) {
+				 operatormodel=new OperatorModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
+				con.close();
+				pstatement.close();
+				}
+		} catch (ClassNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
 		 return operatormodel;
 
 	}

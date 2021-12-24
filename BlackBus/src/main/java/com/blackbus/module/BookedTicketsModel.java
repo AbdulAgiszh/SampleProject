@@ -177,9 +177,16 @@ public class BookedTicketsModel {
 
 
 	public String toStringUser() {
-		return "Booking Details : \n UserName: " + userModel.getUserName()+ ",\n UserLoginId : " +userModel.getUserContact()+ ",\n Bus_No : " +busModel.getBusId()+ ",\n Bus_category : " 
+		return "Booking Details : \n UserName: " + userModel.getUserName()+",\n Booking Ticket Number : " +bookingId+ ",\n UserLoginId : " +userModel.getUserContact()+ ",\n Bus_No : " +busModel.getBusId()+ ",\n Bus_category : " 
 				+busModel.getBusCategory()+ ",\n Source : " +busModel.getFromCity()+ ",\n Destination : " +busModel.getToCity()+ ",\n Departure : " +busModel.getDeparture() +
 				",\n Arrival : "+busModel.getArrival()+ ",\n Booking_Date : "+bookingDate+",\n Seat_Category : " +seatCategory+ ",\n Seat_No : " +seatNo+  ",\n Total_Price : " + totalPrice + "" ; 
+	}
+	
+	public String toStringAdmin() {
+		return "Booking Details :\n UserLoginId : " +userModel.getUserContact()+ ",\n Booking Ticket Number : " +bookingId+ ",\n Bus_No : " +busModel.getBusId()+ ",\n Bus_category : " 
+				+busModel.getBusCategory()+ ",\n Source : " +busModel.getFromCity()+ ",\n Destination : " +busModel.getToCity()+ ",\n Departure : " +busModel.getDeparture() +
+				",\n Arrival : "+busModel.getArrival()+ ",\n Booking_Date : "+bookingDate+",\n Seat_Category : " +seatCategory+ ",\n Seat_No : " +seatNo+  ",\n Total_Price : " + totalPrice + 
+						",\n Booking Status : " +paymentStatus+"" ;
 	}
 
 
