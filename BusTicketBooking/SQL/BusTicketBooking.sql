@@ -28,12 +28,13 @@ CREATE TABLE USER_DETAILS (
   USER_GENDER varchar(30) NOT NULL,
   USER_PASSWORD varchar(50) NOT NULL ,
   USER_WALLET int DEFAULT 0,
+  USER_STATUS varchar(50) DEFAULT 'Active',
   
   CONSTRAINT pk_userid PRIMARY KEY (user_id),
-  CONSTRAINT unique_user UNIQUE (user_email)
+  CONSTRAINT unique_user UNIQUE (user_email,user_contact)
 );
-
-
+commit;
+updat
 
 CREATE TABLE BUS_OPERATORS (
   OPERATOR_ID int GENERATED ALWAYS AS IDENTITY START WITH 1,
@@ -95,36 +96,13 @@ commit;
 select * from bus_details where to_char(departure,'dd-mm-yyyy')='24-12-2021' and from_city='Madurai' and to_city='Chennai';
 select booking_id from booked_tickets where user_id=21 and booking_date='23-12-21';
 commit;
-drop table booked_tickets cascade constraints;
-drop table user_details;
+drop table user_details cascade constraints;
+
 select * from user_details;
 select * from bus_operators;
 select  * from bus_details;
+select * from user_details where user_contact=7373639018 and user_status='Inactive';
 select * from booked_tickets;
-
-update booked_tickets set booking_status='Canceled' where user_id=21 and departure_date= and seat_no=
-
-select bo.booking_id,bo.user_id,bo.booking_date,bo.ticket_count,bo.seat_category,bo.seat_no,bo.booking_status,bo.total_price,
-b.bus_category,b.operator_id,b.bus_id,b.from_city,b.to_city,b.departure,b.arrival from booked_tickets bo,bus_details b;
-
-select * from admin_details;
-insert into booked_tickets (user_id,bus_id,ticket_count,seat_no,total_price) values (21,1000,2,1,1000);
-delete from booked_tickets where booking_id=10001;
-
-desc bus_details;
-
-select booking_id from booked_tickets where user_id=21 and departure_date='25-12-2021';
-
-
-drop table bus;
-drop table users;
-drop table busoperators;
-drop table ticketBookings;
-
-select * from bus_details where to_char(departure,'dd-mm-yyyy')='24-12-2021' and from_city='Madurai' and to_city='Chennai';
-
-
-  select booking_id from booked_tickets where user_id=21 and departure_date='24-12-2021';
 
 
 --

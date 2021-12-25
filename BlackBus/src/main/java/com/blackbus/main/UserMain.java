@@ -63,6 +63,7 @@ public class UserMain {
 					System.out.println("Enter your LoginID");
 
 					do {
+						//checking the space while login
 						contact = scan.nextLine();
 						if (contact.trim() == "") {
 							System.out.println("please enter mobile number or password (it can't be empty)");
@@ -74,7 +75,6 @@ public class UserMain {
 					String pass = scan.nextLine();
 
 					// if admin is logining in
-
 					if (contact.endsWith("admin@gmail.com")) {
 
 						// to check admin is entering valid id or not according to db values
@@ -83,7 +83,8 @@ public class UserMain {
 						if (adminloginflag) {
 
 							AdminModel adminmodel = adminDao.adminLogin(contact);
-							do { // admin password validation
+							do {
+								// admin password validation
 								if (adminmodel.getAdminPassword().equals(pass)) {
 									System.out.println("welcome " + adminmodel.getAdminName());
 
@@ -103,8 +104,7 @@ public class UserMain {
 										System.out.print("9. To show userlist \n");
 										System.out.print("10. To delete a bus \t");
 										System.out.print("11. To delete a operator \t");
-										System.out.print("12. To delete a user \t");
-										System.out.println("13. Exit");
+										System.out.println("12. Exit");
 
 										int adminchoice = scan.nextInt();
 										scan.nextLine();
@@ -136,8 +136,7 @@ public class UserMain {
 											busDao.insertBus(busmodel);
 											break;
 										case 2:
-											// System.out.println("----------------To add
-											// operator----------------------");
+											// System.out.println("----------------To add operator----------------------");
 											System.out.println("Enter the operator name");
 											String operatorId11 = scan.nextLine();
 											System.out.println("Enter the operator Email");
@@ -166,8 +165,7 @@ public class UserMain {
 											adminDao.updateAdmin(adminModel);
 											break;
 										case 4:
-											// System.out.println("----------------To update
-											// bus----------------------");
+											// System.out.println("----------------To update bus----------------------");
 											System.out.println("Enter the bus id to update the particular bus");
 											int updateBusId = Integer.parseInt(scan.nextLine());
 											System.out.println("Enter operator Id");
@@ -200,8 +198,7 @@ public class UserMain {
 											busDao.updateBus(busModel);
 											break;
 										case 5:
-											// System.out.println("----------------To update
-											// operator----------------------");
+											// System.out.println("----------------To update operator----------------------");
 											System.out.println("Enter the operator Id");
 											int operatorId1 = Integer.parseInt(scan.nextLine());
 											System.out.println("Enter the operator name");
@@ -224,40 +221,35 @@ public class UserMain {
 											}
 											break;
 										case 7:
-											// System.out.println("----------------To show
-											// buslist----------------------");
+											// System.out.println("----------------To show buslist----------------------");
 											List<BusModel> listbus = busDao.viewAllBus();
 											for (int i = 0; i < listbus.size(); i++) {
 												System.out.println(listbus.get(i));
 											}
 											break;
 										case 8:
-											// System.out.println("----------------To show
-											// operatorlist----------------------");
+											// System.out.println("----------------To show operatorlist----------------------");
 											List<OperatorModel> listoperator = operatorDao.viewOperator();
 											for (int i = 0; i < listoperator.size(); i++) {
 												System.out.println(listoperator.get(i));
 											}
 											break;
 										case 9:
-											// System.out.println("----------------To show
-											// userlist----------------------");
+											// System.out.println("----------------To show userlist----------------------");
 											List<UserModel> listUser = userDao.viewUserDetails();
 											for (int i = 0; i < listUser.size(); i++) {
 												System.out.println(listUser.get(i));
 											}
 											break;
 										case 10:
-											// System.out.println("----------------To Delete
-											// bus----------------------");
+											// System.out.println("----------------To Delete bus----------------------");
 
 											break;
 										case 11:
-											// System.out.println("----------------To Delete
-											// operator----------------------");
+											// System.out.println("----------------To Delete operator----------------------");
 											System.out.println("Enter the operator id");
 											int operatorId2 = scan.nextInt();
-//										OperatorModel operatorModel=operatorDao.getOperatorById(operatorId2);
+										    //OperatorModel operatorModel=operatorDao.getOperatorById(operatorId2);
 											boolean deleteop = operatorDao.deleteOperator(operatorId2);
 											if (deleteop == true) {
 												System.out.println("Operator Details Successfully deleted");
@@ -266,10 +258,8 @@ public class UserMain {
 											}
 											break;
 										case 12:
-
-										case 13:
 											// System.out.println("----------------To exit----------------------");
-
+											System.out.println("Thank you for visit us");
 											System.exit(0);
 										default:
 											System.out.println("please enter correct choice number: ");
@@ -297,15 +287,15 @@ public class UserMain {
 					else if (contact.endsWith("admin@gmail.com") == false && contact.matches("[0-9]+") == false) {
 						System.out.println("invalid login id");
 					}
-					// if it is not a admin --> USER
+					// if USER is login with contact number
 					else {
-						// contact
 						boolean userloginflag;
 						long num21 = Long.parseLong(contact);
 						userloginflag = userDao.checkUser(num21);
 						if (userloginflag) {
-
+							//to get a object using contact
 							UserModel userModel = userDao.loginUser(Long.parseLong(contact));
+							
 							// user password verification
 							do {
 								if (userModel.getUserPassword().equals(pass)) {
@@ -329,8 +319,7 @@ public class UserMain {
 										switch (userchoice) {
 
 										case 1:
-											System.out
-													.println("------------------To Update Profile-------------------");
+											System.out.println("------------------To Update Profile-------------------");
 											System.out.println("LoginID: " + userModel.getUserContact());
 											System.out.println("Enter the user_name ");
 											String userName1 = scan.nextLine();
@@ -359,25 +348,24 @@ public class UserMain {
 											String fromLocation = scan.nextLine();
 											System.out.println("Enter to location");
 											String toLocation = scan.nextLine();
-
-											List<BusModel> listFilterBus = busDao.searchhBus(givenDepartureDate,
-													fromLocation, toLocation);
+											
+											//filter according to date 
+											List<BusModel> listFilterBus = busDao.searchhBus(givenDepartureDate,fromLocation, toLocation);
 											for (int i = 0; i < listFilterBus.size(); i++) {
 												System.out.println(listFilterBus.get(i));
 											}
 
 											// booking ticket
-
 											System.out.println("Enter the bus Id to have a ride to your loved place");
 											int bookBusId = Integer.parseInt(scan.nextLine());
 
 											BusModel busModel = busDao.findBusDetailsUsingID(bookBusId);
+											//to fetch only date 
 											LocalDateTime date = busModel.getDeparture();
 											LocalDate departureDate = date.toLocalDate();
 
 											// to find operator
-											OperatorModel bookOperatorModel = operatorDao
-													.getOperatorById(busModel.getoperatorId());
+											//OperatorModel bookOperatorModel = operatorDao.getOperatorById(busModel.getoperatorId());
 											System.out.println("Enter the No for class : sleeper or seater");
 											System.out.println("----------------------------------------");
 											System.out.println("click-->    1.sleeper \t 2.seater");
@@ -394,10 +382,9 @@ public class UserMain {
 
 											System.out.println("Enter the ticket count you want:");
 											int bookTicketCount = Integer.parseInt(scan.nextLine());
-											System.out.println(
-													"Enter the seat No (1-10)for SEATER \t (11-13)for SLEEPER");
+											System.out.println("Enter the seat No (1-10)for SEATER \t (11-13)for SLEEPER");
+											
 											int[] array = new int[bookTicketCount];
-
 											for (int i = 0; i < array.length; i++) {
 												array[i] = Integer.parseInt(scan.nextLine());
 											}
@@ -411,8 +398,7 @@ public class UserMain {
 											System.out.println("Your total price for travel is : " + bookTotalPrice);
 											// to get current object
 											userModel = userDao.getUserDetailsById(userModel.getUserId());
-											System.out.println(
-													"Current balance in your wallet is : " + userModel.getUserWallet());
+											System.out.println("Current balance in your wallet is : " + userModel.getUserWallet());
 
 											System.out.println("-----------Type yes for booking confirmation---------");
 											String confirmation = scan.nextLine().toLowerCase();
@@ -423,31 +409,28 @@ public class UserMain {
 													userModel = userDao.getUserDetailsById(userModel.getUserId());
 													// to check whether wallet is having that much amount to book
 													if (userModel.getUserWallet() >= bookTotalPrice) {
-														bookTicketModel = new BookedTicketsModel(userModel, busModel,
-																departureDate, bookTicketCount, bookClass, bookSeatNo,
-																bookTotalPrice);
-
-														boolean result = bookTicketsDao.insertBookedTickets(userModel,
-																busModel, bookTicketModel);
+														
+														//to reduce seat according to seat count given by user
+														int reducedBusSeat=busModel.getTotalseat()-bookTicketCount;
+														//BusModel busModel = busDao.findBusDetailsUsingID(bookBusId);
+														bookTicketModel = new BookedTicketsModel(userModel, busModel,departureDate, bookTicketCount,
+																bookClass, bookSeatNo,bookTotalPrice);
+														
+														//insert all info to booking table 
+														boolean result = bookTicketsDao.insertBookedTickets(userModel,busModel, bookTicketModel);
 														int currentBookingNumber;
 
 														if (result == true) {
 															// to reduce wallet amount according to ticket amount
-															int updatedBalanceAfterBooking = userModel.getUserWallet()
-																	- bookTotalPrice;
-															userDao.updateWallet(updatedBalanceAfterBooking,
-																	userModel.getUserContact());
-															System.out.println(
-																	"---------------Booked successfully-----------------");
+															int updatedBalanceAfterBooking = userModel.getUserWallet()- bookTotalPrice;
+															userDao.updateWallet(updatedBalanceAfterBooking,userModel.getUserContact());
+															System.out.println("---------------Booked successfully-----------------");
 														} else {
 															System.out.println("Money is Not updated...something went wrong");
 														}
-														currentBookingNumber = bookTicketsDao.findBookingId(userModel,
-																bookTicketModel);
-														System.out.println("Your booking Ticket number is : "
-																+ currentBookingNumber);
-														System.out.println(
-																"please remember your Ticket number for further purpose");
+														currentBookingNumber = bookTicketsDao.findBookingId(userModel,bookTicketModel);
+														System.out.println("Your booking Ticket number is : "+ currentBookingNumber);
+														System.out.println("please remember your Ticket number for further purpose");
 													}
 
 													else {
@@ -456,24 +439,20 @@ public class UserMain {
 														System.out.println("Press 9 to recharge your wallet now");
 														int rechargeWalletChoiceAfterInsufficient = scan.nextInt();
 														if (rechargeWalletChoiceAfterInsufficient == 9) {
-															// System.out.println("Your current Balance is : "
-															// +userModel.getUserWallet());
+															// System.out.println("Your current Balance is : "+userModel.getUserWallet());
 															System.out.println(
 																	"Enter the amount to be add to your wallet");
 															int addedAmountInBooking = scan.nextInt();
-															int totalAmountInBooking = addedAmountInBooking
-																	+ userModel.getUserWallet();
+															int totalAmountInBooking = addedAmountInBooking+ userModel.getUserWallet();
 
 															// to update added amount to the wallet
-															userModel = userDao
-																	.getUserDetailsById(userModel.getUserId());
+															userModel = userDao.getUserDetailsById(userModel.getUserId());
+															
 															// userModel.setUserWallet(totalAmountInBooking);
-															boolean resultWallet = userDao.updateWallet(
-																	totalAmountInBooking, userModel.getUserContact());
+															boolean resultWallet = userDao.updateWallet(totalAmountInBooking, userModel.getUserContact());
 															if (resultWallet == true) {
 																System.out.println("update successfully");
-																// System.out.println("Your current balance is : "
-																// +userModel.getUserWallet());
+																// System.out.println("Your current balance is : "+userModel.getUserWallet());
 															} else {
 																System.out.println("please give correct value (not booked)");
 																
@@ -497,20 +476,18 @@ public class UserMain {
 											BookedTicketsModel bookedTicketsModel = null;
 											System.out.println("Enter the Ticket Number");
 											int bookingTicketNumber = (scan.nextInt());
-											bookedTicketsModel = bookTicketsDao
-													.findBookedTicketsDetails(bookingTicketNumber);
-											busModel = busDao
-													.findBusDetailsUsingID(bookedTicketsModel.getBusModel().getBusId());
+											bookedTicketsModel = bookTicketsDao.findBookedTicketsDetails(bookingTicketNumber);
+											busModel = busDao.findBusDetailsUsingID(bookedTicketsModel.getBusModel().getBusId());
+											
 											System.out.println("TicketNumber    : " + bookingTicketNumber);
 											System.out.println("Name            : " + userModel.getUserName());
 											System.out.println("Date of Journey : " + busModel.getDeparture());
 											System.out.println("Source          : " + busModel.getFromCity());
 											System.out.println("Destination     : " + busModel.getToCity());
-											System.out.println(
-													"Seat Category    : " + bookedTicketsModel.getSeatCategory());
+											System.out.println("Seat Category   : " + bookedTicketsModel.getSeatCategory());
 											System.out.println("Seat NO         : " + bookedTicketsModel.getSeatNo());
-											System.out
-													.println("Total Price     : " + bookedTicketsModel.getTotalPrice());
+											System.out.println("Total Price     : " + bookedTicketsModel.getTotalPrice());
+											System.out.println("Booking status  : " + bookedTicketsModel.getBookingStatus());
 											break;
 
 										case 4:
@@ -519,24 +496,20 @@ public class UserMain {
 											int cancelTicketNumber;
 											try {
 												cancelTicketNumber = scan.nextInt();
-												bookedTicketsModel = bookTicketsDao
-														.findBookedTicketsDetails(cancelTicketNumber);
-												int amountRefund = userModel.getUserWallet()
-														+ bookedTicketsModel.getTotalPrice();
+												bookedTicketsModel = bookTicketsDao.findBookedTicketsDetails(cancelTicketNumber);
+												//refund process
+												int amountRefund = userModel.getUserWallet()+ bookedTicketsModel.getTotalPrice();
 												System.out.println(
-														"The ticket amount " + bookedTicketsModel.getTotalPrice()
-																+ " is refunded to your wallet successfully");
+														"The ticket amount " + bookedTicketsModel.getTotalPrice()+ " is refunded to your wallet successfully");
 												userDao.updateWallet(amountRefund, userModel.getUserContact());
 												// to update refund amount to the wallet
 												userModel = userDao.getUserDetailsById(userModel.getUserId());
 
 												// userModel.setUserWallet(amountRefund);
-												boolean cancelResult = bookTicketsDao.cancelTicket(userModel,
-														bookedTicketsModel);
+												boolean cancelResult = bookTicketsDao.cancelTicket(userModel,bookedTicketsModel);
 												if (cancelResult == true) {
 													System.out.println("Ticket successfully Cancelled");
-													System.out.println("Your current Available balance is : "
-															+ userModel.getUserWallet());
+													System.out.println("Your current Available balance is : "+ userModel.getUserWallet());
 												} else {
 													System.out.println("Ticket cancel process failed");
 												}
@@ -554,8 +527,7 @@ public class UserMain {
 												System.out.println("Enter the amount to be credit in your wallet: ");
 												int toAddBalance = scan.nextInt();
 												int updatedWallet = userModel.getUserWallet() + toAddBalance;
-												boolean resultWallet = userDao.updateWallet(updatedWallet,
-														userModel.getUserContact());
+												boolean resultWallet = userDao.updateWallet(updatedWallet,userModel.getUserContact());
 												if (resultWallet == true) {
 													System.out.println("update successfully");
 													System.out.println("Your current balance is : " + updatedWallet);
@@ -573,18 +545,15 @@ public class UserMain {
 											break;
 										case 7:
 											System.out.println("--------users booked List--------------------");
-											List<BookedTicketsModel> bookedList = bookTicketsDao
-													.getBookingDetailsForCurrentUser(userModel);
+											List<BookedTicketsModel> bookedList = bookTicketsDao.getBookingDetailsForCurrentUser(userModel);
 											for (int i = 0; i < bookedList.size(); i++) {
 
 												System.out.println(bookedList.get(i).toStringUser());
 											}
-											System.out.println(" ");
 											break;
 
 										case 8:
-											// System.out.println("----------------To Delete
-											// user----------------------");
+											// System.out.println("----------------To Delete user----------------------");
 											System.out.println(
 													"Do you want to delete your account....to confirm type <yes> or type <no>");
 											try {

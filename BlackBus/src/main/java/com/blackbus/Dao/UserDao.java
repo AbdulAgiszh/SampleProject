@@ -24,17 +24,17 @@ public class UserDao implements UserDaoInterface {
 				con = ConnectionUtill.connectdb();
 				PreparedStatement pstatement=con.prepareStatement(userLogin);
 				
-				Statement st=con.createStatement();
-				ResultSet rs=st.executeQuery(userLogin);
+				Statement statement=con.createStatement();
+				ResultSet rs=statement.executeQuery(userLogin);
 				
 				rs.next() ;
-				userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8));
+				userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8),rs.getString(9));
 				con.close();
 				pstatement.close();
 			} catch (ClassNotFoundException e) {
-				e.getMessage();
+				System.out.println(e.getMessage());
 			} catch (SQLException e) {
-				e.getMessage();
+				System.out.println(e.getMessage());
 			}
 			
 				return userModel;
@@ -58,9 +58,9 @@ public class UserDao implements UserDaoInterface {
 						checkUserFlag=false;	
 					}
 				} catch (ClassNotFoundException e) {
-					e.getMessage();
+					System.out.println(e.getMessage());
 				} catch (SQLException e) {
-					e.getMessage();
+					System.out.println(e.getMessage());;
 				}
 				
 				return checkUserFlag;
@@ -84,7 +84,7 @@ public class UserDao implements UserDaoInterface {
 			pstatement.setString(6, userModel.getUserPassword());
 		
 			int result=pstatement.executeUpdate();
-			if(result==1) {
+			if(result>0) {
 			System.out.println( "Your Have Registered Successfully!!");
 			pstatement.close();
 			con.close();
@@ -93,9 +93,9 @@ public class UserDao implements UserDaoInterface {
 				System.out.println("your record has not registered");
 			}
 		} catch (ClassNotFoundException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
 		
 	}
@@ -121,9 +121,9 @@ public class UserDao implements UserDaoInterface {
 			pstatement.close();
 			con.close();
 		} catch (ClassNotFoundException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
 		
     }
@@ -132,34 +132,34 @@ public class UserDao implements UserDaoInterface {
 	
     public void deleteUser (UserModel userModel)  {
 		
-		String userDelete="delete from user_details where user_id=?";
+		String userDelete="update user_details set user_status='Inactive' where user_contact=?";
 		
 		Connection con;
 		try {
 			con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement=con.prepareStatement(userDelete);
-			
-			pstatement.setInt(1, userModel.getUserId());
+
+			pstatement.setLong(1, userModel.getUserContact());
 			int result=pstatement.executeUpdate();
 			if(result==1) {
-			System.out.println(" Successfully deleted");
+			System.out.println("Successfully deleted");
 			pstatement.close();
 			con.close();		
 			}
 			else
 			{
-				System.out.println("please enter correct id");
+				System.out.println("Delete unsuccessfull...something went wrong!");
 			}
 		} catch (ClassNotFoundException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
 		
 	}
     
     
-    
+    //for admin purpose to show all users
     public List<UserModel> viewUserDetails(){
     	
     	String userView="select * from user_details";
@@ -170,16 +170,16 @@ public class UserDao implements UserDaoInterface {
 			con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement=con.prepareStatement(userView);
 			
-			ResultSet rs=pstatement.executeQuery(userView);
+			ResultSet rs=pstatement.executeQuery();
 			
 			while(rs.next()) {
-				UserModel userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8));
+				UserModel userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8),rs.getString(9));
 				userList.add(userModel);
 			}
 			con.close();
 			pstatement.close();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -203,9 +203,9 @@ public class UserDao implements UserDaoInterface {
 			pstatement.setLong(2, userContact);
 			result=pstatement.executeUpdate();
 		} catch (ClassNotFoundException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
     	return result>0;
     	
@@ -226,14 +226,14 @@ public class UserDao implements UserDaoInterface {
 			ResultSet rs = pstatement.executeQuery();
 			
 			 if (rs.next()) {
-				 userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8));
+				 userModel=new UserModel(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getString(4),rs.getLong(5),rs.getString(6),rs.getString(7),rs.getInt(8),rs.getString(9));
 				}
 			con.close();
 			pstatement.close();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} 
 		 return userModel;
 
