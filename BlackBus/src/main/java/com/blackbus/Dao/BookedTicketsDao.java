@@ -22,11 +22,11 @@ public class BookedTicketsDao implements BookedTicketsDaoInterface {
 	
 	BusDao busDao=new BusDao();
 	UserDao userDao=new UserDao();
-	DateTimeFormatter formatDate=DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	//DateTimeFormatter formatDate=DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	
 	
 	public boolean insertBookedTickets(UserModel userModel,BusModel busModel,BookedTicketsModel bookedTicketsModel) {
-		String ticketsInsert = "insert into Booked_tickets (user_id,bus_id,departure_date,ticket_count,seat_category,seat_no,total_price) values (?,?,?,?,?,?,?)"; 
+		String ticketsInsert = "insert into Booked_tickets (user_id,bus_id,departure_date,ticket_count,seat_category,seat_no,total_price,payment_status) values (?,?,?,?,?,?,?,?)"; 
 		
 		Connection con;
 		int result=0;
@@ -42,6 +42,7 @@ public class BookedTicketsDao implements BookedTicketsDaoInterface {
 			pstatement.setString(5, bookedTicketsModel.getSeatCategory());
 			pstatement.setString(6, bookedTicketsModel.getSeatNo());
 			pstatement.setInt(7, bookedTicketsModel.getTotalPrice());
+			pstatement.setString(8, bookedTicketsModel.getPaymentStatus());
 			result=pstatement.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			e.getMessage();

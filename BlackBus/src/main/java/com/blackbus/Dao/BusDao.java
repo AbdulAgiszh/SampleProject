@@ -50,9 +50,9 @@ public class BusDao implements BusDaoInterface {
 			}
 
 		} catch (ClassNotFoundException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.getMessage();
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -77,9 +77,9 @@ public class BusDao implements BusDaoInterface {
 			con.close();
 			pstatement.close();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 	}
@@ -121,9 +121,9 @@ public class BusDao implements BusDaoInterface {
 			pstatement.close();
 			}
     	    catch (ClassNotFoundException e) {
-    			e.printStackTrace();
+    	    	System.out.println(e.getMessage());
     		} catch (SQLException e) {
-    			e.printStackTrace();
+    			System.out.println(e.getMessage());
     		}
 	}
 	
@@ -156,7 +156,7 @@ public class BusDao implements BusDaoInterface {
 				con.close();
 				pstatement.close();
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				System.out.println(e.getMessage());
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -187,15 +187,37 @@ public class BusDao implements BusDaoInterface {
 //						busModel.toString();
 					}
 				} catch (ClassNotFoundException e) {
-					e.getMessage();
+					System.out.println(e.getMessage());
 				} catch (SQLException e) {
-					e.getMessage();
+					System.out.println(e.getMessage());
 				}	
 				return busFilterList;
 		    }
 		
 		
 	 
+		public void updateSeatCount(BusModel busModel) {
+			
+			String updateSeat="update bus_details set total_seat=? where bus_id=?";
+			 Connection con;
+		    	
+	    	    try {
+				con = ConnectionUtill.connectdb();
+				PreparedStatement pstatement=con.prepareStatement(updateSeat);
+				
+				pstatement.setInt(1, busModel.getTotalseat());
+				pstatement.setInt(2, busModel.getBusId());
+				pstatement.executeUpdate();
+				con.close();
+				pstatement.close();
+				}
+	    	    catch (ClassNotFoundException e) {
+	    			System.out.println(e.getMessage());
+	    		} catch (SQLException e) {
+	    			System.out.println(e.getMessage());
+	    		}
+		}
+		
 	 
 	 public BusModel findBusDetailsUsingID(int busId)  {
 		 String getBus ="select * from bus_details where bus_id=?";

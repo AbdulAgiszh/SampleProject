@@ -256,6 +256,7 @@ public class UserMain {
 											} else {
 												System.out.println("please enter correct ID");
 											}
+											
 											break;
 										case 12:
 											// System.out.println("----------------To exit----------------------");
@@ -358,8 +359,11 @@ public class UserMain {
 											// booking ticket
 											System.out.println("Enter the bus Id to have a ride to your loved place");
 											int bookBusId = Integer.parseInt(scan.nextLine());
-
+											
+											//to find the bus is having seat availability or not
 											BusModel busModel = busDao.findBusDetailsUsingID(bookBusId);
+											if(busModel.getTotalseat()>0) {
+											
 											//to fetch only date 
 											LocalDateTime date = busModel.getDeparture();
 											LocalDate departureDate = date.toLocalDate();
@@ -409,12 +413,17 @@ public class UserMain {
 													userModel = userDao.getUserDetailsById(userModel.getUserId());
 													// to check whether wallet is having that much amount to book
 													if (userModel.getUserWallet() >= bookTotalPrice) {
+														String paymentStatus="successfull";
 														
 														//to reduce seat according to seat count given by user
+														busModel = busDao.findBusDetailsUsingID(bookBusId);
 														int reducedBusSeat=busModel.getTotalseat()-bookTicketCount;
-														//BusModel busModel = busDao.findBusDetailsUsingID(bookBusId);
+														busModel.setTotalseat(reducedBusSeat);											///////
+														busDao.updateSeatCount(busModel);
+														
+														
 														bookTicketModel = new BookedTicketsModel(userModel, busModel,departureDate, bookTicketCount,
-																bookClass, bookSeatNo,bookTotalPrice);
+																bookClass, bookSeatNo,bookTotalPrice,paymentStatus);
 														
 														//insert all info to booking table 
 														boolean result = bookTicketsDao.insertBookedTickets(userModel,busModel, bookTicketModel);
@@ -425,7 +434,7 @@ public class UserMain {
 															int updatedBalanceAfterBooking = userModel.getUserWallet()- bookTotalPrice;
 															userDao.updateWallet(updatedBalanceAfterBooking,userModel.getUserContact());
 															System.out.println("---------------Booked successfully-----------------");
-														} else {
+														} else { //
 															System.out.println("Money is Not updated...something went wrong");
 														}
 														currentBookingNumber = bookTicketsDao.findBookingId(userModel,bookTicketModel);
@@ -468,6 +477,10 @@ public class UserMain {
 											} catch (Exception e) {
 												System.out.println("The entered value is incorrect");
 											}
+											}
+											else {
+												System.out.println( bookBusId +" seats are not available...please go for other options");
+											}
 //										\u000d
 											break;
 
@@ -487,7 +500,8 @@ public class UserMain {
 											System.out.println("Seat Category   : " + bookedTicketsModel.getSeatCategory());
 											System.out.println("Seat NO         : " + bookedTicketsModel.getSeatNo());
 											System.out.println("Total Price     : " + bookedTicketsModel.getTotalPrice());
-											System.out.println("Booking status  : " + bookedTicketsModel.getBookingStatus());
+											System.out.println("Payment status  : " + bookedTicketsModel.getPaymentStatus());
+											
 											break;
 
 										case 4:
@@ -499,12 +513,19 @@ public class UserMain {
 												bookedTicketsModel = bookTicketsDao.findBookedTicketsDetails(cancelTicketNumber);
 												//refund process
 												int amountRefund = userModel.getUserWallet()+ bookedTicketsModel.getTotalPrice();
-												System.out.println(
-														"The ticket amount " + bookedTicketsModel.getTotalPrice()+ " is refunded to your wallet successfully");
+												System.out.println("The ticket amount " + bookedTicketsModel.getTotalPrice()+ " is refunded to your wallet successfully");
 												userDao.updateWallet(amountRefund, userModel.getUserContact());
+												
 												// to update refund amount to the wallet
 												userModel = userDao.getUserDetailsById(userModel.getUserId());
-
+												
+												//to update (+) bus seats according to user booking
+												busModel = busDao.findBusDetailsUsingID(bookedTicketsModel.getBusModel().getBusId());
+												int addedBusSeat= bookedTicketsModel.getBusModel().getTotalseat()+bookedTicketsModel.getTicketCount();
+												busModel.setTotalseat(addedBusSeat);											
+												busDao.updateSeatCount(busModel);
+												
+												
 												// userModel.setUserWallet(amountRefund);
 												boolean cancelResult = bookTicketsDao.cancelTicket(userModel,bookedTicketsModel);
 												if (cancelResult == true) {
@@ -560,6 +581,7 @@ public class UserMain {
 												String confirmDelete = scan.nextLine().toLowerCase();
 												if (confirmDelete.equals("yes")) {
 													userDao.deleteUser(userModel);
+													System.exit(0);
 												} else if (confirmDelete.equals("no")) {
 													System.out.println("Your account is not deleted");
 												}
@@ -591,9 +613,10 @@ public class UserMain {
 						}
 					} // user else
 					break;
-				// from index page 2nd button insert query
+					
+				
 				case 2:
-					System.out.println("-------------------To Insert query-------------");
+					System.out.println("------------------- Register Here!! -------------");
 
 					boolean flagname = true; // name
 					String userName = null;
@@ -606,11 +629,13 @@ public class UserMain {
 							System.out.println("name must having 4 character and doesn't allow null values");
 						}
 					} while (flagname);
-
-					System.out.println("Enter the user_age "); // age
+					
+					 // age details
+					System.out.println("Enter the user_age ");
 					int userAge = Integer.parseInt(scan.nextLine());
 
-					boolean flagemail = true; // email
+					// email details
+					boolean flagemail = true; 
 					String userEmail = null;
 					do {
 						System.out.println("Enter the user_email ");
@@ -624,26 +649,46 @@ public class UserMain {
 						}
 					} while (flagemail);
 
-					boolean flagcontact = true; // contact
-					String userContactnum;
+					 // contact details
+					boolean flagContact = true;
+					String userContactNumber;
 					long userContact = 0;
 					do {
 						System.out.println("Enter the user_contact ");
-						userContactnum = scan.nextLine();
-
-						if (userContactnum.matches("[6-9][0-9]{9}")) {
-							flagcontact = false;
-							userContact = Long.parseLong(userContactnum);
+						userContactNumber = scan.nextLine();
+						if (userContactNumber.matches("[6-9][0-9]{9}")) {
+							userContact = Long.parseLong(userContactNumber);
+							
+							int OTPRegister = (int) Math.floor((Math.random()*(100000)));
+							System.out.println("OTP for register : "+OTPRegister);
+							System.out.println("The OTP has send to your Registered Mobile Number....please enter it");
+							int userGivenOTP=Integer.parseInt(scan.nextLine());
+							if(userGivenOTP==OTPRegister) {
+								flagContact = false;
+							//to check user is already register or not
+							boolean checkUser=userDao.checkAlreadyUserWhileRegister(userContact);
+							if(checkUser==true) {
+								userDao.reAddUser(userContact);
+								System.out.println("Your Account is Activated now...please go to the login page");
+								flagContact = false;
+								System.exit(0);
+							}
+							}
+							else {
+								System.out.println("please enter correct OTP");
+							}
 						} else {
 							System.out.println(
 									"contact must be start with 6-9 and it should contain 10 numbers and it does not allow space and char");
 						}
-					} while (flagcontact);
+					} while (flagContact);
 
-					System.out.println("Enter the user_gender (male or female)"); // gender
+					 // gender
+					System.out.println("Enter the user_gender (male or female)");
 					String userGender = scan.nextLine();
 
-					boolean userpass = true; // password
+					// password
+					boolean userpass = true; 
 					String userPassword = null;
 					do {
 						System.out.println("Enter the user_password");
@@ -659,8 +704,7 @@ public class UserMain {
 						}
 					} while (userpass);
 
-					UserModel userModel = new UserModel(userName, userAge, userEmail, userContact, userGender,
-							userPassword);
+					UserModel userModel = new UserModel(userName, userAge, userEmail, userContact, userGender,userPassword);
 					userDao.registrationUser(userModel);
 					System.out.println("Your login Id is : " + userModel.getUserContact());
 					System.out.println(" ");

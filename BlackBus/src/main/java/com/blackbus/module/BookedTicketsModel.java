@@ -42,7 +42,7 @@ public class BookedTicketsModel {
 	}
 
 	public BookedTicketsModel(UserModel userModel1, BusModel busModel1,LocalDate departureDate1, int bookTicketCount1,String seatCategory1, String bookSeatNo1,
-			int bookTotalPrice1) {
+			int bookTotalPrice1,String paymentStatus1) {
 		this.userModel=userModel1;
 		this.busModel=busModel1;
 		this.departureDate=departureDate1;
@@ -50,7 +50,7 @@ public class BookedTicketsModel {
 		this.seatCategory=seatCategory1;
 		this.seatNo=bookSeatNo1;
 		this.totalPrice=bookTotalPrice1;
-				
+		this.paymentStatus = paymentStatus1;
 	}
 		
 	
@@ -177,16 +177,16 @@ public class BookedTicketsModel {
 
 
 	public String toStringUser() {
-		return "Booking Details : \n UserName: " + userModel.getUserName()+",\n Booking Ticket Number : " +bookingId+ ",\n UserLoginId : " +userModel.getUserContact()+ ",\n Bus_No : " +busModel.getBusId()+ ",\n Bus_category : " 
+		return "Booking Details : \n UserName: " + userModel.getUserName()+",\n Booking Ticket Number : " +bookingId+  ",\n Bus_No : " +busModel.getBusId()+ ",\n Bus_category : " 
 				+busModel.getBusCategory()+ ",\n Source : " +busModel.getFromCity()+ ",\n Destination : " +busModel.getToCity()+ ",\n Departure : " +busModel.getDeparture() +
-				",\n Arrival : "+busModel.getArrival()+ ",\n Booking_Date : "+bookingDate+",\n Seat_Category : " +seatCategory+ ",\n Seat_No : " +seatNo+  ",\n Total_Price : " + totalPrice + "" ; 
+				",\n Arrival : "+busModel.getArrival()+ ",\n Booking_Date : "+bookingDate+",\n Seat_Category : " +seatCategory+ ",\n Seat_No : " +seatNo+  ",\n Total_Price : " + totalPrice +  ", paymentStatus=" + paymentStatus + "" ; 
 	}
 	
 	public String toStringAdmin() {
 		return "Booking Details :\n UserLoginId : " +userModel.getUserContact()+ ",\n Booking Ticket Number : " +bookingId+ ",\n Bus_No : " +busModel.getBusId()+ ",\n Bus_category : " 
 				+busModel.getBusCategory()+ ",\n Source : " +busModel.getFromCity()+ ",\n Destination : " +busModel.getToCity()+ ",\n Departure : " +busModel.getDeparture() +
 				",\n Arrival : "+busModel.getArrival()+ ",\n Booking_Date : "+bookingDate+",\n Seat_Category : " +seatCategory+ ",\n Seat_No : " +seatNo+  ",\n Total_Price : " + totalPrice + 
-						",\n Booking Status : " +paymentStatus+"" ;
+						",\n payment Status : " +paymentStatus+"" ;
 	}
 
 
