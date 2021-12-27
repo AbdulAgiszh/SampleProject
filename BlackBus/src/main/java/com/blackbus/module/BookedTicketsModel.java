@@ -179,7 +179,8 @@ public class BookedTicketsModel {
 	public String toStringUser() {
 		return "Booking Details : \n UserName: " + userModel.getUserName()+",\n Booking Ticket Number : " +bookingId+  ",\n Bus_No : " +busModel.getBusId()+ ",\n Bus_category : " 
 				+busModel.getBusCategory()+ ",\n Source : " +busModel.getFromCity()+ ",\n Destination : " +busModel.getToCity()+ ",\n Departure : " +busModel.getDeparture() +
-				",\n Arrival : "+busModel.getArrival()+ ",\n Booking_Date : "+bookingDate+",\n Seat_Category : " +seatCategory+ ",\n Seat_No : " +seatNo+  ",\n Total_Price : " + totalPrice +  ", paymentStatus=" + paymentStatus + "" ; 
+				",\n Arrival : "+busModel.getArrival()+ ",\n Booking_Date : "+bookingDate+",\n Seat_Category : " +seatCategory+ ",\n Seat_No : " +seatNo+  ",\n Total_Price : " + totalPrice + 
+				 ", bookingStatus=" + bookingStatus+ ", paymentStatus=" + paymentStatus + "" ; 
 	}
 	
 	public String toStringAdmin() {

@@ -511,6 +511,8 @@ public class UserMain {
 											try {
 												cancelTicketNumber = scan.nextInt();
 												bookedTicketsModel = bookTicketsDao.findBookedTicketsDetails(cancelTicketNumber);
+												if(bookedTicketsModel.getBookingStatus().equals("confirmed")) {
+													
 												//refund process
 												int amountRefund = userModel.getUserWallet()+ bookedTicketsModel.getTotalPrice();
 												System.out.println("The ticket amount " + bookedTicketsModel.getTotalPrice()+ " is refunded to your wallet successfully");
@@ -534,7 +536,11 @@ public class UserMain {
 												} else {
 													System.out.println("Ticket cancel process failed");
 												}
-											} catch (Exception e) {
+												}
+												else {
+													System.out.println("The ticket is invalid or already this ticket has been cancelled by you");
+												}
+											}catch (Exception e) {
 												System.out.println("Please Enter correct Ticket Number");
 											}
 											break;
@@ -555,7 +561,8 @@ public class UserMain {
 												} else {
 													System.out.println("Money is Not updated...something went wrong");
 												}
-											} else {
+											}
+											 else {
 												System.out.println("enter correct choice");
 											}
 											break;
