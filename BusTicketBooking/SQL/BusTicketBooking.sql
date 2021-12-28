@@ -101,6 +101,7 @@ drop table user_details cascade constraints;
 select * from user_details;
 select * from bus_operators;
 select  * from bus_details;
+select * from admin_details;
 select * from user_details where user_contact=7373639018 and user_status='Inactive';
 select * from booked_tickets;
 

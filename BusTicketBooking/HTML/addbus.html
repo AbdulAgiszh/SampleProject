@@ -6,23 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AddBus</title>
     <style>
+       *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        }
+        #homeadmin{
+            border: 1px solid black;
+            height: 85px;
+            background-color: rgb(166, 166, 233);
+           
+        }
+        #homeadmin ul li {
+            list-style: none;
+            display: inline-block;
+            padding: 30px;
+            padding-left: 70px;
+            }
+        a{
+            text-decoration: none;
+        }
         #bustitle{
             padding: 25px;
             font-size: 30px;
         }
         #headeraddbus{
             border: 1px solid black;
-            width: 430px;
-            height: 35px;
+            height: 40px;
             background-color: rgb(200, 210, 238);
+            margin-top:20px;
+        }
+        #headeraddbus,#addbus{
+            width: 430px;
+            margin-left: 500px;
+        
         }
         #addbus{
             border: 1px solid black;
             padding: 15px;
-            width: 400px;
+            height: 555px;
+        }
+        #bustitle{
+            padding-left: 180px;
         }
         input,textarea{
             width: 200px;
+        }
+        input{
+            height: 25px;
         }
         table,tr,th{
             padding: 7px;
@@ -44,52 +76,71 @@
     </style>
 </head>
 <body>
+
+    <div id="homeadmin">
+        <ul>
+            <li>Profile</li>
+            <li>Add Bus</li>
+            <li>Add Operator</li>
+            <li>Bus list</li>
+            <li>Operator list</li>
+            <li>User list</li>
+            <li>Booking list</li>
+        </ul>
+    </div>
+
     <div id="headeraddbus"> <label id="bustitle" for="bus">Bus</label> </div>
     <div id="addbus">
-        <table >
+        <table>
+
             <tr>
-                <th><label for="busno">BusNo</label></th>
-                <th><input type="text" required autofocus></th>
+                <th><label for="busId">Bus Id</label></th>
+                <th><input name="busId" type="text" id="busId" required autofocus></th>
             </tr>
             <tr>
-                <th><label for="busname">BusName</label></th>
-                <th><input type="text"></th>
+                <th><label for="operatorId">Operator ID</label></th>
+                <th><input name="operatorId" type="email" id="operatorId" ></th>
             </tr>
             <tr>
-                <th><label for="fromcity">From_City</label></th>
-                <th><input type="text"></th>
+                <th><label for="busCategory">Bus Category</label></th>
+                <th><input name="busCategory" type="text" id="busCategory" ></th>
             </tr>
             <tr>
-                <th><label for="tocity">To_City</label></th>
-                <th><input type="text"></th>
+                <th><label for="fromCity">From City</label></th>
+                <th><input name="fromCity" type="text" id="fromCity" ></th>
             </tr>
             <tr>
-                <th><label for="date">Date</label></th>
-                <th><input type="date" ></th>
+                <th><label for="toCity">To City</label></th>
+                <th><input name="toCity" type="text" id="toCity" ></th>
             </tr>
             <tr>
-                <th><label for="time">time</label></th>
-                <th><input type="time" ></th>
+                <th><label for="departure">Departure</label></th>
+                <th><input name="departure" type="datetime-local" id="departure" ></th>
             </tr>
             <tr>
-                <th><label for="travelduration">Travel_Duration</label></th>
-                <th><input type="number" ></th>
+                <th><label for="arrival">Arrival</label></th>
+                <th><input name="arrival" type="datetime-local" id="arrival" ></th>
             </tr>
             <tr>
-                <th><label for="totalseats">Total_Seats</label></th>
-                <th><input type="number" ></th>
+                <th><label for="sleeperFare">Sleeper Fare</label></th>
+                <th><input name="sleeperFare" type="number" id="sleeperFare" ></th>
             </tr>
             <tr>
-                <th><label for="ticketprice">Ticket_Price</label></th>
-                <th><input type="number" ></th>
+                <th><label for="seaterFare">Seater Fare</label></th>
+                <th><input name="seaterFare" type="number" id="seaterFare" ></th>
             </tr>
             <tr>
-                <th><label for="description">Description</label></th>
-                <th><textarea name="description"></textarea></th>
+                <th><label for="totalSeat">Total Seat</label></th>
+                <th><input name="totalSeat" type="number" id="totalSeat" ></th>
             </tr>
-           
+            <tr>
+                <th><label for="status">Status</label></th>
+                <th><input name="status" type="text" id="status" ></th>
+            </tr>
+
+        </table>
      </table>
-        <div id="btn">
+        <div id="btn"><br>
             <button type="submit">Submit</button>
             <button id="reset" type="reset">Reset</button>
         </div>
