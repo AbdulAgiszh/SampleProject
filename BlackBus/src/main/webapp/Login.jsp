@@ -108,13 +108,14 @@
             <label for="signup">New User ? </label>
             <a id="signup" href="register.html">SignUp</a>
 
+			<%String erroruserid=(String)session.getAttribute("erroruserid");
+			if(erroruserid!=null){ %>
+			<p><%=session.getAttribute("erroruserid") %></p>
+			<%} session.removeAttribute("erroruserid"); %>
+
 
          </form>        
            
  </div>
-
-</body>
-
-
 </body>
 </html>

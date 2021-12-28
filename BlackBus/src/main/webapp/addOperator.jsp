@@ -1,0 +1,116 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<style>
+       *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+        }
+        #homeadmin{
+            border: 1px solid black;
+            height: 85px;
+            background-color: rgb(166, 166, 233);
+           
+        }
+        #homeadmin ul li {
+            list-style: none;
+            display: inline-block;
+            padding: 30px;
+            padding-left: 70px;
+            }
+        a{
+            text-decoration: none;
+        }
+         #headeraddoperator{
+            border: 1px solid black;
+            height: 35px;
+            background-color: rgb(200, 210, 238);
+            margin-top:60px;
+            padding: 5px;
+        }
+        #headeraddoperator,#addOperator{
+            width: 430px;
+            margin-left: 470px;
+        }
+        #operatortitle{
+            padding-left: 150px;
+            font-size: 20px;
+        }
+        #addOperator{
+            border: 1px solid black;
+            padding: 25px;
+            height: 310px;
+            padding-left: 40px;
+            
+        }
+        input{
+            height: 25px;
+        }
+        table,tr,th{
+            padding: 7px;
+        }
+        button{
+            height: 35px;
+            width: 100px;
+            background-color: rgb(129, 168, 252);
+            outline: none;
+            border: none;
+        }
+        #btn{
+            margin-left: 45px;
+        }
+        button:hover{
+            background-color: rgb(247, 112, 112);
+        }
+    </style>
+</head>
+<body>
+    <div id="homeadmin">
+        <ul>
+            <li><a href="adminProfile.jsp"></a>Profile</li>
+            <li><a href="addBus.jsp"></a>Add Bus</li>
+            <li><a href="addOperator.jsp"></a>Add Operator</li>
+            <li><a href="busList.jsp"></a>Bus list</li>
+            <li><a href="operatorList.jsp"></a>Operator list</li>
+            <li><a href="userList.jsp"></a>User list</li>
+            <li><a href="bookingList.jsp"></a>Booking list</li>
+        </ul>
+    </div>
+
+    <div id="headeraddoperator"> <label id="operatortitle" for="operatortitle">Operator</label> </div>
+    <div id="addOperator">
+        <table >
+            <tr>
+                <th><label for="operatorName">Operator Name</label></th>
+                <th><input name="operatorName" type="text" id="operatorName" required autofocus></th>
+            </tr>
+            <tr>
+                <th><label for="operatorEmail">Operator Email</label></th>
+                <th><input name="operatorEmail" type="text" id="operatorEmail" ></th>
+            </tr>
+            <tr>
+                <th><label for="operatorContact">Operator Contact</label></th>
+                <th><input name="operatorContact" type="text" id="operatorContact"></th>
+            </tr>
+            <tr>
+                <th><label for="operatorAge">Operator Age</label></th>
+                <th><input name="operatorAge" type="text" id="operatorAge"></th>
+            </tr>
+            
+           
+     </table>
+        <div id="btn"><br>
+            <button type="submit">Submit</button>
+            <button id="reset" type="reset">Reset</button>
+        </div>
+    </div>
+
+</body>
+</html>
