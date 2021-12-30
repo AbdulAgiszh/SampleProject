@@ -74,16 +74,17 @@
 <body>
     <div id="homeadmin">
         <ul>
-            <li><a href="adminProfile.jsp"></a>Profile</li>
-            <li><a href="addBus.jsp"></a>Add Bus</li>
-            <li><a href="addOperator.jsp"></a>Add Operator</li>
-            <li><a href="busList.jsp"></a>Bus list</li>
-            <li><a href="operatorList.jsp"></a>Operator list</li>
-            <li><a href="userList.jsp"></a>User list</li>
-            <li><a href="bookingList.jsp"></a>Booking list</li>
+            <li><a href="admin.jsp">Profile</a></li>
+            <li><a href="addBus.jsp">Add Bus</a></li>
+            <li><a href="addOperator.jsp">Add Operator</a></li>
+            <li><a href="busList.jsp">Bus list</a></li>
+            <li><a href="operatorList.jsp">Operator list</a></li>
+            <li><a href="userList.jsp">User list</a></li>
+            <li><a href="bookingList.jsp">Booking list</a></li>
         </ul>
     </div>
 
+	<form action="addoperator">
     <div id="headeraddoperator"> <label id="operatortitle" for="operatortitle">Operator</label> </div>
     <div id="addOperator">
         <table >
@@ -93,15 +94,15 @@
             </tr>
             <tr>
                 <th><label for="operatorEmail">Operator Email</label></th>
-                <th><input name="operatorEmail" type="text" id="operatorEmail" ></th>
+                <th><input name="operatorEmail" type="email" id="operatorEmail" ></th>
             </tr>
             <tr>
                 <th><label for="operatorContact">Operator Contact</label></th>
-                <th><input name="operatorContact" type="text" id="operatorContact"></th>
+                <th><input name="operatorContact" type="number" id="operatorContact"></th>
             </tr>
             <tr>
                 <th><label for="operatorAge">Operator Age</label></th>
-                <th><input name="operatorAge" type="text" id="operatorAge"></th>
+                <th><input name="operatorAge" type="number" id="operatorAge"></th>
             </tr>
             
            
@@ -111,6 +112,7 @@
             <button id="reset" type="reset">Reset</button>
         </div>
     </div>
+    </form>
 
 </body>
 </html>

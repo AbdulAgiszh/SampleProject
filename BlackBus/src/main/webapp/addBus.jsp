@@ -80,27 +80,28 @@
 
     <div id="homeadmin">
        <ul>
-            <li><a href="adminProfile.jsp"></a>Profile</li>
-            <li><a href="addBus.jsp"></a>Add Bus</li>
-            <li><a href="addOperator.jsp"></a>Add Operator</li>
-            <li><a href="busList.jsp"></a>Bus list</li>
-            <li><a href="operatorList.jsp"></a>Operator list</li>
-            <li><a href="userList.jsp"></a>User list</li>
-            <li><a href="bookingList.jsp"></a>Booking list</li>
+            <li><a href="admin.jsp">Profile</a></li>
+            <li><a href="addBus.jsp">Add Bus</a></li>
+            <li><a href="addOperator.jsp">Add Operator</a></li>
+            <li><a href="busList.jsp">Bus list</a></li>
+            <li><a href="operatorList.jsp">Operator list</a></li>
+            <li><a href="userList.jsp">User list</a></li>
+            <li><a href="bookingList.jsp">Booking list</a></li>
         </ul>
     </div>
 
+	<form action="addbus">
     <div id="headeraddbus"> <label id="bustitle" for="bus">Bus</label> </div>
     <div id="addbus">
         <table>
 
             <tr>
                 <th><label for="busId">Bus Id</label></th>
-                <th><input name="busId" type="text" id="busId" required autofocus></th>
+                <th><input name="busId" type="text" id="busId" ></th>
             </tr>
             <tr>
                 <th><label for="operatorId">Operator ID</label></th>
-                <th><input name="operatorId" type="email" id="operatorId" ></th>
+                <th><input name="operatorId" type="number" id="operatorId" ></th>
             </tr>
             <tr>
                 <th><label for="busCategory">Bus Category</label></th>
@@ -140,11 +141,12 @@
             </tr>
 
         </table>
-     </table>
+
         <div id="btn"><br>
             <button type="submit">Submit</button>
             <button id="reset" type="reset">Reset</button>
         </div>
     </div>
+    </form>
 </body>
 </html>

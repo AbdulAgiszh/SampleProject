@@ -169,13 +169,13 @@ public class BookedTicketsDao implements BookedTicketsDaoInterface {
 	}
 	
 	
-	public List<BookedTicketsModel> showlistAdmin() {
+	public ResultSet showlistAdmin() {
 		
         String showQuery="select * from booked_tickets";
 		
 		Connection con;
 		PreparedStatement pstatement;
-		ResultSet rs;
+		ResultSet rs = null;
 		BusModel busModel=null;
 		UserModel userModel=null;
 		List<BookedTicketsModel> bookingListAdmin=new ArrayList<BookedTicketsModel>();
@@ -185,21 +185,21 @@ public class BookedTicketsDao implements BookedTicketsDaoInterface {
 			pstatement=con.prepareStatement(showQuery);
 			rs=pstatement.executeQuery();
 			
-			while(rs.next()) { 
-				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
-				userModel=userDao.getUserDetailsById(rs.getInt(2));
-				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(rs.getInt(1),userModel,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11));
-				bookingListAdmin.add(bookedTicketsModel);
-			
-			}	
-			
+//			while(rs.next()) { 
+//				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
+//				userModel=userDao.getUserDetailsById(rs.getInt(2));
+//				BookedTicketsModel bookedTicketsModel=new BookedTicketsModel(rs.getInt(1),userModel,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11));
+//				bookingListAdmin.add(bookedTicketsModel);
+//			
+//			}	
+			return rs;
 		} catch (ClassNotFoundException e) {
 			e.getMessage();
 		} catch (SQLException e) {
 			e.getMessage();
 		}
 		
-		return bookingListAdmin;
+		return rs;
 	}
 	
 	

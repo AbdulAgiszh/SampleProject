@@ -1,5 +1,6 @@
 package com.blackbus.daoInterface;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import com.blackbus.module.UserModel;
@@ -16,7 +17,7 @@ public interface UserDaoInterface {
 	
 	public void deleteUser (UserModel userModel) ;
 	
-	public List<UserModel> viewUserDetails();
+	public ResultSet viewUserDetails();
 	
 	 public boolean updateWallet(int updatedWallet,long userContact) ;
 	 

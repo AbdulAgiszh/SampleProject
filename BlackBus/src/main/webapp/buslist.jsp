@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@page import="com.blackbus.Dao.BusDao" %>
+    <%@page import="java.sql.ResultSet" %>
+    <%BusDao busDao=new BusDao();
+    ResultSet rs=busDao.viewAllBus();%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,13 +56,13 @@
     <body>
         <div id="homeadmin">
             <ul>
-                <li><a href="adminProfile.jsp">Profile</a></li>
-                <li><a href="addBus.jsp">Add Bus</a></li>
-                <li><a href="addOperator.jsp">Add Operator</a></li>
-                <li><a href="busList.jsp">Bus list</a></li>
-                <li><a href="operatorList.jsp">Operator list</a></li>
-                <li><a href="userList.jsp">User list</a></li>
-                <li><a href="bookingList.jsp">Booking list</a></li>
+               <li><a href="admin.jsp">Profile</a></li>
+            <li><a href="addBus.jsp">Add Bus</a></li>
+            <li><a href="addOperator.jsp">Add Operator</a></li>
+            <li><a href="busList.jsp">Bus list</a></li>
+            <li><a href="operatorList.jsp">Operator list</a></li>
+            <li><a href="userList.jsp">User list</a></li>
+            <li><a href="bookingList.jsp">Booking list</a></li>
             </ul>
                 
         </div>
@@ -79,19 +83,21 @@
                     <th>Total Seat</th>
                     <th>Status</th>
                 </tr>
+                <% while(rs.next()){ %>
                 <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                    <td><%=rs.getInt(1) %></td>
+                    <td><%=rs.getInt(2) %></td>
+                    <td><%=rs.getString(3) %></td>
+                    <td><%=rs.getString(4) %></td>
+                    <td><%=rs.getString(5) %></td>
+                    <td><%=rs.getTimestamp(6)%></td>
+                    <td><%=rs.getTimestamp(7)%></td>
+                    <td><%=rs.getInt(8) %></td>
+                    <td><%=rs.getInt(9) %></td>
+                    <td><%=rs.getInt(10) %></td>
+                    <td><%=rs.getString(11) %></td>
                 </tr>
+                <%} %>
             </table>
       </div>
     </fieldset>

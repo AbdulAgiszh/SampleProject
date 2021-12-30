@@ -112,30 +112,32 @@ public class OperatorDao implements OperatorDaoInterface{
 	}
    
    
-   public List<OperatorModel> viewOperator(){
+   public ResultSet viewOperator(){
    	
    	String operatorView="select * from bus_operators";
    	
    	Connection con;
-   	List<OperatorModel> operatorList=new ArrayList<OperatorModel>();
+   	ResultSet rs = null;
+//   	List<OperatorModel> operatorList=new ArrayList<OperatorModel>();
 		try {
 			con = ConnectionUtill.connectdb();	
 			Statement pstatement=con.createStatement();
-			ResultSet rs=pstatement.executeQuery(operatorView);
+			rs=pstatement.executeQuery(operatorView);
 			
-			while(rs.next()) {
-				OperatorModel operator=new OperatorModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
-				operatorList.add(operator);
-			}
-			con.close();
-			pstatement.close();
+//			while(rs.next()) {
+//				OperatorModel operator=new OperatorModel(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
+//				operatorList.add(operator);
+//			}
+			
+			return rs;
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 		
-		return operatorList;
+		
+		return rs;
 		
    }
    

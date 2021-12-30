@@ -133,35 +133,37 @@ public class BusDao implements BusDaoInterface {
 	
 
 	
-	 public List<BusModel> viewAllBus(){
+	 public ResultSet viewAllBus(){
 	    	
 	    	String busView="select * from bus_details";
 	    	
 	    	Connection con;
-	    	List<BusModel> busList=new ArrayList<BusModel>();
+	    	ResultSet rs=null;
+//	    	List<BusModel> busList=new ArrayList<BusModel>();
 			try {
 				con = ConnectionUtill.connectdb();
 				PreparedStatement pstatement=con.prepareStatement(busView);
 				
 				Statement statement=con.createStatement();
-				ResultSet rs=statement.executeQuery(busView);
+				rs=statement.executeQuery(busView);
 				
 				
 				
-				while(rs.next()) {
-					
-					BusModel busModel=new BusModel(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
-					busList.add(busModel);
-				}
-				con.close();
-				pstatement.close();
+//				while(rs.next()) {
+//					
+//					BusModel busModel=new BusModel(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
+//					busList.add(busModel);
+//				}
+//				con.close();
+//				pstatement.close();
+				return rs;
 			} catch (ClassNotFoundException e) {
 				System.out.println(e.getMessage());
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
 			
-			return busList;
+			return rs;
 			
 	    }
 	 
@@ -169,29 +171,31 @@ public class BusDao implements BusDaoInterface {
 	 
 	 
 
-		public List<BusModel> searchhBus(LocalDate givenDepartureDate,String fromLocation,String toLocation) 
+		public ResultSet searchhBus(LocalDate givenDepartureDate,String fromLocation,String toLocation) 
 		 {
 				String findBus="select * from bus_details where to_char(departure,'yyyy-mm-dd')='"+givenDepartureDate+"' and from_city='"+fromLocation+"' and to_city='"+toLocation+"'";
 				Connection con=null;
 				Statement statement=null;
 				BusModel busModel;
+				ResultSet rs=null;
 				List<BusModel> busFilterList=new ArrayList<BusModel>();
 				
 				try {
 					con=ConnectionUtill.connectdb();
 					statement =con.createStatement();
-					ResultSet rs=statement.executeQuery(findBus);
-					while(rs.next()) {					
-						busModel=new BusModel(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
-						busFilterList.add(busModel);
-//						busModel.toString();
-					}
+					rs=statement.executeQuery(findBus);
+//					while(rs.next()) {					
+//						busModel=new BusModel(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
+//						busFilterList.add(busModel);
+////						busModel.toString();
+//					}
+					return rs;
 				} catch (ClassNotFoundException e) {
 					System.out.println(e.getMessage());
 				} catch (SQLException e) {
 					System.out.println(e.getMessage());
 				}	
-				return busFilterList;
+				return rs;
 		    }
 		
 		

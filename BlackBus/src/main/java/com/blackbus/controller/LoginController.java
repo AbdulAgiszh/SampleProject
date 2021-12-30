@@ -2,17 +2,18 @@ package com.blackbus.controller;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import com.blackbus.Dao.AdminDao;
 import com.blackbus.Dao.UserDao;
 import com.blackbus.module.AdminModel;
 import com.blackbus.module.UserModel;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/loginWay")
 public class LoginController extends HttpServlet{
@@ -39,14 +40,45 @@ public class LoginController extends HttpServlet{
 				adminModel=adminDao.adminLogin(loginId);
 				if(adminModel.getAdminPassword().equals(password)) {
 					try {
-						res.sendRedirect("adminhome.jsp");
+						res.sendRedirect("admin.jsp");
 					} catch (IOException e) {
 						System.out.println(e.getMessage());
 					}
 				}
+				else
+					{
+						session.setAttribute("erroruserid", "password is incorrect");
+						try {
+							req.getRequestDispatcher("Login.jsp").forward(req,res);
+						} catch (ServletException e) {
+							System.out.println(e.getMessage());
+						} catch (IOException e) {
+							System.out.println(e.getMessage());
+						}
+					}
 			}
-					
+			else {
+				session.setAttribute("erroruserid", "user name mismatch");
+				try {
+					req.getRequestDispatcher("Login.jsp").forward(req,res);
+				} catch (ServletException e) {
+					System.out.println(e.getMessage());
+				} catch (IOException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			}
+		else if (loginId.endsWith("admin@gmail.com") == false && loginId.matches("[0-9]+") == false) {
+			session.setAttribute("erroruserid", "user name mismatch");
+			try {
+				req.getRequestDispatcher("Login.jsp").forward(req,res);
+			} catch (ServletException e) {
+				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
 		}
+		
 		//userLogin
 		else {
 			boolean userCheckFlag;
@@ -55,23 +87,22 @@ public class LoginController extends HttpServlet{
 			if(userCheckFlag) {
 				userModel=userDao.loginUser(userId);
 				if(userModel.getUserPassword().equals(password)) {
-					if(userModel != null) {
-						try {
-							res.sendRedirect("UserHome.jsp");
-						} catch (IOException e) {
-							System.out.println(e.getMessage());
-						}
-						
+					try {
+						res.sendRedirect("UserHome.jsp");
+					} catch (IOException e) {
+						System.out.println(e.getMessage());
 					}
-					else {
-						session.setAttribute("erroruserpass", "password is incorrect");
-						try {
-							req.getRequestDispatcher("Login.jsp").forward(req,res);
-						} catch (ServletException e) {
-							System.out.println(e.getMessage());
-						} catch (IOException e) {
-							System.out.println(e.getMessage());
-						}
+				}
+				else
+				{
+					session.setAttribute("erroruserid", "password is incorrect");
+					try {
+						req.getRequestDispatcher("Login.jsp").forward(req,res);
+					} catch (ServletException e) {
+						System.out.println(e.getMessage());
+					} catch (IOException e) {
+						System.out.println(e.getMessage());
+					}
 				}
 			}
 			else {
@@ -84,10 +115,13 @@ public class LoginController extends HttpServlet{
 					System.out.println(e.getMessage());
 				}
 			}
-		}
+					
+
 	}
 	}
 }
+	
+
 
 
 //HttpSession session=req.getSession();
@@ -97,4 +131,17 @@ public class LoginController extends HttpServlet{
 //if(error!=null) {%>
 //<p ><%=session.getAttribute("error") %></p>
 //<%} session.removeAttribute("error"); %>
+
+
+
+
+
+
+
+
+
+
+
+
+
 

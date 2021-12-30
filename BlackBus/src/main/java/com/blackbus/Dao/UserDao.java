@@ -172,32 +172,33 @@ public class UserDao implements UserDaoInterface {
 	
 
 	// for admin purpose to show all users
-	public List<UserModel> viewUserDetails() {
+	public ResultSet viewUserDetails() {
 
 		String userView = "select * from user_details";
 
 		Connection con;
-		List<UserModel> userList = new ArrayList<UserModel>();
+		ResultSet rs = null;
+//		List<UserModel> userList = new ArrayList<UserModel>();
 		try {
 			con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement = con.prepareStatement(userView);
 
-			ResultSet rs = pstatement.executeQuery();
+			rs = pstatement.executeQuery();
 
-			while (rs.next()) {
-				UserModel userModel = new UserModel(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4),
-						rs.getLong(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9));
-				userList.add(userModel);
-			}
-			con.close();
-			pstatement.close();
+//			while (rs.next()) {
+//				UserModel userModel = new UserModel(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4),
+//						rs.getLong(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9));
+//			}
+			return rs;
+			
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		return rs;
 
-		return userList;
+		
 
 	}
 

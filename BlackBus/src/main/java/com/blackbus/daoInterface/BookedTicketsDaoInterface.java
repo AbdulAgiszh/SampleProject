@@ -1,5 +1,6 @@
 package com.blackbus.daoInterface;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import com.blackbus.module.BookedTicketsModel;
@@ -18,7 +19,7 @@ public interface BookedTicketsDaoInterface {
 	
 	public boolean cancelTicket(UserModel userModel,BookedTicketsModel bookedTicketsModel);
 	
-	public List<BookedTicketsModel> showlistAdmin();
+	public ResultSet showlistAdmin();
 	
 	
 }

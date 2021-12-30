@@ -33,13 +33,13 @@
 <body>
     <div id="homeadmin">
         <ul>
-            <li><a href="adminProfile.jsp"></a>Profile</li>
-            <li><a href="addBus.jsp"></a>Add Bus</li>
-            <li><a href="addOperator.jsp"></a>Add Operator</li>
-            <li><a href="busList.jsp"></a>Bus list</li>
-            <li><a href="operatorList.jsp"></a>Operator list</li>
-            <li><a href="userList.jsp"></a>User list</li>
-            <li><a href="bookingList.jsp"></a>Booking list</li>
+            <li><a href="admin.jsp">Profile</a></li>
+            <li><a href="addBus.jsp">Add Bus</a></li>
+            <li><a href="addOperator.jsp">Add Operator</a></li>
+            <li><a href="busList.jsp">Bus list</a></li>
+            <li><a href="operatorList.jsp">Operator list</a></li>
+            <li><a href="userList.jsp">User list</a></li>
+            <li><a href="bookingList.jsp">Booking list</a></li>
         </ul>
     </div>
 </body>

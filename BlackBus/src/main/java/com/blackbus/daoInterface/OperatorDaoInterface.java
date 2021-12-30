@@ -1,5 +1,6 @@
 package com.blackbus.daoInterface;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import com.blackbus.module.OperatorModel;
@@ -12,7 +13,7 @@ public interface OperatorDaoInterface {
 	 
 	 public boolean deleteOperator (int operatorId);
 	 
-	 public List<OperatorModel> viewOperator();
+	 public ResultSet viewOperator();
 	 
 	 public OperatorModel getOperatorById(int operatorId) ;
 }

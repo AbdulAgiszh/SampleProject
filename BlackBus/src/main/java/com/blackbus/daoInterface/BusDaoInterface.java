@@ -1,5 +1,6 @@
 package com.blackbus.daoInterface;
 
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,9 +14,9 @@ public interface BusDaoInterface {
 	
 	public void updateBus(BusModel BusModel);
 	
-	public List<BusModel> viewAllBus();
+	public ResultSet viewAllBus();
 	
-	public List<BusModel> searchhBus(LocalDate givenDepartureDate,String fromLocation,String toLocation) ;
+	public ResultSet searchhBus(LocalDate givenDepartureDate,String fromLocation,String toLocation) ;
 	
 	public BusModel findBusDetailsUsingID(int busId);
 	

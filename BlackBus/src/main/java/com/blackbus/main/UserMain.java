@@ -236,11 +236,14 @@ public class UserMain {
 											break;
 										case 9:
 											// System.out.println("----------------To show userlist----------------------");
-											List<UserModel> listUser = userDao.viewUserDetails();
-											for (int i = 0; i < listUser.size(); i++) {
-												System.out.println(listUser.get(i));
+											ResultSet rs= userDao.viewUserDetails();
+											while(rs.next()) {
+												
 											}
-											break;
+//											for (int i = 0; i < rs.size(); i++) {
+//												System.out.println(rs.get(i));
+//											}
+//											break;
 										case 10:
 											// System.out.println("----------------To Delete bus----------------------");
 
@@ -355,7 +358,7 @@ public class UserMain {
 											for (int i = 0; i < listFilterBus.size(); i++) {
 												System.out.println(listFilterBus.get(i));
 											}
-
+											
 											// booking ticket
 											System.out.println("Enter the bus Id to have a ride to your loved place");
 											int bookBusId = Integer.parseInt(scan.nextLine());

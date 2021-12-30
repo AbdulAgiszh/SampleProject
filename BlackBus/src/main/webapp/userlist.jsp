@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@page import="com.blackbus.Dao.UserDao" %>
+    <%@page import="java.sql.ResultSet" %>
+    
+    <%UserDao userDao=new UserDao(); 
+    ResultSet rs=userDao.viewUserDetails();
+    %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +60,7 @@
 <body>
     <div id="homeadmin">
         <ul>
-            <li><a href="adminProfile.jsp">Profile</a></li>
+            <li><a href="admin.jsp">Profile</a></li>
             <li><a href="addBus.jsp">Add Bus</a></li>
             <li><a href="addOperator.jsp">Add Operator</a></li>
             <li><a href="busList.jsp">Bus list</a></li>
@@ -77,17 +84,19 @@
                     <th>User Wallet</th>
                     <th>User Status</th>
                 </tr>
+              <% while(rs.next()){ %>
                 <tr>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
-                    <td>1</td>
+                    <td><%=rs.getInt(1) %></td>
+                    <td><%=rs.getString(2) %></td>
+                    <td><%=rs.getInt(3) %></td>
+                    <td><%=rs.getString(4) %></td>
+                    <td><%=rs.getLong(5) %></td>
+                    <td><%=rs.getString(6) %></td>
+                    <td><%=rs.getString(7) %></td>
+                    <td><%=rs.getInt(8) %></td>
+                    <td><%=rs.getString(9) %></td>
                 </tr>
+                <%} %>
             </table>
       </div>
     </fieldset>
