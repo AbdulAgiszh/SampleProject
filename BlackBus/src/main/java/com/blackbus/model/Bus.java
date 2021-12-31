@@ -1,4 +1,4 @@
-package com.blackbus.module;
+package com.blackbus.model;
 
 
 import java.sql.Date;
@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class BusModel {
+public class Bus {
 
-	
-	private int operatorId;
 	private int busId;
+	private int busNo;
+	private int operatorId;
 	private String busCategory;
 	private String fromCity;
 	private String toCity;
@@ -21,11 +21,10 @@ public class BusModel {
 	private int sleeperFare;
 	private int seaterFare;
 	private int totalseat;
-//	private int availableSeat;
 	private String status;
 
 
-	public BusModel(int operatorId,String busCategory, String fromCity, String toCity, LocalDateTime depDate,
+	public Bus(int operatorId,String busCategory, String fromCity, String toCity, LocalDateTime depDate,
 			LocalDateTime arrDate, int sleeperFare, int seaterFare, int totalseat) {
 		super();
 		this.operatorId=operatorId;
@@ -40,25 +39,10 @@ public class BusModel {
 		
 	}
 
-	public BusModel(int busId, int operatorId1, String busCategory1, String fromCity1, String toCity1, LocalDateTime depDate1, LocalDateTime arrDate1,
-			 int sleeperFare1, int seaterFare1, int totalseat1, String status1) {
-		super();
-		this.busId=busId;
-		this.operatorId=operatorId1;
-		this.busCategory = busCategory1;
-		this.fromCity = fromCity1;
-		this.toCity = toCity1;
-		this.departure = depDate1;
-		this.arrival = arrDate1;
-		this.sleeperFare = sleeperFare1;
-		this.seaterFare = seaterFare1;
-		this.totalseat = totalseat1;
-		this.status=status1;
-	}
-
-	public BusModel(int operatorId1, String busCategory1, String fromCity1, String toCity1, LocalDateTime depDate1,
+	public Bus(int busNo1,int operatorId1, String busCategory1, String fromCity1, String toCity1, LocalDateTime depDate1,
 			LocalDateTime arrDate1, int sleeperFare1, int seaterFare1, int totalseat1, String status1) {
 		super();
+		this.busNo=busNo1;
 		this.operatorId=operatorId1;
 		this.busCategory = busCategory1;
 		this.fromCity = fromCity1;
@@ -71,12 +55,47 @@ public class BusModel {
 		this.status=status1;
 	}
 
-	public  int getoperatorId() {
-		return operatorId;
+	public Bus(int busId, int busNo, int operatorId, String busCategory, String fromCity, String toCity,
+			LocalDateTime departure, LocalDateTime arrival, int sleeperFare, int seaterFare, int totalseat,
+			String status) {
+		super();
+		this.busId = busId;
+		this.busNo = busNo;
+		this.operatorId = operatorId;
+		this.busCategory = busCategory;
+		this.fromCity = fromCity;
+		this.toCity = toCity;
+		this.departure = departure;
+		this.arrival = arrival;
+		this.sleeperFare = sleeperFare;
+		this.seaterFare = seaterFare;
+		this.totalseat = totalseat;
+		this.status = status;
+	}
+
+	public Bus(String busCategory2, String fromCity2, String toCity2, LocalDateTime departure2,
+			LocalDateTime arrival2, int sleeperFare2, int seaterFare2, int totalSeat2) {
+		super();
+		this.busCategory = busCategory2;
+		this.fromCity = fromCity2;
+		this.toCity = toCity2;
+		this.departure = departure2;
+		this.arrival = arrival2;
+		this.sleeperFare = sleeperFare2;
+		this.seaterFare = seaterFare2;
+		this.totalseat = totalSeat2;
 	}
 
 	public int getBusId() {
 		return busId;
+	}
+
+	public int getBusNo() {
+		return busNo;
+	}
+
+	public int getOperatorId() {
+		return operatorId;
 	}
 
 	public String getBusCategory() {
@@ -110,17 +129,21 @@ public class BusModel {
 	public int getTotalseat() {
 		return totalseat;
 	}
-	
+
 	public String getStatus() {
 		return status;
 	}
 
-	public void setoperatorId(int operatorModel) {
-		operatorId = operatorId;
-	}
-
 	public void setBusId(int busId) {
 		this.busId = busId;
+	}
+
+	public void setBusNo(int busNo) {
+		this.busNo = busNo;
+	}
+
+	public void setOperatorId(int operatorId) {
+		this.operatorId = operatorId;
 	}
 
 	public void setBusCategory(String busCategory) {
@@ -154,23 +177,23 @@ public class BusModel {
 	public void setTotalseat(int totalseat) {
 		this.totalseat = totalseat;
 	}
-	
+
 	public void setStatus(String status) {
-		this.status=status;
+		this.status = status;
 	}
 
-	DateTimeFormatter format=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 	@Override
 	public String toString() {
-		return "BusModel [operatorId=" + operatorId + ", busId=" + busId + ", busCategory=" + busCategory
-				+ ", fromCity=" + fromCity + ", toCity=" + toCity + ", departure=" + departure.format(format) + ", arrival=" + arrival.format(format)
-				+ ", sleeperFare=" + sleeperFare + ", seaterFare=" + seaterFare + ", totalseat=" + totalseat + "]";
+		return "Bus [busId=" + busId + ", busNo=" + busNo + ", operatorId=" + operatorId + ", busCategory="
+				+ busCategory + ", fromCity=" + fromCity + ", toCity=" + toCity + ", departure=" + departure
+				+ ", arrival=" + arrival + ", sleeperFare=" + sleeperFare + ", seaterFare=" + seaterFare
+				+ ", totalseat=" + totalseat + ", status=" + status + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(arrival, busCategory, busId, departure, fromCity, operatorId, seaterFare, sleeperFare,
-				status, toCity, totalseat);
+		return Objects.hash(arrival, busCategory, busId, busNo, departure, fromCity, operatorId, seaterFare,
+				sleeperFare, status, toCity, totalseat);
 	}
 
 	@Override
@@ -181,15 +204,17 @@ public class BusModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BusModel other = (BusModel) obj;
+		Bus other = (Bus) obj;
 		return Objects.equals(arrival, other.arrival) && Objects.equals(busCategory, other.busCategory)
-				&& busId == other.busId && Objects.equals(departure, other.departure)
+				&& busId == other.busId && busNo == other.busNo && Objects.equals(departure, other.departure)
 				&& Objects.equals(fromCity, other.fromCity) && operatorId == other.operatorId
 				&& seaterFare == other.seaterFare && sleeperFare == other.sleeperFare
 				&& Objects.equals(status, other.status) && Objects.equals(toCity, other.toCity)
 				&& totalseat == other.totalseat;
 	}
-
+	
+	
+	
 	
 
 	

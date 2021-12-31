@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.blackbus.Dao.AdminDao;
-import com.blackbus.Dao.UserDao;
-import com.blackbus.module.AdminModel;
-import com.blackbus.module.UserModel;
+import com.blackbus.daoimpl.AdminDaoImpl;
+import com.blackbus.daoimpl.UserDaoImpl;
+import com.blackbus.model.Admin;
+import com.blackbus.model.User;
 
 
 @WebServlet("/loginWay")
@@ -27,10 +27,10 @@ public class LoginController extends HttpServlet{
 		
 //		System.out.println(loginId);
 //		System.out.println(password);
-		AdminDao adminDao=new AdminDao();
-		UserDao userDao=new UserDao();
-		AdminModel adminModel;
-		UserModel userModel=new UserModel();
+		AdminDaoImpl adminDao=new AdminDaoImpl();
+		UserDaoImpl userDao=new UserDaoImpl();
+		Admin adminModel;
+		User userModel=new User();
 		
 		//admin Login
 		if(loginId.endsWith("admin@gmail.com")) {

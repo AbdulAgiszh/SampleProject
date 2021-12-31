@@ -1,8 +1,8 @@
-package com.blackbus.module;
+package com.blackbus.model;
 
 import java.util.Objects;
 
-public class UserModel {
+public class User {
 
 	
 	private int userId;
@@ -17,7 +17,7 @@ public class UserModel {
 	
 	
 
-	public UserModel() {
+	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -25,7 +25,7 @@ public class UserModel {
 	
 	
 
-	public UserModel(int userId, String userName, int userAge, String userEmail, long userContact, String userGender,
+	public User(int userId, String userName, int userAge, String userEmail, long userContact, String userGender,
 			String userPassword, int userWallet, String userStatus) {
 		super();
 		this.userId = userId;
@@ -40,7 +40,7 @@ public class UserModel {
 	}
 
 	//
-	public UserModel( String userName, int userAge, String userEmail, long userContact, String userGender,
+	public User( String userName, int userAge, String userEmail, long userContact, String userGender,
 			String userPassword) {
 		super();
 		this.userName = userName;
@@ -51,7 +51,7 @@ public class UserModel {
 		this.userPassword = userPassword;
 	}
 
-	public UserModel(String userName1, int userAge1, long userContact1, String userGender1, String userPassword1) {
+	public User(String userName1, int userAge1, long userContact1, String userGender1, String userPassword1) {
 		super();
 		this.userName = userName1;
 		this.userAge = userAge1;
@@ -60,7 +60,7 @@ public class UserModel {
 		this.userPassword = userPassword1;
 	}
 
-	public UserModel(long contact, String password) {
+	public User(long contact, String password) {
 		super();
 		this.userContact=contact;
 		this.userPassword=password;
@@ -140,7 +140,7 @@ public class UserModel {
 
 	@Override
 	public String toString() {
-		return "UserModel [userId=" + userId + ", userName=" + userName + ", userAge=" + userAge + ", userEmail="
+		return "User [userId=" + userId + ", userName=" + userName + ", userAge=" + userAge + ", userEmail="
 				+ userEmail + ", userContact=" + userContact + ", userGender=" + userGender + ", userPassword="
 				+ userPassword + ", userWallet=" + userWallet + ", userStatus=" + userStatus + "]";
 	}
@@ -159,7 +159,7 @@ public class UserModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UserModel other = (UserModel) obj;
+		User other = (User) obj;
 		return userAge == other.userAge && userContact == other.userContact
 				&& Objects.equals(userEmail, other.userEmail) && Objects.equals(userGender, other.userGender)
 				&& userId == other.userId && Objects.equals(userName, other.userName)

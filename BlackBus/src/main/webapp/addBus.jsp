@@ -94,15 +94,6 @@
     <div id="headeraddbus"> <label id="bustitle" for="bus">Bus</label> </div>
     <div id="addbus">
         <table>
-
-            <tr>
-                <th><label for="busId">Bus Id</label></th>
-                <th><input name="busId" type="text" id="busId" ></th>
-            </tr>
-            <tr>
-                <th><label for="operatorId">Operator ID</label></th>
-                <th><input name="operatorId" type="number" id="operatorId" ></th>
-            </tr>
             <tr>
                 <th><label for="busCategory">Bus Category</label></th>
                 <th><input name="busCategory" type="text" id="busCategory" ></th>
@@ -134,10 +125,6 @@
             <tr>
                 <th><label for="totalSeat">Total Seat</label></th>
                 <th><input name="totalSeat" type="number" id="totalSeat" ></th>
-            </tr>
-            <tr>
-                <th><label for="status">Status</label></th>
-                <th><input name="status" type="text" id="status" ></th>
             </tr>
 
         </table>

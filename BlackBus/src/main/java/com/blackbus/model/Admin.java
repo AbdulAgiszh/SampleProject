@@ -1,8 +1,8 @@
-package com.blackbus.module;
+package com.blackbus.model;
 
 import java.util.Objects;
 
-public class AdminModel {
+public class Admin {
 
 	private int adminId;
 	private String adminName;
@@ -10,12 +10,12 @@ public class AdminModel {
 	private String adminPassword;
 	private String adminEmail;
 	
-	public AdminModel() {
+	public Admin() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public AdminModel(String adminName, long admincontact, String adminPassword, String adminEmail) {
+	public Admin(String adminName, long admincontact, String adminPassword, String adminEmail) {
 		super();
 		this.adminName = adminName;
 		this.admincontact = admincontact;
@@ -66,7 +66,7 @@ public class AdminModel {
 
 	@Override
 	public String toString() {
-		return "AdminModel [adminId=" + adminId + ", adminName=" + adminName + ", admincontact=" + admincontact
+		return "Admin [adminId=" + adminId + ", adminName=" + adminName + ", admincontact=" + admincontact
 				+ ", adminPassword=" + adminPassword + ", adminEmail=" + adminEmail + "]";
 	}
 
@@ -83,7 +83,7 @@ public class AdminModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AdminModel other = (AdminModel) obj;
+		Admin other = (Admin) obj;
 		return Objects.equals(adminEmail, other.adminEmail) && adminId == other.adminId
 				&& Objects.equals(adminName, other.adminName) && Objects.equals(adminPassword, other.adminPassword)
 				&& admincontact == other.admincontact;

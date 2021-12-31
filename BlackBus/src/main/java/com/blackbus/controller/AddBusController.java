@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.blackbus.Dao.BusDao;
-import com.blackbus.module.BusModel;
+import com.blackbus.daoimpl.BusDaoImpl;
+import com.blackbus.model.Bus;
 
 
 
@@ -17,11 +17,11 @@ import com.blackbus.module.BusModel;
 public class AddBusController extends HttpServlet {
 
 	DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-	BusDao busDao=new BusDao();
+	BusDaoImpl busDao=new BusDaoImpl();
 	public void service(HttpServletRequest req,HttpServletResponse res) {
 		
-		
-		int operatorId=Integer.parseInt(req.getParameter("operatorId"));
+//		int busNo=Integer.parseInt(req.getParameter("busNo"));
+//		int operatorId=Integer.parseInt(req.getParameter("operatorId"));
 		String busCategory=req.getParameter("busCategory");
 		String fromCity=req.getParameter("fromCity");
 		String toCity=req.getParameter("toCity");
@@ -31,7 +31,7 @@ public class AddBusController extends HttpServlet {
 		int seaterFare=Integer.parseInt(req.getParameter("seaterFare"));
 		int totalSeat=Integer.parseInt(req.getParameter("totalSeat"));
 		
-		BusModel busmodel = new BusModel(operatorId, busCategory, fromCity, toCity,
+		Bus busmodel = new Bus(busCategory, fromCity, toCity,
 				departure, arrival, sleeperFare, seaterFare, totalSeat);
 		busDao.insertBus(busmodel);
 				

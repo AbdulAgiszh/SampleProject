@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="com.blackbus.Dao.BusDao" %>
+    <%@page import="com.blackbus.daoimpl.BusDaoImpl" %>
     <%@page import java.util.List; %>
     <%@page import="java.sql.ResultSet" %>
-    <%BusDao busDao=new BusDao();
-    List<BusModel> listFilterBus = busDao.searchhBus(givenDepartureDate,fromLocation, toLocation);%>
+    <%
+    BusDaoImpl busDao=new BusDaoImpl();
+        String fromLocation=req.getParameter("fromlocation");
+    	String toLocation=req.getParameter("tolocation");
+    	LocalDate searchDate=LocalDate.parse(req.getParameter("searchdate"));
+        ResultSet rs=busDao.searchhBus(givenDepartureDate, fromLocation, toLocation);
+    %>
 <!DOCTYPE html>
 <html>
 <head>

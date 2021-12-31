@@ -5,15 +5,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.blackbus.Dao.OperatorDao;
-import com.blackbus.module.OperatorModel;
+import com.blackbus.daoimpl.OperatorDaoImpl;
+import com.blackbus.model.Operator;
 
 
 
 @WebServlet("/addoperator")
 public class AddOperatorController extends HttpServlet {
 	
-	OperatorDao operatorDao=new OperatorDao();
+	OperatorDaoImpl operatorDao=new OperatorDaoImpl();
 	
 	public void service(HttpServletRequest req,HttpServletResponse res) {
 		
@@ -22,7 +22,7 @@ public class AddOperatorController extends HttpServlet {
 		long operatorContact=Long.parseLong(req.getParameter("operatorContact"));
 		int operatorAge=Integer.parseInt(req.getParameter("operatorAge"));
 		
-		OperatorModel operatorModel= new OperatorModel(operatorName,
+		Operator operatorModel= new Operator(operatorName,
 				operatorEmail, operatorContact, operatorAge);
 		operatorDao.insertOperator(operatorModel);
 	}

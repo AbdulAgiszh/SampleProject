@@ -5,8 +5,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.blackbus.Dao.UserDao;
-import com.blackbus.module.UserModel;
+import com.blackbus.daoimpl.UserDaoImpl;
+import com.blackbus.model.User;
 
 
 
@@ -27,8 +27,8 @@ public class UserController extends HttpServlet{
 		System.out.println(age);
 		String gender=req.getParameter("gender");
 		System.out.println(gender);
-		UserModel userModel=new UserModel(name,age,email,mobile,gender,password);
-		UserDao userDao=new UserDao();
+		User userModel=new User(name,age,email,mobile,gender,password);
+		UserDaoImpl userDao=new UserDaoImpl();
 		
 		userDao.registrationUser(userModel);
 	}

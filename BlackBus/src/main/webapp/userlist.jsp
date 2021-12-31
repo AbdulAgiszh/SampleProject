@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="com.blackbus.Dao.UserDao" %>
+    <%@page import="com.blackbus.daoimpl.UserDaoImpl" %>
     <%@page import="java.sql.ResultSet" %>
     
-    <%UserDao userDao=new UserDao(); 
-    ResultSet rs=userDao.viewUserDetails();
-    %>
+    <%
+        UserDaoImpl userDao=new UserDaoImpl(); 
+            ResultSet rs=userDao.viewUserDetails();
+        %>
     
 <!DOCTYPE html>
 <html>

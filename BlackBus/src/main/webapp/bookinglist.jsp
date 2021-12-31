@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="com.blackbus.Dao.BookedTicketsDao" %>
+    <%@page import="com.blackbus.daoimpl.BookedTicketsDaoImpl" %>
     <%@page import="java.time.LocalDate" %>
     <%@page import="java.sql.ResultSet" %>
-    <%BookedTicketsDao bookDao=new BookedTicketsDao();
-    ResultSet rs=bookDao.showlistAdmin();%>
+    <%
+    BookedTicketsDaoImpl bookDao=new BookedTicketsDaoImpl();
+        ResultSet rs=bookDao.showlistAdmin();
+    %>
     
 <!DOCTYPE html>
 <html>

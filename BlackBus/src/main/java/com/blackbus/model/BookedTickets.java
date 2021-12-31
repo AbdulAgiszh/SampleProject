@@ -1,15 +1,15 @@
-package com.blackbus.module;
+package com.blackbus.model;
 
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class BookedTicketsModel {
+public class BookedTickets {
 
 	private int bookingId;
-	private UserModel userModel;
-	private BusModel busModel;
+	private User userModel;
+	private Bus busModel;
 	private LocalDate bookingDate;
 	private LocalDate departureDate;
 	private int ticketCount;
@@ -19,12 +19,12 @@ public class BookedTicketsModel {
 	private int totalPrice;
 	private String paymentStatus;
 	
-	public BookedTicketsModel() {
+	public BookedTickets() {
 		super();
 	}
 
 	
-	public BookedTicketsModel(int bookingId, UserModel userModel, BusModel busModel, LocalDate bookingDate,
+	public BookedTickets(int bookingId, User userModel, Bus busModel, LocalDate bookingDate,
 			LocalDate departureDate, int ticketCount, String seatCategory, String seatNo, String bookingStatus,
 			int totalPrice, String paymentStatus) {
 		super();
@@ -41,7 +41,7 @@ public class BookedTicketsModel {
 		this.paymentStatus = paymentStatus;
 	}
 
-	public BookedTicketsModel(UserModel userModel1, BusModel busModel1,LocalDate departureDate1, int bookTicketCount1,String seatCategory1, String bookSeatNo1,
+	public BookedTickets(User userModel1, Bus busModel1,LocalDate departureDate1, int bookTicketCount1,String seatCategory1, String bookSeatNo1,
 			int bookTotalPrice1,String paymentStatus1) {
 		this.userModel=userModel1;
 		this.busModel=busModel1;
@@ -61,12 +61,12 @@ public class BookedTicketsModel {
 	}
 
 
-	public UserModel getUserModel() {
+	public User getUserModel() {
 		return userModel;
 	}
 
 
-	public BusModel getBusModel() {
+	public Bus getBusModel() {
 		return busModel;
 	}
 
@@ -116,12 +116,12 @@ public class BookedTicketsModel {
 	}
 
 
-	public void setUserModel(UserModel userModel) {
+	public void setUserModel(User userModel) {
 		this.userModel = userModel;
 	}
 
 
-	public void setBusModel(BusModel busModel) {
+	public void setBusModel(Bus busModel) {
 		this.busModel = busModel;
 	}
 
@@ -169,7 +169,7 @@ public class BookedTicketsModel {
 
 	@Override
 	public String toString() {
-		return "BookedTicketsModel [bookingId=" + bookingId + ", userModel=" + userModel + ", busModel=" + busModel
+		return "BookedTickets [bookingId=" + bookingId + ", userModel=" + userModel + ", busModel=" + busModel
 				+ ", bookingDate=" + bookingDate + ", departureDate=" + departureDate + ", ticketCount=" + ticketCount
 				+ ", seatCategory=" + seatCategory + ", seatNo=" + seatNo + ", bookingStatus=" + bookingStatus
 				+ ", totalPrice=" + totalPrice + ", paymentStatus=" + paymentStatus + "]";
@@ -206,7 +206,7 @@ public class BookedTicketsModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BookedTicketsModel other = (BookedTicketsModel) obj;
+		BookedTickets other = (BookedTickets) obj;
 		return Objects.equals(bookingDate, other.bookingDate) && bookingId == other.bookingId
 				&& Objects.equals(bookingStatus, other.bookingStatus) && Objects.equals(busModel, other.busModel)
 				&& Objects.equals(departureDate, other.departureDate)

@@ -1,8 +1,8 @@
-package com.blackbus.module;
+package com.blackbus.model;
 
 import java.util.Objects;
 
-public class OperatorModel {
+public class Operator {
 
 	private int operatorId;
 	private String operatorName;
@@ -10,14 +10,14 @@ public class OperatorModel {
 	private long operatorContact;
 	private int operatorAge;
 	
-	public OperatorModel() {
+	public Operator() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 	
 
-	public OperatorModel(int operatorId, String operatorName, String operatorEmail, long operatorContact,
+	public Operator(int operatorId, String operatorName, String operatorEmail, long operatorContact,
 			int operatorAge) {
 		super();
 		this.operatorId = operatorId;
@@ -29,7 +29,7 @@ public class OperatorModel {
 
 
 
-	public OperatorModel(String operatorName, String operatorEmail, long operatorContact,int operatorAge) {
+	public Operator(String operatorName, String operatorEmail, long operatorContact,int operatorAge) {
 		super();
 		this.operatorName = operatorName;
 		this.operatorEmail = operatorEmail;
@@ -79,7 +79,7 @@ public class OperatorModel {
 
 	@Override
 	public String toString() {
-		return "OperatorModel [operatorId=" + operatorId + ", operatorName=" + operatorName + ", operatorEmail="
+		return "Operator [operatorId=" + operatorId + ", operatorName=" + operatorName + ", operatorEmail="
 				+ operatorEmail + ", operatorContact=" + operatorContact + ", operatorAge=" + operatorAge + "]";
 	}
 
@@ -96,7 +96,7 @@ public class OperatorModel {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OperatorModel other = (OperatorModel) obj;
+		Operator other = (Operator) obj;
 		return operatorAge == other.operatorAge && operatorContact == other.operatorContact
 				&& Objects.equals(operatorEmail, other.operatorEmail) && operatorId == other.operatorId
 				&& Objects.equals(operatorName, other.operatorName);

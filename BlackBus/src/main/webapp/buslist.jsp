@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="com.blackbus.Dao.BusDao" %>
+    <%@page import="com.blackbus.daoimpl.BusDaoImpl" %>
     <%@page import="java.sql.ResultSet" %>
-    <%BusDao busDao=new BusDao();
-    ResultSet rs=busDao.viewAllBus();%>
+    <%
+    BusDaoImpl busDao=new BusDaoImpl();
+        ResultSet rs=busDao.viewAllBus();
+    %>
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="com.blackbus.Dao.OperatorDao" %>
+    <%@page import="com.blackbus.daoimpl.OperatorDaoImpl" %>
     <%@page import="java.sql.ResultSet" %>
-    <%OperatorDao operatorDao=new OperatorDao();
-    ResultSet rs=operatorDao.viewOperator();%>
+    <%
+    OperatorDaoImpl operatorDao=new OperatorDaoImpl();
+        ResultSet rs=operatorDao.viewOperator();
+    %>
    
 <!DOCTYPE html>
 <html>
