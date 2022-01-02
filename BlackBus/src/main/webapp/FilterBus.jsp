@@ -1,17 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@page import="com.blackbus.daoimpl.BusDaoImpl" %>
-    <%@page import java.util.List; %>
     <%@page import="java.sql.ResultSet" %>
+    <%@page import="java.time.LocalDate" %>
+    <%@page import="java.time.format.DateTimeFormatter" %>
     <%
+    DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
+    DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-mm-yyyy");
+   	String fromLocation=request.getParameter("fromlocation");
+    System.out.println(fromLocation);
+    String toLocation=request.getParameter("tolocation");
+    System.out.println(toLocation);
+    LocalDate date=LocalDate.parse(request.getParameter("date"));
+    System.out.println(date);
     BusDaoImpl busDao=new BusDaoImpl();
-        String fromLocation=req.getParameter("fromlocation");
-    	String toLocation=req.getParameter("tolocation");
-    	LocalDate searchDate=LocalDate.parse(req.getParameter("searchdate"));
-        ResultSet rs=busDao.searchhBus(givenDepartureDate, fromLocation, toLocation);
+    ResultSet rs=busDao.searchhBus(date, fromLocation, toLocation);
     %>
 <!DOCTYPE html>
-<html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
@@ -64,60 +69,86 @@
              color: white;
              margin-top: -15px;
          }
+         #forcontent ul li{
+            padding: 3px;
+         }
          #forcontentinlist{
              padding: 0px;
              list-style: none;
              display: flex;
              margin-top: -8px;
          }
-         #backbutton{
+         #backlink{
+            color: black;
+            border: 1px solid black;
+            background-color: rgb(188, 187, 247);
+            border: none;
+            padding: 5px;
             height: 30px;
             width: 150px;
-            margin-left: 550px;
-            margin-top: -30px ;
+            margin-left: 560px;
+            border-radius: 5px;
+         }
+         #busId{
+             height: 35px;
+             width: 55px;
+             outline: none;
+             border: none;
+             cursor: pointer;
+             font-size: 15px;
+             border-radius: 5px;
+         }
+         a{
+             text-decoration: none;
+         }
+         #busId:hover{
+            background-color: rgb(130, 238, 130);
          }
         </style>
     </head>
     <body>
+    <form action="SeatBooking.jsp">
         <div>
             <fieldset id="fieldsettable">
                 <legend><h3>Available Buses</h3></legend>
+            
                 <div id="forcontent">
                       <ul id="forcontentinlist">
-                        <li><h4></h4></li>
+                        <li><h4><%=fromLocation %></h4></li>
                         <li><p>to</p></li>
-                        <li><h4></h4>-</li>
-                        <li><h4>Journey Date :</h4></li>
-                        <li><h4></h4></li>
+                        <li><h4><%=toLocation %></h4></li>
+                        <li><p>Journey Date :</p></li>
+                        <li><h4><%=date %></h4></li>
                     </ul>
                 </div>
                 <div id="outerlinetable">
                     <table>
                         <tr>
-                            <th>Type</th>
-                            <th>Departure</th>
-                            <th>Arrival</th>
+                            <th>Type</th>	
                             <th>Start Point</th>
                             <th>Destination</th>
-                            <th>Sleeper Fare</th>
+                            <th>Departure.time(at passenger start point)</th>
+                            <th>Arrival.time(at passenger end point)</th>
                             <th>Seater Fare</th>
                             <th>Select Service</th>
                         </tr>
+                        <%while(rs.next()){ %>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><a href="seatbooking.html">Book</a></td>
+                            <td><%=rs.getString(4) %></td>
+                            <td><%=rs.getString(5) %></td>
+                            <td><%=rs.getString(6) %></td>
+                            <td><%=rs.getTime(7).toLocalTime().format(formatTime)%></td>
+                            <td><%=rs.getTime(8).toLocalTime().format(formatTime)%></td>
+                            <td><%=rs.getInt(9) %></td>
+                            <td><button id="busId" name="busIdValue" value="<%=rs.getInt(1)%>">BOOK</button></td>
                         </tr>
+                        <% } %>
                     </table>
                 </div>
-                
+             
             </fieldset>
-            <button id="backbutton" type="submit"><a href="index.html">GO BACK TO HOME</a></button>
+            <a href="SearchBus.jsp" id="backlink">GO BACK TO HOME</a>
         </div>
+         </form>
     </body>
     </html>

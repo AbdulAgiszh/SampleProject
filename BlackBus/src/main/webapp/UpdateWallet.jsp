@@ -1,27 +1,18 @@
-<%@page import="com.blackbus.model.User"%>
 <%@page import="com.blackbus.daoimpl.UserDaoImpl"%>
+<%@page import="com.blackbus.model.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@page import="javax.servlet.http.HttpSession" %>
     <%User userModel=(User)session.getAttribute("userModel"); 
-    UserDaoImpl userDao=new UserDaoImpl();
-    User userModel1=userDao.getUserDetailsById(userModel.getUserId());
-    
-    int amountEntered=Integer.parseInt(request.getParameter("amountentered"));
-    int totalAmount=amountEntered+userModel1.getUserWallet();
-    userDao.updateWallet(totalAmount, userModel.getUserContact());
-    
-    
-    User userModel2=new User(userModel1.getUserId(),userModel1.getUserName(),userModel1.getUserDOB(),userModel1.getUserEmail(),
-  		  userModel1.getUserContact(),userModel1.getUserGender(),userModel1.getUserPassword(),totalAmount);
-    session.setAttribute("user", userModel2);
-    %>
+      UserDaoImpl userDao=new UserDaoImpl();
+      User userModel1=userDao.getUserDetailsById(userModel.getUserId());%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <style>
-        *{
+     *{
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -87,12 +78,53 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
-    </style>
+        
+        
+    #updatewalletdiv{
+        border: 2px solid black;
+        border-radius: 10px;
+        width: 400px;
+        padding: 40px;
+        margin-left: 450px;
+        margin-top: 100px;
+    }
+    #updatewalletdiv table tr td{
+        padding: 8px;
+        font-size: x-large;
+    }
+    #amounttext{
+        height: 30px;
+        width: 200px;
+        font-size: 15px;
+    }
+    #amountdiv{
+        margin-top: 20px;
+        margin-left: 50px;
+        font-size: x-large;
+    }
+    #btn{
+            height: 45px;
+            width: 120px;
+            background-color: rgb(129, 168, 252);
+            outline: none;
+            border: none;
+            margin-left: 100px;
+            margin-top: 30px;
+            cursor: pointer;
+        }
+        #btn a{
+        	text-decoration: none;
+            font-size: large;
+        }
+        #btn:hover{
+            background-color: rgb(247, 112, 112);
+        }
+</style>
 </head>
 <body>
     <div id="nav">
         <ul>
-            <li><span>Logo</span></li>
+            <li><span>Home</span></li>
             <li><a href="SearchBus.jsp">Bus_Tickets</a></li>
             <li><a href="AboutUs.jsp">About_us</a></li>
             <li><a href="UserProfile.jsp">Profile</a></li>
@@ -119,8 +151,24 @@
             <li><a href="UserRegister.html">SignUp</a></li>
             </ul>
         </div>
-        <script>
-            alert("Amount Successfully added to your wallet");
-        </script>
+<form action="UserHome.jsp">
+    <div id="updatewalletdiv">
+        <table>
+            <tr>
+                <td>LoginId :</td>
+                <td><%=userModel1.getUserContact() %></td>
+            </tr>
+            <tr>
+                <td>Available Balance :</td>
+                <td><%=userModel1.getUserWallet() %></td>
+            </tr>
+        </table>
+    <div id="amountdiv">
+        <label for="enteramount">Enter the amount</label>
+        <input id="amounttext" name="amountentered" type="number" placeholder="To be added to your wallet">
+    </div>
+         <button id="btn" name="btn" type="submit">Submit</button>
+    </div>
+</form>
 </body>
 </html>

@@ -27,12 +27,11 @@ public class AddBusController extends HttpServlet {
 		String toCity=req.getParameter("toCity");
 		LocalDateTime departure=LocalDateTime.parse(req.getParameter("departure"));
 		LocalDateTime arrival=LocalDateTime.parse(req.getParameter("arrival"));
-		int sleeperFare=Integer.parseInt(req.getParameter("sleeperFare"));
 		int seaterFare=Integer.parseInt(req.getParameter("seaterFare"));
 		int totalSeat=Integer.parseInt(req.getParameter("totalSeat"));
 		
-		Bus busmodel = new Bus(busCategory, fromCity, toCity,
-				departure, arrival, sleeperFare, seaterFare, totalSeat);
+		Bus busmodel = new Bus(0,0,0,busCategory, fromCity, toCity,
+				departure, arrival, seaterFare, totalSeat,"");
 		busDao.insertBus(busmodel);
 				
 		

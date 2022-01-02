@@ -26,7 +26,7 @@ public class BookedTicketsDaoImpl implements BookedTicketsDAO {
 	
 	
 	public boolean insertBookedTickets(User userModel,Bus busModel,BookedTickets bookedTicketsModel) {
-		String ticketsInsert = "insert into Booked_tickets (user_id,bus_id,departure_date,ticket_count,seat_category,seat_no,total_price,payment_status) values (?,?,?,?,?,?,?,?)"; 
+		String ticketsInsert = "insert into Booked_tickets (user_id,bus_id,departure_date,ticket_count,seat_no,total_price,payment_status) values (?,?,?,?,?,?,?)"; 
 		
 		Connection con;
 		int result=0;
@@ -39,10 +39,9 @@ public class BookedTicketsDaoImpl implements BookedTicketsDAO {
 			pstatement.setInt(2, busModel.getBusId());
 			pstatement.setDate(3,  java.sql.Date.valueOf(bookedTicketsModel.getDepartureDate()));
 			pstatement.setInt(4, bookedTicketsModel.getTicketCount());
-			pstatement.setString(5, bookedTicketsModel.getSeatCategory());
-			pstatement.setString(6, bookedTicketsModel.getSeatNo());
-			pstatement.setInt(7, bookedTicketsModel.getTotalPrice());
-			pstatement.setString(8, bookedTicketsModel.getPaymentStatus());
+			pstatement.setString(5, bookedTicketsModel.getSeatNo());
+			pstatement.setInt(6, bookedTicketsModel.getTotalPrice());
+			pstatement.setString(7, bookedTicketsModel.getPaymentStatus());
 			result=pstatement.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			e.getMessage();
@@ -103,11 +102,11 @@ public class BookedTicketsDaoImpl implements BookedTicketsDAO {
 			while(rs.next()) {
 				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
 				userModel1=userDao.getUserDetailsById(userModel.getUserId());
-				BookedTickets bookedTicketsModel=new BookedTickets(rs.getInt(1),userModel1,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11));
+				BookedTickets bookedTicketsModel=new BookedTickets(rs.getInt(1),userModel1,busModel,rs.getInt(4),rs.getDate(5).toLocalDate(),rs.getDate(6).toLocalDate(),rs.getString(7),rs.getInt(8),rs.getInt(9),rs.getString(10),rs.getString(11));
 				bookingList.add(bookedTicketsModel);
 				
 			}	
-			
+				
 		} catch (ClassNotFoundException e) {
 			e.getMessage();
 		} catch (SQLException e) {
@@ -136,7 +135,7 @@ public class BookedTicketsDaoImpl implements BookedTicketsDAO {
 			if(rs.next()) {
 				busModel=busDao.findBusDetailsUsingID(rs.getInt(3));
 				userModel=userDao.getUserDetailsById(rs.getInt(2));
-				bookedTicketsModel=new BookedTickets(rs.getInt(1),userModel,busModel,rs.getDate(4).toLocalDate(),rs.getDate(5).toLocalDate(),rs.getInt(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getInt(10),rs.getString(11));
+				bookedTicketsModel=new BookedTickets(rs.getInt(1),userModel,busModel,rs.getInt(4),rs.getDate(5).toLocalDate(),rs.getDate(6).toLocalDate(),rs.getString(7),rs.getInt(8),rs.getInt(9),rs.getString(10),rs.getString(11));
 				
 			}	
 			

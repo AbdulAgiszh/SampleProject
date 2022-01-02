@@ -1,19 +1,25 @@
 package com.blackbus.controller;
 
+import java.io.IOException;
+import java.time.LocalDate;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.blackbus.daoimpl.UserDaoImpl;
 import com.blackbus.model.User;
 
 
 
-@WebServlet("/reg")
-public class UserController extends HttpServlet{
+@WebServlet("/registerpage")
+public class UserRegisterController extends HttpServlet{
 
 	public void service(HttpServletRequest req,HttpServletResponse res) {
+		
+		HttpSession session=req.getSession();
 	
 		String name=req.getParameter("name");
 		System.out.println(name);
@@ -23,14 +29,25 @@ public class UserController extends HttpServlet{
 		System.out.println(mobile);
 		String password=req.getParameter("password");
 		System.out.println(password);
-		int age=Integer.parseInt(req.getParameter("age"));
-		System.out.println(age);
+		LocalDate dob=LocalDate.parse(req.getParameter("dob"));
+		System.out.println(dob);
 		String gender=req.getParameter("gender");
 		System.out.println(gender);
-		User userModel=new User(name,age,email,mobile,gender,password);
+		User userModel=new User(0,name,dob,email,mobile,gender,password,0);
 		UserDaoImpl userDao=new UserDaoImpl();
 		
-		userDao.registrationUser(userModel);
+		boolean registerFlag=userDao.registrationUser(userModel);
+		if(registerFlag) {
+			try {
+				res.sendRedirect("Login.jsp");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+			System.out.println("not register");
+		}
 	}
 	
 }

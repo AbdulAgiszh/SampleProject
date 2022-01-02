@@ -23,13 +23,11 @@ public class BusDaoImpl implements BusDAO {
 	SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy hh:mm");
 	
 	public void insertBus(Bus busModel) {
-		String busInsert = "insert into bus_details (bus_category, from_city, to_city, departure, arrival,sleeper_fare, seater_fare, total_seat) values (?,?,?,?,?,?,?,?)";
+		String busInsert = "insert into bus_details (bus_category, from_city, to_city, departure, arrival, seater_fare, total_seat) values (?,?,?,?,?,?,?)";
 		try {
 			Connection con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement = con.prepareStatement(busInsert);
 			
-//			pstatement.setInt(1, busModel.getBusNo());
-//			pstatement.setInt(2, busModel.getOperatorId());
 			pstatement.setString(1, busModel.getBusCategory());
 			pstatement.setString(2, busModel.getFromCity());
 			pstatement.setString(3, busModel.getToCity());
@@ -37,9 +35,8 @@ public class BusDaoImpl implements BusDAO {
 			pstatement.setTimestamp(4,  depDateTime);
 			Timestamp arrDateTime = Timestamp.valueOf(busModel.getArrival());
 			pstatement.setTimestamp(5,  arrDateTime);
-			pstatement.setInt(6, busModel.getSleeperFare());
-			pstatement.setInt(7, busModel.getSeaterFare());
-			pstatement.setInt(8, busModel.getTotalseat());
+			pstatement.setInt(6, busModel.getSeaterFare());
+			pstatement.setInt(7, busModel.getTotalseat());
 
 			int result = pstatement.executeUpdate();
 			if (result == 1) {
@@ -88,7 +85,7 @@ public class BusDaoImpl implements BusDAO {
 	
 	public void updateBus(Bus busModel) {
 		
-            String busUpdate="update bus_details set bus_no=?,operator_id=?,bus_category=?, from_city=?, to_city=?, departure=?, arrival=?,sleeper_fare=?, seater_fare=?, total_seat=?,status=? where bus_id='"+busModel.getBusId()+"'";
+            String busUpdate="update bus_details set bus_no=?,operator_id=?,bus_category=?, from_city=?, to_city=?, departure=?, arrival=?, seater_fare=?, total_seat=?,seat_status=? where bus_id='"+busModel.getBusId()+"'";
     	
     	    Connection con;
     	    try {
@@ -104,10 +101,9 @@ public class BusDaoImpl implements BusDAO {
 			pstatement.setTimestamp(6,  depDateTime);
 			Timestamp arrDateTime = Timestamp.valueOf(busModel.getArrival());
 			pstatement.setTimestamp(7,  arrDateTime);
-			pstatement.setInt(8, busModel.getSleeperFare());
-			pstatement.setInt(9, busModel.getSeaterFare());
-			pstatement.setInt(10, busModel.getTotalseat());
-			pstatement.setString(11, busModel.getStatus());
+			pstatement.setInt(8, busModel.getSeaterFare());
+			pstatement.setInt(9, busModel.getTotalseat());
+			pstatement.setString(10, busModel.getSeatStatus());
 			
 			int result=pstatement.executeUpdate();
 			if(result==1) {
@@ -233,7 +229,7 @@ public class BusDaoImpl implements BusDAO {
 				ResultSet rs = pstatement.executeQuery();
 				
 				 if(rs.next()) {
-					 busModel=new Bus(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getTimestamp(7).toLocalDateTime(),rs.getTimestamp(8).toLocalDateTime(),rs.getInt(9),rs.getInt(10),rs.getInt(11),rs.getString(12));
+					 busModel=new Bus(rs.getInt(1),rs.getInt(2),rs.getInt(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getTimestamp(7).toLocalDateTime(),rs.getTimestamp(8).toLocalDateTime(),rs.getInt(9),rs.getInt(10),rs.getString(11));
 				 
 				 }
 				con.close();

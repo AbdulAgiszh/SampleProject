@@ -149,13 +149,12 @@ public class OperatorDaoImpl implements OperatorDAO{
 		Connection con = null;
 		PreparedStatement pstatement = null;
 		Operator operatormodel=null;
-		
+		ResultSet rs=null;
 		 try {
 			con = ConnectionUtill.connectdb();
 			 pstatement = con.prepareStatement(getOperator);
 			 pstatement.setInt(1, operatorId);
-			ResultSet rs = pstatement.executeQuery();
-			
+			rs = pstatement.executeQuery();
 			 if (rs.next()) {
 				 operatormodel=new Operator(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getLong(4),rs.getInt(5));
 				con.close();

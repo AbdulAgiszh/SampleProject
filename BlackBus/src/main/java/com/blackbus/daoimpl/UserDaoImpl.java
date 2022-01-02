@@ -1,17 +1,16 @@
 package com.blackbus.daoimpl;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import com.blackbus.connection.ConnectionUtill;
 import com.blackbus.dao.UserDAO;
-import com.blackbus.model.Admin;
-import com.blackbus.model.Operator;
+
 import com.blackbus.model.User;
 
 public class UserDaoImpl implements UserDAO {
 
+	
 	public User loginUser(long contact) {
 
 		String userLogin = "select * from user_details where user_contact='" + contact + "'";
@@ -25,8 +24,8 @@ public class UserDaoImpl implements UserDAO {
 			ResultSet rs = statement.executeQuery(userLogin);
 
 			rs.next();
-			userModel = new User(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getLong(5),
-					rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9));
+			userModel = new User(rs.getInt(1), rs.getString(2), rs.getDate(3).toLocalDate(), rs.getString(4), rs.getLong(5),
+					rs.getString(6), rs.getString(7), rs.getInt(8));
 			con.close();
 			pstatement.close();
 		} catch (ClassNotFoundException e) {
@@ -63,16 +62,17 @@ public class UserDaoImpl implements UserDAO {
 		return checkUserFlag;
 	}
 
-	public void registrationUser(User userModel) {
+	public boolean registrationUser(User userModel) {
 
-		String insertUser = "insert into user_details (user_name,user_age,user_email,user_contact,user_gender,user_password) values (?,?,?,?,?,?)";
+		String insertUser = "insert into user_details (user_name,user_dob,user_email,user_contact,user_gender,user_password) values (?,?,?,?,?,?)";
 		Connection con;
+		boolean registerFlag=true;
 		try {
 			con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement = con.prepareStatement(insertUser);
 
 			pstatement.setString(1, userModel.getUserName());
-			pstatement.setInt(2, userModel.getUserAge());
+			pstatement.setDate(2, java.sql.Date.valueOf(userModel.getUserDOB()));
 			pstatement.setString(3, userModel.getUserEmail());
 			pstatement.setLong(4, userModel.getUserContact());
 			pstatement.setString(5, userModel.getUserGender());
@@ -80,23 +80,22 @@ public class UserDaoImpl implements UserDAO {
 
 			int result = pstatement.executeUpdate();
 			if (result > 0) {
-				System.out.println("Your Have Registered Successfully!!");
-				pstatement.close();
-				con.close();
+				return registerFlag;
 			} else {
-				System.out.println("your record has not registered");
+				return registerFlag=false;
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		 return registerFlag;
 
 	}
 
 	public void updateUser(User userModel) {
 
-		String userUpdate = "update user_details set user_name=?, user_age=?, user_gender=?, user_password=? where user_contact='"
+		String userUpdate = "update user_details set user_name=?, user_dob=?, user_gender=?, user_password=? where user_contact='"
 				+ userModel.getUserContact() + "'";
 
 		Connection con;
@@ -105,7 +104,7 @@ public class UserDaoImpl implements UserDAO {
 			PreparedStatement pstatement = con.prepareStatement(userUpdate);
 
 			pstatement.setString(1, userModel.getUserName());
-			pstatement.setInt(2, userModel.getUserAge());
+			pstatement.setDate(2, java.sql.Date.valueOf(userModel.getUserDOB()));
 			pstatement.setString(3, userModel.getUserGender());
 			pstatement.setString(4, userModel.getUserPassword());
 
@@ -238,8 +237,8 @@ public class UserDaoImpl implements UserDAO {
 			ResultSet rs = pstatement.executeQuery();
 
 			if (rs.next()) {
-				userModel = new User(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getLong(5),
-						rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9));
+				userModel = new User(rs.getInt(1), rs.getString(2), rs.getDate(3).toLocalDate(), rs.getString(4), rs.getLong(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8));
 				checkUserFlag = true;
 			} else {
 				checkUserFlag = false;
@@ -254,6 +253,8 @@ public class UserDaoImpl implements UserDAO {
 		return checkUserFlag;
 
 	}
+	
+	
 
 	public User getUserDetailsById(int userId) { ////
 
@@ -269,8 +270,8 @@ public class UserDaoImpl implements UserDAO {
 			ResultSet rs = pstatement.executeQuery();
 
 			if (rs.next()) {
-				userModel = new User(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getLong(5),
-						rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9));
+				userModel = new User(rs.getInt(1), rs.getString(2),  rs.getDate(3).toLocalDate(), rs.getString(4), rs.getLong(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8));
 			}
 			con.close();
 			pstatement.close();

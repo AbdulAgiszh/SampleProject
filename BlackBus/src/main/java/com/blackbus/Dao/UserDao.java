@@ -11,7 +11,7 @@ public interface UserDAO {
 	
 	public boolean checkUser(long contact);
 	
-	public void registrationUser(User userModel) ;
+	public boolean registrationUser(User userModel) ;
 	
 	public void updateUser(User userModel);
 	

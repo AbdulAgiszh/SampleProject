@@ -40,7 +40,7 @@ public class LoginController extends HttpServlet{
 				adminModel=adminDao.adminLogin(loginId);
 				if(adminModel.getAdminPassword().equals(password)) {
 					try {
-						res.sendRedirect("admin.jsp");
+						res.sendRedirect("AdminHome.jsp");
 					} catch (IOException e) {
 						System.out.println(e.getMessage());
 					}
@@ -86,9 +86,12 @@ public class LoginController extends HttpServlet{
 			userCheckFlag=userDao.checkUser(userId);
 			if(userCheckFlag) {
 				userModel=userDao.loginUser(userId);
+				System.out.println(userModel.getUserPassword());
+				
 				if(userModel.getUserPassword().equals(password)) {
 					try {
-						res.sendRedirect("UserHome.jsp");
+						session.setAttribute("userModel", userModel);
+						res.sendRedirect("SearchBus.jsp");
 					} catch (IOException e) {
 						System.out.println(e.getMessage());
 					}

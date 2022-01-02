@@ -34,7 +34,9 @@
         a{
             text-decoration: none;
         }
-       
+        table{
+        border-collapse: collapse;
+        }
         #buslistdiv table tr th,td {
             padding: 20px;
             text-align: center;
@@ -43,11 +45,9 @@
          }
         #buslistfieldset{
             margin-top: 20px;
-            padding: 10px;
+            
         }
         #buslistdiv{
-            padding: 20px;
-            
             margin-top: 20px;
         }
         legend{
@@ -58,13 +58,13 @@
     <body>
         <div id="homeadmin">
             <ul>
-               <li><a href="admin.jsp">Profile</a></li>
-            <li><a href="addBus.jsp">Add Bus</a></li>
-            <li><a href="addOperator.jsp">Add Operator</a></li>
-            <li><a href="busList.jsp">Bus list</a></li>
-            <li><a href="operatorList.jsp">Operator list</a></li>
-            <li><a href="userList.jsp">User list</a></li>
-            <li><a href="bookingList.jsp">Booking list</a></li>
+                <li><a href="AdminHome.jsp">Profile</a></li>
+            <li><a href="AddBus.jsp">Add Bus</a></li>
+            <li><a href="AddOperator.jsp">Add Operator</a></li>
+            <li><a href="BusList.jsp">Bus list</a></li>
+            <li><a href="OperatorList.jsp">Operator list</a></li>
+            <li><a href="UserList.jsp">User list</a></li>
+            <li><a href="BookingList.jsp">Booking list</a></li>
             </ul>
                 
         </div>
@@ -74,30 +74,32 @@
             <table>
                 <tr>
                     <th>Bus Id</th>
+                    <th>Bus No</th>
                     <th>Operator Id</th>
-                    <th>Bus Category</th>
+                    <th>Bus Type</th>
                     <th>From City</th>
                     <th>To City</th>
                     <th>Departure</th>
                     <th>Arrival</th>
-                    <th>Sleeper Fare</th>
                     <th>Seater Fare</th>
                     <th>Total Seat</th>
-                    <th>Status</th>
+                    <th>Seat Status</th>
+                    <th>Edit&Delete</th>
                 </tr>
                 <% while(rs.next()){ %>
                 <tr>
                     <td><%=rs.getInt(1) %></td>
                     <td><%=rs.getInt(2) %></td>
-                    <td><%=rs.getString(3) %></td>
+                    <td><%=rs.getInt(3) %></td>
                     <td><%=rs.getString(4) %></td>
                     <td><%=rs.getString(5) %></td>
-                    <td><%=rs.getTimestamp(6)%></td>
+                    <td><%=rs.getString(6) %></td>
                     <td><%=rs.getTimestamp(7)%></td>
-                    <td><%=rs.getInt(8) %></td>
+                    <td><%=rs.getTimestamp(8)%></td>
                     <td><%=rs.getInt(9) %></td>
                     <td><%=rs.getInt(10) %></td>
                     <td><%=rs.getString(11) %></td>
+                    <td><a href="UpdateBus.jsp?busId=<%=rs.getInt(1)%>">edit</a> / <a href="delete">delete</a></td>
                 </tr>
                 <%} %>
             </table>

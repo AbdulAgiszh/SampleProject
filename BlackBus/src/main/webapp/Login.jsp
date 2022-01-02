@@ -29,13 +29,13 @@
         #login{
             margin-left: 150px;
             margin-top: 80px;
-            height: a420px;
+            height: 370px;
             width: 300px;
             padding-left: 40px;
             padding-top: 20px;
             background-color: rgb(228, 208, 208);
             border-radius: 30px ; 
-            box-shadow: 0 0 15px rgb(255, 255, 255);   
+            box-shadow: 0 0 15px rgb(255, 255, 255); 
         }
         .pngtitle{
             margin-left: 90px;
@@ -49,6 +49,7 @@
         }
         #buttonlogin{
             margin-left: 40px;
+            cursor: pointer;
             
         }
         button{
@@ -76,7 +77,10 @@
            font-size: 20px;
 
        }
-
+	   #errorcontent{
+	      font-size: 20px;
+	      color: red;
+	   }
 
        /* register*/
 
@@ -93,24 +97,23 @@
         <table id="tablee">
             <tr>
                 <th><img src="images/profile.png"   ></th>
-                <th><input name="name" type="text" placeholder="UserName" ><br><br></th>
+                <th><input name="name" type="text" placeholder="LoginId" autocomplete="off" required><br><br></th>
                 
             </tr>
             <tr>
                 <th><img src="‫images/password.png" alt=""></th>
-                <th><input name="password" type="text" placeholder="Password"><br><br></th>
+                <th><input name="password" type="password" placeholder="Password" autocomplete="off" required><br><br></th>
             </tr>
             
-        </table>
-        <a href="forgetPassword.html">forgetPassword?</a><br><br>
-            <button type="submit" id="buttonlogin">Login</button><br><br>
+        </table><br>
+            <button type="submit" id="buttonlogin">Login</button><br><br><br>
 
             <label for="signup">New User ? </label>
-            <a id="signup" href="register.html">SignUp</a>
-
+            <a id="signup" href="UserRegister.jsp">SignUp</a>	
+		
 			<%String erroruserid=(String)session.getAttribute("erroruserid");
 			if(erroruserid!=null){ %>
-			<p><%=session.getAttribute("erroruserid") %></p>
+			<p id="errorcontent"><%=session.getAttribute("erroruserid") %></p>
 			<%} session.removeAttribute("erroruserid"); %>
 
 

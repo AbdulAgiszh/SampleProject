@@ -46,7 +46,7 @@
         #addbus{
             border: 1px solid black;
             padding: 15px;
-            height: 555px;
+            height: 423px;
         }
         #bustitle{
             padding-left: 180px;
@@ -80,13 +80,13 @@
 
     <div id="homeadmin">
        <ul>
-            <li><a href="admin.jsp">Profile</a></li>
-            <li><a href="addBus.jsp">Add Bus</a></li>
-            <li><a href="addOperator.jsp">Add Operator</a></li>
-            <li><a href="busList.jsp">Bus list</a></li>
-            <li><a href="operatorList.jsp">Operator list</a></li>
-            <li><a href="userList.jsp">User list</a></li>
-            <li><a href="bookingList.jsp">Booking list</a></li>
+             <li><a href="AdminHome.jsp">Profile</a></li>
+            <li><a href="AddBus.jsp">Add Bus</a></li>
+            <li><a href="AddOperator.jsp">Add Operator</a></li>
+            <li><a href="BusList.jsp">Bus list</a></li>
+            <li><a href="OperatorList.jsp">Operator list</a></li>
+            <li><a href="UserList.jsp">User list</a></li>
+            <li><a href="BookingList.jsp">Booking list</a></li>
         </ul>
     </div>
 
@@ -113,10 +113,6 @@
             <tr>
                 <th><label for="arrival">Arrival</label></th>
                 <th><input name="arrival" type="datetime-local" id="arrival" ></th>
-            </tr>
-            <tr>
-                <th><label for="sleeperFare">Sleeper Fare</label></th>
-                <th><input name="sleeperFare" type="number" id="sleeperFare" ></th>
             </tr>
             <tr>
                 <th><label for="seaterFare">Seater Fare</label></th>

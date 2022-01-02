@@ -44,7 +44,7 @@
              }
             #operatorlistfieldset{
                 margin-top: 25px;
-                margin-left: 170px;
+                margin-left: 100px;
                 width: 1000px;
             }
             #operatorlistdiv{
@@ -61,13 +61,13 @@
 <body>
     <div id="homeadmin">
         <ul>
-            <li><a href="admin.jsp">Profile</a></li>
-            <li><a href="addBus.jsp">Add Bus</a></li>
-            <li><a href="addOperator.jsp">Add Operator</a></li>
-            <li><a href="busList.jsp">Bus list</a></li>
-            <li><a href="operatorList.jsp">Operator list</a></li>
-            <li><a href="userList.jsp">User list</a></li>
-            <li><a href="bookingList.jsp">Booking list</a></li>
+             <li><a href="AdminHome.jsp">Profile</a></li>
+            <li><a href="AddBus.jsp">Add Bus</a></li>
+            <li><a href="AddOperator.jsp">Add Operator</a></li>
+            <li><a href="BusList.jsp">Bus list</a></li>
+            <li><a href="OperatorList.jsp">Operator list</a></li>
+            <li><a href="UserList.jsp">User list</a></li>
+            <li><a href="BookingList.jsp">Booking list</a></li>
         </ul>
             
         <fieldset id="operatorlistfieldset">
@@ -76,20 +76,20 @@
             <table>
                 <tr>
                     <th>User Id</th>
-                    <th>User Name</th>
-                    <th>User Age</th>
-                    <th>User Email</th>
-                    <th>User Contact</th>
-                    <th>User Gender</th>
-                    <th>User Password</th>
-                    <th>User Wallet</th>
-                    <th>User Status</th>
+                    <th>Name</th>
+                    <th>DateOfBirth</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Gender</th>
+                    <th>Password</th>
+                    <th>Wallet</th>
+                    <th>Status</th>
                 </tr>
               <% while(rs.next()){ %>
                 <tr>
                     <td><%=rs.getInt(1) %></td>
                     <td><%=rs.getString(2) %></td>
-                    <td><%=rs.getInt(3) %></td>
+                    <td><%=rs.getDate(3)%></td>
                     <td><%=rs.getString(4) %></td>
                     <td><%=rs.getLong(5) %></td>
                     <td><%=rs.getString(6) %></td>

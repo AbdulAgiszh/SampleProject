@@ -60,13 +60,13 @@
 <body>
     <div id="homeadmin">
         <ul>
-            <li><a href="admin.jsp">Profile</a></li>
-            <li><a href="addBus.jsp">Add Bus</a></li>
-            <li><a href="addOperator.jsp">Add Operator</a></li>
-            <li><a href="busList.jsp">Bus list</a></li>
-            <li><a href="operatorList.jsp">Operator list</a></li>
-            <li><a href="userList.jsp">User list</a></li>
-            <li><a href="bookingList.jsp">Booking list</a></li>
+             <li><a href="AdminHome.jsp">Profile</a></li>
+            <li><a href="AddBus.jsp">Add Bus</a></li>
+            <li><a href="AddOperator.jsp">Add Operator</a></li>
+            <li><a href="BusList.jsp">Bus list</a></li>
+            <li><a href="OperatorList.jsp">Operator list</a></li>
+            <li><a href="UserList.jsp">User list</a></li>
+            <li><a href="BookingList.jsp">Booking list</a></li>
         </ul>
             
         <fieldset id="operatorlistfieldset">
@@ -77,13 +77,13 @@
                     <th>Booking Id</th>
                     <th>User Id</th>
                     <th>Bus Id</th>
+                    <th>Bus No</th>
                     <th>Booking Date</th>
                     <th>Departure Date</th>
-                    <th>Ticket Count</th>
-                    <th>Seat Category</th>
                     <th>Seat No</th>
-                    <th>Booking Status</th>
+                    <th>Ticket Count</th>
                     <th>Total Price</th>
+                    <th>Booking Status</th>
                     <th>Payment Status</th>
                 </tr>
                 <% while(rs.next()){ %>
@@ -91,13 +91,13 @@
                     <td><%=rs.getInt(1) %></td>
                     <td><%=rs.getInt(2) %></td>
                     <td><%=rs.getInt(3) %></td>
-                    <td><%=rs.getDate(4).toLocalDate()%></td>
+                    <td><%=rs.getInt(4) %></td>
                     <td><%=rs.getDate(5).toLocalDate()%></td>
-                    <td><%=rs.getInt(6) %></td>
+                    <td><%=rs.getDate(6).toLocalDate()%></td>
                     <td><%=rs.getString(7) %></td>
-                    <td><%=rs.getString(8) %></td>
-                    <td><%=rs.getString(9) %></td>
-                    <td><%=rs.getInt(10) %></td>
+                    <td><%=rs.getInt(8) %></td>
+                    <td><%=rs.getInt(9) %></td>
+                    <td><%=rs.getString(10) %></td>
                     <td><%=rs.getString(11) %></td>
                 </tr>
                 <%} %>
