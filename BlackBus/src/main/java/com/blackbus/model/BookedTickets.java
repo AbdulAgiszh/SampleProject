@@ -40,6 +40,20 @@ public class BookedTickets {
 		this.paymentStatus = paymentStatus;
 	}
 
+	public BookedTickets(int bookingId, User userModel, Bus busModel, int busNo, 
+			LocalDate departureDate, String seatNo, int ticketCount,  int totalPrice,
+			String paymentStatus) {
+		super();
+		this.bookingId = bookingId;
+		this.userModel = userModel;
+		this.busModel = busModel;
+		this.BusNo = busNo;
+		this.departureDate = departureDate;
+		this.ticketCount = ticketCount;
+		this.seatNo = seatNo;
+		this.totalPrice = totalPrice;
+		this.paymentStatus = paymentStatus;
+	}
 
 	public int getBookingId() {
 		return bookingId;

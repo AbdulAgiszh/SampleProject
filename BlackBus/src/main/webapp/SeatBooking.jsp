@@ -10,8 +10,11 @@
        UserDaoImpl userDao=new UserDaoImpl(); 
        User userModel=(User)session.getAttribute("userModel");
        
+       // busId coming filterjsp class
        int busId=Integer.parseInt(request.getParameter("busIdValue")); 
+       session.setAttribute("currentBusId", busId );
        Bus busModel=busDao.findBusDetailsUsingID(busId);
+       
        
        User userModel1=userDao.getUserDetailsById(userModel.getUserId());%>
        
@@ -142,67 +145,79 @@
     </style>
 </head>
 <body>
-    <fieldset>
+  <form onmouseover="check()">
+    <fieldset >
         <legend>Booking Form</legend>
         <div id="bookingdiv" >
         <table id="seatbookingtable">
             <tr>
-                <td><label for="pickuppoint">Pickup Point : <span><%=busModel.getFromCity() %></span></label></td>
-                <td><label for="pickuptime">Pickup Time  : <span><%=busModel.getDeparture().toLocalTime()%></span></label></td>
+                <td><label for="pickuppoint">Pickup Point : <input type="text" id="pickuppoint" value="<%=busModel.getFromCity() %>"></label></td>
+                <td><label for="pickuptime">Pickup Time  : <input type="text" id="pickuptime" value="<%=busModel.getDeparture().toLocalTime()%>"></label></td>
             </tr>
             <tr>
-                <td><label for="dropoffpoint">DropOff Point  : <span><%=busModel.getToCity()%></span></label></td>
-                <td><label for="dropofftime">DropOff Time  : <span><%=busModel.getArrival().toLocalTime()%></span></label></td>
+                <td><label for="dropoffpoint">DropOff Point  : <input id="dropoffpoint" type="text" value="<%=busModel.getToCity()%>"></label></td>
+                <td><label for="dropofftime">DropOff Time  : <input id="dropofftime" type="text" value="<%=busModel.getArrival().toLocalTime()%>"></label></td>
             </tr>
         </table>
         <table id="seatinfotable">
             <tr>
-                <td> <label for="totalseat">Bus Category :  <span><%=busModel.getBusCategory() %></span></label></td>
+                <td> <label for="buscategory">Bus Category :  </label></td>
+                <td><input id="buscategory" type="text" value="<%=busModel.getBusCategory() %>" ></td>
             </tr>
             <tr>
-                <td><label for="availableseat">Available Seat : <span><%=busModel.getTotalseat()%></span></label></td>
+                <td><label for="availableseat">Available Seat : </label></td>
+                <td><input id="availableseat" type="text" value="<%=busModel.getTotalseat()%> " disabled></td>
             </tr>
             <tr>
-                <td><label for="noofselectedseat">No OF Seats Selected : <span></span></label></td>
+                <td><label for="noofselectedseat">No OF Seats Selected :</label></td>
+                <td><input id="noofseatsselected" name="noofseats" type="text"  disabled></td>
+            </tr>
+            <tr>
+                <td><label for="totalfair">Total Fair :</label></td>
+                <td><input id="totalFair" name="totalFair" type="text"  disabled></td>
             </tr>
          </table>
 
          <div id="seatcountdiv">
             <label for="seatercount">Seater Count</label>
-            <select name="seatcount" id="seatcount">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
+            <select name="seatcount" id="seatcount" >
+            <%int totalSeat=busModel.getTotalseat();
+            for(int i=0;i<=totalSeat;i++) { %>
+                <option  value="<%=i%>"><%=i%></option>
+               <%} %>
               </select>
            </div>
+
 
          <button id="btn" name="btn" type="submit">BookTicket</button>
     </div>
     
         </fieldset>
         
-    </div>
+</form>   
+   
     
-    <%BookedTickets bookTickets=new BookedTickets(0,userModel1,busModel,busModel.getBusNo(),"bookingdate",busModel.getDeparture().toLocalDate().format(formatter),
-    		"","ticketcount",);
-      %>
 
 </body>
+
+<script type="text/javascript">
+
+function check(){
+
+
+var numberSeats=document.getElementById('noofseatsselected'); 
+var price=document.getElementById('totalFair');
+var seatcount=document.getElementById('seatcount');
+
+var count=seatcount.options[seatcount.selectedIndex].value;
+console.log(count);
+
+numberSeats.value=count;
+price.value=<%=busModel.getSeaterFare()%>*count;
+
+console.log(numberSeats.value);
+console.log(price.value);
+}
+
+</script>
 </html>

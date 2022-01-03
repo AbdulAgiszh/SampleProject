@@ -72,15 +72,15 @@
             </tr>
             <tr>
                 <th><label for="emailId">EmailId</label></th>
-                <th><input name="emailId" type="email" id="emailId" autocomplete="off" required></th>
+                <th><input name="emailId" type="email" id="emailId" autocomplete="off" pattern="[A-Za-z0-9]+[@][a-zA-Z]+[.][A-Za-z]{2,3}" required ></th>
             </tr>
             <tr>
                 <th><label for="mobile">MobileNumber</label></th>
-                <th><input name="mobile" type="text" id="mobile" autocomplete="off" required></th>
+                <th><input name="mobile" type="text" id="mobile" autocomplete="off" pattern="[6-9][0-9]{9}" title="Must contain 10 numbers only" required></th>
             </tr>
             <tr>
                 <th><label for="password">Password</label></th>
-                <th><input name="password" type="password" id="password" autocomplete="off" required></th>
+                <th><input name="password" type="password" id="password" autocomplete="off" pattern="^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,15}$" title="weak-password" required></th>
             </tr>
             <tr>
                 <th><label for="dob">DOB</label></th>
@@ -88,8 +88,8 @@
             </tr>
             <tr>
                 <th><label for="gender">Gender</label></th>
-                <th id="male"><input type="radio" name="gender" value="Male"><label for="Male"> Male</label> 
-                    <input type="radio" value="Female" name="gender"><label for="Female">Female</label></th>
+                <th id="male"><input type="radio" name="gender" value="Male" required><label for="Male"> Male</label> 
+                    <input type="radio" value="Female" name="gender" required><label for="Female">Female</label></th>
             </tr>
             
         </table>
