@@ -7,9 +7,9 @@ import com.blackbus.model.Operator;
 
 public interface OperatorDAO {
 
-	public void insertOperator(Operator OperatorModel) ;
+	public boolean insertOperator(Operator OperatorModel) ;
 	
-	 public void updateOperator (Operator OperatorModel);
+	 public boolean updateOperator (Operator OperatorModel);
 	 
 	 public boolean deleteOperator (int operatorId);
 	 

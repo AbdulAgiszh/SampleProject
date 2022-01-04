@@ -88,7 +88,6 @@
     </style>
 </head>
 <body>
-
     <div id="login">
         <form action="loginWay">
        
@@ -98,7 +97,6 @@
             <tr>
                 <th><img src="images/profile.png"   ></th>
                 <th><input name="name" type="text" placeholder="LoginId" autocomplete="off" required><br><br></th>
-                
             </tr>
             <tr>
                 <th><img src="‫images/password.png" alt=""></th>

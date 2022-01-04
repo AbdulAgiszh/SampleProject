@@ -12,6 +12,9 @@
        
        // busId coming filterjsp class
        int busId=Integer.parseInt(request.getParameter("busIdValue")); 
+       
+ 
+      
        session.setAttribute("currentBusId", busId );
        Bus busModel=busDao.findBusDetailsUsingID(busId);
        
@@ -145,9 +148,10 @@
     </style>
 </head>
 <body>
-  <form onmouseover="check()">
+  
     <fieldset >
         <legend>Booking Form</legend>
+        <form  action="bookingPage" onmouseover="check()">
         <div id="bookingdiv" >
         <table id="seatbookingtable">
             <tr>
@@ -166,15 +170,18 @@
             </tr>
             <tr>
                 <td><label for="availableseat">Available Seat : </label></td>
-                <td><input id="availableseat" type="text" value="<%=busModel.getTotalseat()%> " disabled></td>
+                <td><input id="availableseat" type="text" value="<%=busModel.getTotalseat()%> "readonly ></td>
             </tr>
             <tr>
                 <td><label for="noofselectedseat">No OF Seats Selected :</label></td>
-                <td><input id="noofseatsselected" name="noofseats" type="text"  disabled></td>
+                <td><input id="noofseatsselected" name="noofseats" type="text" readonly ></td>
             </tr>
             <tr>
                 <td><label for="totalfair">Total Fair :</label></td>
-                <td><input id="totalFair" name="totalFair" type="text"  disabled></td>
+                <td><input id="totalFair" name="totalFair" type="text" readonly ></td>
+            </tr>
+            <tr>
+                <td><input id="randomnumber" name="randomnumber" type="text" style="visibility: hidden;" ></td>
             </tr>
          </table>
 
@@ -182,7 +189,7 @@
             <label for="seatercount">Seater Count</label>
             <select name="seatcount" id="seatcount" >
             <%int totalSeat=busModel.getTotalseat();
-            for(int i=0;i<=totalSeat;i++) { %>
+            for(int i=1;i<=totalSeat;i++) { %>
                 <option  value="<%=i%>"><%=i%></option>
                <%} %>
               </select>
@@ -191,12 +198,8 @@
 
          <button id="btn" name="btn" type="submit">BookTicket</button>
     </div>
-    
+    </form>  
         </fieldset>
-        
-</form>   
-   
-    
 
 </body>
 
@@ -208,6 +211,7 @@ function check(){
 var numberSeats=document.getElementById('noofseatsselected'); 
 var price=document.getElementById('totalFair');
 var seatcount=document.getElementById('seatcount');
+var randomNo=document.getElementById('randomnumber');
 
 var count=seatcount.options[seatcount.selectedIndex].value;
 console.log(count);
@@ -217,7 +221,20 @@ price.value=<%=busModel.getSeaterFare()%>*count;
 
 console.log(numberSeats.value);
 console.log(price.value);
+
+
+var text = "";
+var random = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+for (var i = 0; i < 7; i++)
+  text += random.charAt(Math.floor(Math.random() * random.length));
+
+
+randomNo.value=text;
+console.log(randomNo.value);
 }
+
+
 
 </script>
 </html>

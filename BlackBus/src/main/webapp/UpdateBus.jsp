@@ -1,3 +1,5 @@
+<%@page import="com.blackbus.model.Bus"%>
+<%@page import="com.blackbus.daoimpl.BusDaoImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -84,15 +86,16 @@
     
     <div id="headeraddbus"> <label for="bus">Update Bus</label> </div>
      <div id="addbus">
+     <form action="updateBusPage">
          <table>
  
              <tr>
                  <th><label for="busno">Bus No</label></th>
-                 <th><input name="busno" type="text" id="busno" required autofocus></th>
+                 <th><input name="busNo" type="text" id="busno" placeholder="Enter Bus No"   ></th>
              </tr>
              <tr>
                  <th><label for="operatorId">Operator ID</label></th>
-                 <th><input name="operatorId" type="text" id="operatorId" ></th>
+                 <th><input name="operatorId" type="text" id="operatorId"  placeholder="Enter operator Id" ></th>
              </tr>
              <tr>
                  <th><label for="busCategory">Bus Category</label></th>
@@ -124,7 +127,7 @@
              </tr>
              <tr>
                  <th><label for="seatStatus">Status</label></th>
-                 <th><input name="seatStatus" type="text" id="seatStatus" ></th>
+                 <th><input name="seatStatus" type="text" id="seatStatus"  style="visibility: hidden;"></th>
              </tr>
  
          </table>
@@ -132,6 +135,24 @@
              <button type="submit">Submit</button>
              <button id="reset" type="reset">Reset</button>
          </div>
+         </form>
      </div>
+    
+     
+     <script type="text/javascript">
+     	<% int busId=Integer.parseInt(request.getParameter("busId")); 
+     	BusDaoImpl busDao=new BusDaoImpl();
+         Bus busModel=busDao.findBusDetailsUsingID(busId);
+         session.setAttribute("busModell", busModel);
+     	%> 
+     	document.getElementById("busCategory").value="<%=busModel.getBusCategory()%>";
+     	document.getElementById("fromCity").value="<%=busModel.getFromCity()%>";
+     	document.getElementById("toCity").value="<%=busModel.getToCity()%>";
+     	document.getElementById("departure").value="<%=busModel.getDeparture()%>";
+     	document.getElementById("arrival").value="<%=busModel.getArrival()%>";
+     	document.getElementById("seaterFare").value="<%=busModel.getSeaterFare()%>";
+     	document.getElementById("totalSeat").value="<%=busModel.getTotalseat()%>";
+     	document.getElementById("seatStatus").value="<%=busModel.getSeatStatus()%>";
+     </script>
 </body>
 </html>

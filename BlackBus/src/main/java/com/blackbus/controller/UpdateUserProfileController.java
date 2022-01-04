@@ -1,7 +1,9 @@
 package com.blackbus.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +34,18 @@ public class UpdateUserProfileController extends HttpServlet {
 		String userGender=req.getParameter("gender");
 		User userModel= new User(userId,userName,userDOB,
 				userEmail, userContact,userGender, userPassword,0);
-		userDao.updateUser(userModel);
-
+		boolean userUpdateFlag=userDao.updateUser(userModel);
+		
+		if(userUpdateFlag) {
+			try {
+				req.getRequestDispatcher("UserProfile.jsp").forward(req,res);
+				
+			} catch (ServletException e) {
+				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 }
 

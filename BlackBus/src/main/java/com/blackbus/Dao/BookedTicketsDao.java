@@ -9,9 +9,9 @@ import com.blackbus.model.User;
 
 public interface BookedTicketsDAO {
 
-	public boolean insertBookedTickets(User userModel,Bus busModel,BookedTickets bookedTicketsModel);
+	public boolean insertBookedTickets(BookedTickets bookedTicketsModel);
 	
-	public int findBookingId(User userModel, BookedTickets bookedTicketsModel);
+	public int findBookingId(BookedTickets bookedTicketsModel);
 	
 	public List<BookedTickets> getBookingDetailsForCurrentUser(User userModel);
 	

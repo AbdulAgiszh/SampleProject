@@ -1,5 +1,8 @@
 package com.blackbus.controller;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +27,17 @@ public class AddOperatorController extends HttpServlet {
 		
 		Operator operatorModel= new Operator(operatorName,
 				operatorEmail, operatorContact, operatorAge);
-		operatorDao.insertOperator(operatorModel);
+		boolean operatorInsertFlag=operatorDao.insertOperator(operatorModel);
+		if(operatorInsertFlag) {
+			try {
+				req.getRequestDispatcher("AddOperator.jsp").forward(req,res);
+				
+			} catch (ServletException e) {
+				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 
 }

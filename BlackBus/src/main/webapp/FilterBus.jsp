@@ -7,12 +7,11 @@
     <%
     DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
     DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-mm-yyyy");
+    
    	String fromLocation=request.getParameter("fromlocation");
-    System.out.println(fromLocation);
     String toLocation=request.getParameter("tolocation");
-    System.out.println(toLocation);
     LocalDate date=LocalDate.parse(request.getParameter("date"));
-    System.out.println(date);
+    
     BusDaoImpl busDao=new BusDaoImpl();
     ResultSet rs=busDao.searchhBus(date, fromLocation, toLocation);
     %>
@@ -141,6 +140,7 @@
                             <td><%=rs.getTime(8).toLocalTime().format(formatTime)%></td>
                             <td><%=rs.getInt(9) %></td>
                             <td><button id="busId" name="busIdValue" value="<%=rs.getInt(1)%>">BOOK</button></td>
+                            
                         </tr>
                         <% } %>
                     </table>

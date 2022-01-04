@@ -1,8 +1,10 @@
 package com.blackbus.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +34,19 @@ public class AddBusController extends HttpServlet {
 		
 		Bus busmodel = new Bus(0,0,0,busCategory, fromCity, toCity,
 				departure, arrival, seaterFare, totalSeat,"");
-		busDao.insertBus(busmodel);
+		boolean busInsertFlag=busDao.insertBus(busmodel);
 				
+		if(busInsertFlag) {
+			try {
+				req.getRequestDispatcher("AddBus.jsp").forward(req,res);
+				
+			} catch (ServletException e) {
+				System.out.println(e.getMessage());
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
 		
 		
 	}

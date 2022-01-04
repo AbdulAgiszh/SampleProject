@@ -50,13 +50,14 @@ CREATE TABLE BUS_OPERATORS (
 
 
 CREATE TABLE BOOKED_TICKETS (
-  BOOKING_ID int GENERATED ALWAYS AS IDENTITY START WITH 10000,
+  BOOKING_ID int GENERATED ALWAYS AS IDENTITY START WITH 1,
+  TICKET_NO varchar(50) NOT NULL,
   USER_ID int NOT NULL,
   BUS_ID int NOT NULL,
-  BUS_NO int NOT NULL,
+  BUS_NO int  NULL,
   BOOKING_DATE date DEFAULT sysdate,
   DEPARTURE_DATE date ,
-  SEAT_NO varchar(50) NOT NULL,
+  SEAT_NO varchar(50)  NULL,
   TICKET_COUNT int NOT NULL,
   TOTAL_PRICE int,
   BOOKING_STATUS varchar(30) DEFAULT 'confirmed',
@@ -98,8 +99,7 @@ drop table booked_tickets cascade constraints;
 
 select * from user_details;
 select * from bus_operators;
-select  * from bus_details;
-
+select  * from bus_details; 
 
 desc booked_tickets;
 COMMIT;
@@ -107,7 +107,7 @@ select * from admin_details;
 select * from user_details where user_contact=7373639018 and user_status='Inactive';
 select * from booked_tickets;
 
-update bus_details set bus_category='ultra deluxe' , from_city='chennai' where bus_id=9;
+update bus_details set seat_status='Available'  where bus_id=1;
 
 
 --------------------------------------------------------------------------------------------------------

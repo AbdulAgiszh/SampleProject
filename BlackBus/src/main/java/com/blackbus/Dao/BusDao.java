@@ -8,11 +8,11 @@ import com.blackbus.model.Bus;
 
 public interface BusDAO {
 
-	public void insertBus(Bus busModel);
+	public boolean insertBus(Bus busModel);
 	
-	public void deleteBus(Bus busModel);
+	public boolean deleteBus(Bus busModel);
 	
-	public void updateBus(Bus busModel);
+	public boolean updateBus(Bus busModel);
 	
 	public ResultSet viewAllBus();
 	

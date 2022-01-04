@@ -90,7 +90,7 @@
                     <td><%=rs.getString(3) %></td>
                     <td><%=rs.getLong(4) %></td>
                     <td><%=rs.getInt(5) %></td>
-                    <td><a href="UpdateOperator.jsp?operatorId=<%=rs.getInt(1)%>">edit</a> / <a href="delete">delete</a></td>
+                    <td><a href="UpdateOperator.jsp?operatorId=<%=rs.getInt(1)%>">edit</a> / <a href="deleteOperator">delete</a></td>
                 </tr>
                 <% } %>
         

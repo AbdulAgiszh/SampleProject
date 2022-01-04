@@ -93,11 +93,11 @@ public class UserDaoImpl implements UserDAO {
 
 	}
 
-	public void updateUser(User userModel) {
+	public boolean updateUser(User userModel) {
 
 		String userUpdate = "update user_details set user_name=?, user_dob=?, user_gender=?, user_password=? where user_contact='"
 				+ userModel.getUserContact() + "'";
-
+		int result=0;
 		Connection con;
 		try {
 			con = ConnectionUtill.connectdb();
@@ -108,8 +108,8 @@ public class UserDaoImpl implements UserDAO {
 			pstatement.setString(3, userModel.getUserGender());
 			pstatement.setString(4, userModel.getUserPassword());
 
-			pstatement.executeUpdate();
-			System.out.println("for " + userModel.getUserContact() + "profile is updated !!");
+			result=pstatement.executeUpdate();
+//			System.out.println("for " + userModel.getUserContact() + "profile is updated !!");
 			pstatement.close();
 			con.close();
 		} catch (ClassNotFoundException e) {
@@ -117,33 +117,28 @@ public class UserDaoImpl implements UserDAO {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		return result>0;
 
 	}
 
-	public void deleteUser(User userModel) {
+	public boolean deleteUser(User userModel) {
 
 		String userDelete = "update user_details set user_status='Inactive' where user_contact=?";
-
+		int result =0;
 		Connection con;
 		try {
 			con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement = con.prepareStatement(userDelete);
 
 			pstatement.setLong(1, userModel.getUserContact());
-			int result = pstatement.executeUpdate();
-			if (result == 1) {
-				System.out.println("Successfully deleted");
-				pstatement.close();
-				con.close();
-			} else {
-				System.out.println("Delete unsuccessfull...something went wrong!");
-			}
+			result = pstatement.executeUpdate();
+			
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-
+		return result>0;
 	}
 	
 	public void reAddUser(long contact) {
@@ -198,28 +193,6 @@ public class UserDaoImpl implements UserDAO {
 		return rs;
 
 		
-
-	}
-
-	public boolean updateWallet(int updatedWallet, long userContact) {
-		String wallet = "update user_details set user_wallet=? where user_contact=?";
-
-		Connection con;
-		PreparedStatement pstatement;
-		int result = 0;
-		try {
-			con = ConnectionUtill.connectdb();
-			pstatement = con.prepareStatement(wallet);
-
-			pstatement.setInt(1, updatedWallet);
-			pstatement.setLong(2, userContact);
-			result = pstatement.executeUpdate();
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		return result > 0;
 
 	}
 
@@ -283,5 +256,30 @@ public class UserDaoImpl implements UserDAO {
 		return userModel;
 
 	}
+	
+	public boolean updateWallet(int updatedWallet, long userContact) {
+		String wallet = "update user_details set user_wallet=? where user_contact=?";
+
+		Connection con;
+		PreparedStatement pstatement;
+		int result = 0;
+		try {
+			con = ConnectionUtill.connectdb();
+			pstatement = con.prepareStatement(wallet);
+
+			pstatement.setInt(1, updatedWallet);
+			pstatement.setLong(2, userContact);
+			result = pstatement.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return result > 0;
+
+	}
+
 
 }
+
+

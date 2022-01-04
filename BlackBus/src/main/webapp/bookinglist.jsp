@@ -1,3 +1,4 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@page import="com.blackbus.daoimpl.BookedTicketsDaoImpl" %>
@@ -6,6 +7,7 @@
     <%
     BookedTicketsDaoImpl bookDao=new BookedTicketsDaoImpl();
         ResultSet rs=bookDao.showlistAdmin();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
     %>
     
 <!DOCTYPE html>
@@ -43,7 +45,7 @@
              }
             #operatorlistfieldset{
                 margin-top: 25px;
-                margin-left: 50px;
+                margin-left: 20px;
                 width: 1000px;
             }
             #operatorlistdiv{
@@ -74,12 +76,13 @@
         <div id="operatorlistdiv">
             <table>
                 <tr>
-                    <th>Booking Id</th>
+                	<th>Booking Id</th>
+                    <th>Ticket No</th>
                     <th>User Id</th>
                     <th>Bus Id</th>
                     <th>Bus No</th>
-                    <th>Booking Date</th>
-                    <th>Departure Date</th>
+                    <th>Booking_Date</th>
+                    <th>Departure_Date</th>
                     <th>Seat No</th>
                     <th>Ticket Count</th>
                     <th>Total Price</th>
@@ -88,17 +91,18 @@
                 </tr>
                 <% while(rs.next()){ %>
                 <tr>
-                    <td><%=rs.getInt(1) %></td>
-                    <td><%=rs.getInt(2) %></td>
+                	<td><%=rs.getInt(1) %></td>
+                    <td><%=rs.getString(2)%></td>
                     <td><%=rs.getInt(3) %></td>
                     <td><%=rs.getInt(4) %></td>
-                    <td><%=rs.getDate(5).toLocalDate()%></td>
+                    <td><%=rs.getInt(5) %></td>
                     <td><%=rs.getDate(6).toLocalDate()%></td>
-                    <td><%=rs.getString(7) %></td>
-                    <td><%=rs.getInt(8) %></td>
+                    <td><%=rs.getTimestamp(7).toLocalDateTime().format(format)%></td>
+                    <td><%=rs.getString(8) %></td>
                     <td><%=rs.getInt(9) %></td>
-                    <td><%=rs.getString(10) %></td>
+                    <td><%=rs.getInt(10) %></td>
                     <td><%=rs.getString(11) %></td>
+                    <td><%=rs.getString(12) %></td>
                 </tr>
                 <%} %>
             </table>

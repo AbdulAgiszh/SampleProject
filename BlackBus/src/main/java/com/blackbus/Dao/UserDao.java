@@ -13,13 +13,13 @@ public interface UserDAO {
 	
 	public boolean registrationUser(User userModel) ;
 	
-	public void updateUser(User userModel);
+	public boolean updateUser(User userModel);
 	
-	public void deleteUser (User userModel) ;
+	public boolean deleteUser (User userModel) ;
 	
 	public ResultSet viewUserDetails();
 	
-	 public boolean updateWallet(int updatedWallet,long userContact) ;
+	public boolean updateWallet(int updatedWallet, long userContact);
 	 
 	 public User getUserDetailsById(int userId) ;
 	 

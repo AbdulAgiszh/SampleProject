@@ -22,8 +22,9 @@ public class BusDaoImpl implements BusDAO {
 
 	SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy hh:mm");
 	
-	public void insertBus(Bus busModel) {
+	public boolean insertBus(Bus busModel) {
 		String busInsert = "insert into bus_details (bus_category, from_city, to_city, departure, arrival, seater_fare, total_seat) values (?,?,?,?,?,?,?)";
+		int result = 0 ;
 		try {
 			Connection con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement = con.prepareStatement(busInsert);
@@ -38,40 +39,28 @@ public class BusDaoImpl implements BusDAO {
 			pstatement.setInt(6, busModel.getSeaterFare());
 			pstatement.setInt(7, busModel.getTotalseat());
 
-			int result = pstatement.executeUpdate();
-			if (result == 1) {
-				System.out.println("Bus details added successfully");
-				pstatement.close();
-				con.close();
-			} else {
-				System.out.println("Failed to add the bus details");
-			}
+			result = pstatement.executeUpdate();
 
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		return result>0;
 	}
 
-	public void deleteBus(Bus busModel) {
+	public boolean deleteBus(int busId) {
 
 		String busDelete = "delete from bus_details where bus_id=?";
-
+		int result=0;
 		Connection con;
 		try {
 			con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement = con.prepareStatement(busDelete);
 
-			pstatement.setInt(1, busModel.getBusId());
-			int result = pstatement.executeUpdate();
-			if (result == 1) {
-				System.out.println("Successfully deleted the bus");
-				pstatement.close();
-				con.close();
-			} else {
-				System.out.println("please enter correct id");
-			}
+			pstatement.setInt(1, busId);
+			result = pstatement.executeUpdate();
+			
 			con.close();
 			pstatement.close();
 		} catch (ClassNotFoundException e) {
@@ -79,14 +68,14 @@ public class BusDaoImpl implements BusDAO {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-
+		return result>0;
 	}
 	
 	
-	public void updateBus(Bus busModel) {
+	public boolean updateBus(Bus busModel) {
 		
             String busUpdate="update bus_details set bus_no=?,operator_id=?,bus_category=?, from_city=?, to_city=?, departure=?, arrival=?, seater_fare=?, total_seat=?,seat_status=? where bus_id='"+busModel.getBusId()+"'";
-    	
+            int result=0;
     	    Connection con;
     	    try {
 			con = ConnectionUtill.connectdb();
@@ -105,15 +94,8 @@ public class BusDaoImpl implements BusDAO {
 			pstatement.setInt(9, busModel.getTotalseat());
 			pstatement.setString(10, busModel.getSeatStatus());
 			
-			int result=pstatement.executeUpdate();
-			if(result==1) {
-			System.out.println("for "+busModel.getBusId()+ "profile is updated !!");
-			pstatement.close();
-			con.close();
-			}
-			else {
-				System.out.println("Bus updation failed");
-			}
+			result=pstatement.executeUpdate();
+			
 			con.close();
 			pstatement.close();
 			}
@@ -122,6 +104,7 @@ public class BusDaoImpl implements BusDAO {
     		} catch (SQLException e) {
     			System.out.println(e.getMessage());
     		}
+    	    return result>0;
 	}
 	
 	
@@ -179,7 +162,8 @@ public class BusDaoImpl implements BusDAO {
 //					while(rs.next()) {					
 //						busModel=new Bus(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getTimestamp(6).toLocalDateTime(),rs.getTimestamp(7).toLocalDateTime(),rs.getInt(8),rs.getInt(9),rs.getInt(10),rs.getString(11));
 //						busFilterList.add(busModel);
-////						busModel.toString();
+//						busModel.toString();
+//					System.out.println("busIdINRS"+rs.getInt(1));
 //					}
 					return rs;
 				} catch (ClassNotFoundException e) {
@@ -244,6 +228,12 @@ public class BusDaoImpl implements BusDAO {
 			
 			 return busModel;
 		}
+
+	@Override
+	public boolean deleteBus(Bus busModel) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 
 }

@@ -16,8 +16,9 @@ import com.blackbus.model.User;
 
 public class OperatorDaoImpl implements OperatorDAO{
 
-	public void insertOperator(Operator OperatorModel) {
+	public boolean insertOperator(Operator OperatorModel) {
 		String insertbus = "insert into bus_operators (OPERATOR_NAME,OPERATOR_EMAIL,OPERATOR_CONTACT, OPERATOR_AGE) values (?,?,?,?)";
+		int result=0;
 		try {
 			Connection con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement = con.prepareStatement(insertbus);
@@ -28,30 +29,23 @@ public class OperatorDaoImpl implements OperatorDAO{
 			pstatement.setInt(4, OperatorModel.getOperatorAge());
 			
 
-			int result = pstatement.executeUpdate();
-			if (result == 1) {
-				System.out.println("Bus Operators added successfully");
-//				pstatement.close();
-//				con.close();
-			} else {
-				System.out.println("Failed to add the Bus Operators");
-			}
-			con.close();
+			result = pstatement.executeUpdate();
 			pstatement.close();
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		return result>0;
 	} 
 	
 	
-   public void updateOperator (Operator OperatorModel) {
+   public boolean updateOperator (Operator OperatorModel) {
     	
     	String operatorUpdate="update bus_operators set operator_name=?, operator_email=?, operator_contact=?, operator_age=? where operator_id='"+OperatorModel.getOperatorId()+"'";
     	
     	Connection con;
-    	
+    	int result=0;
 		try {
 			con = ConnectionUtill.connectdb();
 			PreparedStatement pstatement=con.prepareStatement(operatorUpdate);
@@ -61,7 +55,7 @@ public class OperatorDaoImpl implements OperatorDAO{
 			pstatement.setLong(3, OperatorModel.getOperatorContact());
 			pstatement.setInt(4, OperatorModel.getOperatorAge());
 			
-			int result=pstatement.executeUpdate();
+			result=pstatement.executeUpdate();
 			if(result==1) {
 			System.out.println("for "+OperatorModel.getOperatorId()+ "profile is updated !!");
 			pstatement.close();
@@ -76,7 +70,7 @@ public class OperatorDaoImpl implements OperatorDAO{
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
+		return result>0;
     }
    
    
